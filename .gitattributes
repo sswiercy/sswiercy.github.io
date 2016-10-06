@@ -1,0 +1,2 @@
+content/telescopic-excavator/*.pdf filter=lfs diff=lfs merge=lfs -text
+content/pickup-truck/*.pdf filter=lfs diff=lfs merge=lfs -text

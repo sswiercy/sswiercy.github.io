@@ -1,0 +1,226 @@
+<html>
+
+<head>
+
+<title>Puzzle</title>
+
+<style type="text/css">
+
+body, td {
+  font-family : arial;
+  font-size : 12px;
+}
+input.button {
+  border : 1px solid #000000;
+  height : 24px;
+  background : url(button_bg.jpg);
+}
+input.datei {
+  border : 1px solid #000000;
+  height : 24px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+bild = new Image();
+bild.src = "zahlen.jpg";
+zeit_int = -1;
+zeit = 0;
+zuege = 0;
+
+teil_x = new Array();
+teil_y = new Array();
+timeout = new Array();
+for (var i=0; i<5; i++) {
+  teil_x[i] = new Array();
+  teil_y[i] = new Array();
+  timeout[i] = new Array();
+  for (var j=0; j<5; j++) {
+    timeout[i][j] = -1;
+  }
+}
+
+function pruefe_ende() {
+  for (var i=0; i<5; i++) {
+    for (var j=0; j<5; j++) {
+      if (i*5+j<24)
+      if (teil_x[i][j] !== j || teil_y[i][j] !== i)
+        return false;
+    }
+  }
+  return true;
+}
+
+function zeit_neu() {
+  zeit++;
+  document.getElementById("zeit").innerHTML = zeit;
+}
+
+function zuege_neu() {
+  zuege++;
+  document.getElementById("zuege").innerHTML = zuege;
+}
+
+function init() {
+  if (zeit_int > -1)
+    clearInterval(zeit_int);
+  zeit = 0;
+  zuege = 0;
+  document.getElementById("zeit").innerHTML = 0;
+  document.getElementById("zuege").innerHTML = 0;
+  zeit_int = setInterval("zeit_neu();",1000);
+  document.getElementById("teile").innerHTML = "";
+  document.getElementById("vorschau").src = bild.src;
+  document.getElementById("ende").innerHTML = "";
+  var str = "";
+  var temp = new Array();
+  var temp_teil_x = new Array();
+  var temp_teil_y = new Array();
+  for (var i=0; i<5; i++) {
+    temp_teil_x[i] = new Array();
+    temp_teil_y[i] = new Array();
+    for (var j=0; j<5; j++) {
+      temp_teil_x[i][j] = j;
+      temp_teil_y[i][j] = i;
+      teil_x[i][j] = j;
+      teil_y[i][j] = i;
+    }
+  }
+  frei_x = 4;
+  frei_y = 4;
+  for (var i=0; i<1000; i++) {
+    if (frei_x>0)
+      temp[temp.length] = 0;
+    if (frei_y>0)
+      temp[temp.length] = 1;
+    if (frei_x<4)
+      temp[temp.length] = 2;
+    if (frei_y<4)
+      temp[temp.length] = 3;
+    switch (temp[Math.floor(Math.random()*temp.length)]) {
+      case 0 : { var x = frei_x-1; var y = frei_y; break; }
+      case 1 : { var x = frei_x; var y = frei_y-1; break; }
+      case 2 : { var x = frei_x+1; var y = frei_y; break; }
+      case 3 : { var x = frei_x; var y = frei_y+1; break; }
+    }
+    temp.splice(0,temp.length);
+    temp_teil_x[frei_y][frei_x] = temp_teil_x[y][x];
+    temp_teil_y[frei_y][frei_x] = temp_teil_y[y][x];
+    frei_x = x;
+    frei_y = y;
+  }
+  for (var i=0; i<5; i++) {
+    for (var j=0; j<5; j++) {
+      if (frei_x !== j || frei_y !== i) {
+        teil_x[temp_teil_y[i][j]][temp_teil_x[i][j]] = j;
+        teil_y[temp_teil_y[i][j]][temp_teil_x[i][j]] = i;
+        str += teil_erstellen(j,i,temp_teil_x[i][j],temp_teil_y[i][j])+"\n";
+      }
+    }
+  }
+  document.getElementById("teile").innerHTML = str;
+}
+
+function schieben(x,y) {
+  if (zeit_int !== -1)
+  if ((frei_x == teil_x[y][x] && (frei_y == teil_y[y][x]-1 || frei_y == teil_y[y][x]+1)) || (frei_y == teil_y[y][x] && (frei_x == teil_x[y][x]-1 || frei_x == teil_x[y][x]+1))) {
+    var temp_x = frei_x;
+    var temp_y = frei_y;
+    if (timeout[y][x] > -1) {
+      clearTimeout(timeout[y][x])
+      timeout[y][x] = -1;
+    }
+    gehezu(x,y,teil_x[y][x]*96,teil_y[y][x]*96,frei_x*96,frei_y*96);
+    frei_x = teil_x[y][x];
+    frei_y = teil_y[y][x];
+    teil_x[y][x] = temp_x;
+    teil_y[y][x] = temp_y;
+    zuege_neu();
+    if (pruefe_ende()) {
+      clearInterval(zeit_int);
+      zeit_int = -1;
+      document.getElementById("ende").innerHTML = "geschafft!";
+    }
+  }
+}
+
+function gehezu(tx,ty,x,y,zx,zy) {
+  if (Math.abs(x-zx)<=1 && Math.abs(y-zy)<=1) {
+    document.getElementById(String(tx)+"_"+String(ty)).style.left = String(zx)+"px";
+    document.getElementById(String(tx)+"_"+String(ty)).style.top = String(zy)+"px";
+  }
+  else {
+    timeout[ty][tx] = setTimeout("gehezu("+String(tx)+","+String(ty)+","+String(x+(zx-x)/4)+","+String(y+(zy-y)/4)+","+String(zx)+","+String(zy)+");",25);
+    document.getElementById(String(tx)+"_"+String(ty)).style.left = String(x+(zx-x)/4)+"px";
+    document.getElementById(String(tx)+"_"+String(ty)).style.top = String(y+(zy-y)/4)+"px";
+  }
+}
+
+function teil_erstellen(x,y,teil_x,teil_y) {
+  return "<table width=96 height=96 cellpadding=0 cellspacing=0 id='"+String(teil_x)+"_"+String(teil_y)+"' onclick='schieben("+String(teil_x)+","+String(teil_y)+");' style='position:absolute; left:"+String(x*96)+"px; top:"+String(y*96)+"px; border-left:1px solid #AAAAAA; border-top:1px solid #AAAAAA; border-right:1px solid #222222; border-bottom:1px solid #222222;'><tr><td style='background:url("+bild.src+") -"+String(teil_x*96)+"px -"+String(teil_y*96)+"px;'></td></tr></table>";
+}
+
+function datei(str) {
+  for (var i=0; i<str.length; i++) {
+    if (str.charAt(i) == unescape("%5C"))
+      str = str.slice(0,i)+"/"+str.slice(i+1,str.length);
+  }
+  if (str.slice(0,8) == "file:///")
+    return str;
+  else
+    return "file:///"+str;
+}
+
+function eigenes_bild() {
+  if (document.getElementById("bild_option").style.visibility == "hidden")
+    document.getElementById("bild_option").style.visibility = "visible";
+  else
+    document.getElementById("bild_option").style.visibility = "hidden";
+}
+
+function motiv_laden() {
+  switch (document.getElementById("motive").selectedIndex) {
+    case 0 : { bild.src = "zahlen.jpg"; break; }
+    case 1 : { bild.src = "terasse.jpg"; break; }
+    case 2 : { bild.src = "rosen.jpg"; break; }
+    case 3 : { bild.src = "see.jpg"; break; }
+    case 4 : { bild.src = "wald.jpg"; break; }
+    case 5 : { bild.src = "wasserfall.jpg"; break; }
+  }
+  init();
+}
+
+function bild_laden() {
+  var temp = new Image();
+  temp.src = datei(document.getElementById('bild').value);
+  if (temp.width == 480 && temp.height == 480) {
+    bild = temp;
+    init();
+    eigenes_bild();
+  }
+  else
+    alert("Das Bild muss 480x480 Pixel groß sein!");
+}
+
+</script>
+
+</head>
+
+<body bgcolor=#F0F0F0 onload="init();">
+
+<table width=100% height=100% cellpadding=0 cellspacing=0><tr><td align=center>
+
+<table width=640 border=0 cellpadding=0 cellspacing=0 style="border-collapse:collapse;">
+<tr><td rowspan=2 width=480 height=481 bgcolor=#FAFCB6 style="border:1px solid #000000;" valign=top><div style="position:absolute; width:100%;" id="teile"></div></td><td bgcolor=#F7FA83 style="border:1px solid #000000;" height=456 valign=top><center><br><b>Vorschau</b><br><br><img id="vorschau" src="bild.jpg" width=153></center><div style="margin:24px;"><b>Zeit : <span id="zeit"></span><br>Züge : <span id="zuege"></span><br><br><center><span id="ende" style="color:#FF0000;"></span></center></b></div>
+<center><input type="button" class="button" value="Neues Spiel" onclick="init();" style="width:120px;"><br><br><select size=1 style="width:120px;" id="motive"><option>Zahlen</option><option>Terasse</option><option>Rosen</option><option>See</option><option>Wald</option><option>Wasserfall</option></select><br><input type="button" class="button" value="Motiv laden" onclick="motiv_laden();" style="width:120px;"></center></td></tr>
+<tr><td height=24 style="border:1px solid #000000;"><input type="button" class="button" value="Eigenes Bild" onclick="eigenes_bild();" style="width:100%;"></td></tr>
+<tr style="visibility:hidden;" id="bild_option"><td align=right><input size=56 class="datei" style="width:100%;" width=100 type="file" id="bild"></td><td><input style="width:100%;" type="button" class="button" value="Bild laden" onclick="bild_laden();"></td></tr>
+</table>
+
+</td></tr></table>
+
+</body>
+
+</html>
