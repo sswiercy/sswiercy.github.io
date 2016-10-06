@@ -87,7 +87,7 @@ function get_cookie(name) {
     var paar = liste[i];
     var pos = paar.indexOf("=");
     if (pos >= 0 && paar.substring(0, pos).trim() == name) {
-    	return paar.substr(pos+1);
+      return paar.substr(pos+1);
     }
   }
   return null;

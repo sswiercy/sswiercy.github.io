@@ -141,10 +141,29 @@ obj_ziel[4].src = "images/ziel_5.jpg";
 <tr><td colspan=13 align=center border=0>
 
 <script type="text/javascript">
+function get_cookie(name) {
+  var liste = document.cookie.split(";");
+  for (var i = 0; i < liste.length; i++) {
+    var paar = liste[i];
+    var pos = paar.indexOf("=");
+    if (pos >= 0 && paar.substring(0, pos).trim() == name) {
+      return paar.substr(pos+1);
+    }
+  }
+  return null;
+}
+
+function set_cookie(name, value) {
+  var datum = new Date();
+  datum.setTime(datum.getTime()+30*24*60*60*1000);
+  document.cookie = name+"="+value+"; expires="+datum.toGMTString();
+}
+
 function start() {
   if (window.location.search=="?fortsetzen") {
-    if (document.cookie)
-      level = Number(document.cookie);
+    var value = get_cookie("maze_level");
+	if (value)
+      level = Number(value);
     else
       level = 0;
   }
@@ -177,113 +196,109 @@ function setze_ziel(n) {
 }
 
 function aktualisieren() {
-var check = false;
-if (x==zx & y==zy) {
-  move = false;
-  id++;
-  document.all.anzeige.innerHTML += " - Geschafft!";
-  if (level+1>=data.length) {
-    document.all.start.innerHTML = "<a href='index.htm?ende'>E N D E</a>";
-    document.cookie = "0";
+  var check = false;
+  if (x==zx & y==zy) {
+    move = false;
+    id++;
+    document.all.anzeige.innerHTML += " - Geschafft!";
+    if (level+1>=data.length) {
+      document.all.start.innerHTML = "<a href='index.htm?ende'>E N D E</a>";
+      document.cookie = "0";
+    }
+    else {
+      document.all.start.innerHTML = "<a href='javascript:starte_level("+String(level+1)+");'>Nächstes Level</a>";
+	  var value = get_cookie("maze_level");
+	  if (!value || Number(value) < level+1) {
+        set_cookie("maze_level", level+1);
+      }
+    }
   }
   else {
-    document.all.start.innerHTML = "<a href='javascript:starte_level("+String(level+1)+");'>Nächstes Level</a>";
-    var ablauf = new Date();
-    ablauf.setTime(ablauf.getTime()+30*24*60*60*1000);
-    if (document.cookie) {
-      if (document.cookie<level+1)
-        document.cookie = String(level+1)+"; expires="+ablauf.toGMTString();
+  for (var i=0; i<6; i++) {
+    if (d==1) {
+      if (data[level][y][x+i]==1) {
+        setze_wand(i);
+        check = true;
+        break;
+      }
+      else if (data[level][y][x+i]==3) {
+        setze_ziel(i);
+        check = true;
+        break;
+      }
+      if (data[level][y-1][x+i]==1)
+        document.images["links"+String(i+1)].src = obj_links[i].src;
+      else
+        document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+      if (data[level][y+1][x+i]==1)
+        document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+      else
+        document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
     }
-    else
-      document.cookie = String(level+1)+"; expires="+ablauf.toGMTString();
+    else if (d==2) {
+      if (data[level][y-i][x]==1) {
+        setze_wand(i);
+        check = true;
+        break;
+      }
+      else if (data[level][y-i][x]==3) {
+        setze_ziel(i);
+        check = true;
+        break;
+      }
+      if (data[level][y-i][x-1]==1)
+        document.images["links"+String(i+1)].src = obj_links[i].src;
+      else
+        document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+      if (data[level][y-i][x+1]==1)
+        document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+      else
+        document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+    }
+    else if (d==3) {
+      if (data[level][y][x-i]==1) {
+        setze_wand(i);
+        check = true;
+        break;
+      }
+      else if (data[level][y][x-i]==3) {
+        setze_ziel(i);
+        check = true;
+        break;
+      }
+      if (data[level][y+1][x-i]==1)
+        document.images["links"+String(i+1)].src = obj_links[i].src;
+      else
+        document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+      if (data[level][y-1][x-i]==1)
+        document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+      else
+        document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+    }
+    else if (d==4) {
+      if (data[level][y+i][x]==1) {
+        setze_wand(i);
+        check = true;
+        break;
+      }
+      else if (data[level][y+i][x]==3) {
+        setze_ziel(i);
+        check = true;
+        break;
+      }
+      if (data[level][y+i][x+1]==1)
+        document.images["links"+String(i+1)].src = obj_links[i].src;
+      else
+        document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+      if (data[level][y+i][x-1]==1)
+        document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+      else
+        document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+    }
   }
-}
-else {
-for (var i=0; i<6; i++) {
-  if (d==1) {
-    if (data[level][y][x+i]==1) {
-      setze_wand(i);
-      check = true;
-      break;
-    }
-    else if (data[level][y][x+i]==3) {
-      setze_ziel(i);
-      check = true;
-      break;
-    }
-    if (data[level][y-1][x+i]==1)
-      document.images["links"+String(i+1)].src = obj_links[i].src;
-    else
-      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
-    if (data[level][y+1][x+i]==1)
-      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
-    else
-      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+  if (check==false)
+    setze_wand(0);
   }
-  else if (d==2) {
-    if (data[level][y-i][x]==1) {
-      setze_wand(i);
-      check = true;
-      break;
-    }
-    else if (data[level][y-i][x]==3) {
-      setze_ziel(i);
-      check = true;
-      break;
-    }
-    if (data[level][y-i][x-1]==1)
-      document.images["links"+String(i+1)].src = obj_links[i].src;
-    else
-      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
-    if (data[level][y-i][x+1]==1)
-      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
-    else
-      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
-  }
-  else if (d==3) {
-    if (data[level][y][x-i]==1) {
-      setze_wand(i);
-      check = true;
-      break;
-    }
-    else if (data[level][y][x-i]==3) {
-      setze_ziel(i);
-      check = true;
-      break;
-    }
-    if (data[level][y+1][x-i]==1)
-      document.images["links"+String(i+1)].src = obj_links[i].src;
-    else
-      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
-    if (data[level][y-1][x-i]==1)
-      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
-    else
-      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
-  }
-  else if (d==4) {
-    if (data[level][y+i][x]==1) {
-      setze_wand(i);
-      check = true;
-      break;
-    }
-    else if (data[level][y+i][x]==3) {
-      setze_ziel(i);
-      check = true;
-      break;
-    }
-    if (data[level][y+i][x+1]==1)
-      document.images["links"+String(i+1)].src = obj_links[i].src;
-    else
-      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
-    if (data[level][y+i][x-1]==1)
-      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
-    else
-      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
-  }
-}
-if (check==false)
-  setze_wand(0);
-}
 }
 
 function vor() {
