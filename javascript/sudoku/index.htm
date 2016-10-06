@@ -1,0 +1,178 @@
+<html>
+<head><title>Sudoku</title></head>
+
+<style>
+body, td, input {
+  font-family : "arial";
+  font-size : 16px;
+  font-weight : bold;
+}
+</style>
+
+<body>
+
+<table cellspacing=0 cellpadding=0 style="border-collapse:collapse; border:3px solid black;">
+<tr><td width=24 height=24 align=center style="border:1px solid black;"><input type="text" style="width:100%; height:100%; text-align:center; vertical-align:middle; margin:0px; border:0;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-bottom:2px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+<tr><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black; border-right:2px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td><td width=24 height=24 align=center style="border:1px solid black;"></td></tr>
+</table>
+
+<p id="felder"></p>
+
+<input type="button" value="Generieren" onclick="allesLoeschen(); generieren(0); reduzieren(20);">
+<input type="button" value="Lösen" onclick="loesen(0); zeigeFeld();">
+<input type="button" value="Löschen" onclick="loeschen();">
+
+<script>
+zahlen = new Array(81);
+fest = new Array(81);
+for (var i=0; i<81; i++) {
+  zahlen[i] = 0;
+  fest[i] = false;
+}
+
+function loeschen() {
+  for (var i=0; i<81; i++) {
+    if (fest[i]==false)
+      zahlen[i] = 0;
+  }
+  zeigeFeld();
+}
+
+function allesLoeschen() {
+  for (var i=0; i<81; i++) {
+    zahlen[i] = 0;
+    fest[i] = false;
+  }
+  zeigeFeld();
+}
+
+function zeigeFeld() {
+  for (var i=0; i<81; i++) {
+    if (zahlen[i]>0)
+      document.getElementsByTagName("td")[i].innerHTML = zahlen[i];
+    else
+      document.getElementsByTagName("td")[i].innerHTML = "";
+    if (fest[i])
+      document.getElementsByTagName("td")[i].style.color = "#FF0000";
+    else
+      document.getElementsByTagName("td")[i].style.color = "#000000";
+  }
+}
+
+function testFeld(z) {
+  for (var i=z-z%9; i<z-z%9+9; i++)
+    if (i!==z && zahlen[i]==zahlen[z])
+      return false;
+  
+  for (var i=z%9; i<81; i+=9)
+    if (i!==z && zahlen[i]==zahlen[z])
+      return false;
+  
+  var s = z-z%27+(z-z%3)%9;
+  for (var i=s; i<s+27; i+=9)
+    for (var j=s; j<s+3; j++)
+      if (i+j-s!==z && zahlen[i+j-s]==zahlen[z])
+        return false;
+  
+  return true;
+}
+
+function loesen(z) {
+  if (z==81)
+    return true;
+  if (fest[z]==true)
+    return loesen(z+1);
+  for (var i=1; i<=9; i++) {
+    zahlen[z] = i;
+    if (testFeld(z))
+      if (loesen(z+1))
+        return true;
+  }
+  zahlen[z] = 0;
+  return false;
+}
+
+function versuchen(z) {
+  var anzahl = 0;
+  if (z==81)
+    return 1;
+  if (fest[z]==true)
+    return versuchen(z+1);
+  for (var i=1; i<=9; i++) {
+    zahlen[z] = i;
+    if (testFeld(z)) {
+      anzahl += versuchen(z+1);
+      if (anzahl>=2) {
+        zahlen[z] = 0;
+        return anzahl;
+      }
+    }
+  }
+  zahlen[z] = 0;
+  return anzahl;
+}
+
+function generieren(z) {
+  var a = new Array();
+  var an = 0;
+  if (z==81)
+    return true;
+  for (var i=1; i<=9; i++) {
+    zahlen[z] = i;
+    if (testFeld(z)) {
+      a[an] = i;
+      an++;
+    }
+    zahlen[z] = 0;
+  }
+  while (an>0) {
+    var n = Math.floor(Math.random()*an);
+    zahlen[z] = a[n];
+    fest[z] = true;
+    if (generieren(z+1))
+      return true;
+    a.splice(n,1);
+    an--;
+  }
+  return false;
+}
+
+function reduzieren() {
+  var a = new Array();
+  var e = 81;
+  for (var i=0; i<81; i++)
+    a[i] = i;
+  do {
+    do {
+      var n = Math.floor(Math.random()*a.length);
+      var alt_i = a[n];
+      var alt = zahlen[a[n]];
+      zahlen[a[n]] = 0;
+      fest[a[n]] = false;
+      e--;
+      a.splice(n,1);
+      var m = versuchen(0);
+    }
+    while (m==1);
+    zahlen[alt_i] = alt;
+    fest[alt_i] = true;
+    e++;
+  }
+  while (a.length>0)
+  document.all.felder.innerHTML = "Felder : "+String(e);
+  loeschen();
+  zeigeFeld();
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,479 @@
+<html>
+<head><title>Labyrinth</title></head>
+
+<style type="text/css">
+body, td {
+  font-family: "Comic Sans MS";
+  font-size: 14px;
+  color:#DDDDDD;
+  font-weight:bold;
+}
+a:link {
+  color: #C18300;
+  text-decoration:none;
+}
+a:visited {
+  color: #C18300;
+  text-decoration:none;
+}
+a:hover {
+  color: #CC9900;
+  text-decoration:underline;
+}
+</style>
+
+<script type="text/javascript" src="level.js"></script>
+
+<script type="text/javascript">
+obj_leer = new Image();
+obj_leer.src = "images/leer.gif";
+
+obj_links = new Array(6);
+obj_links[0] = new Image();
+obj_links[0].src = "images/wand_links_1.jpg";
+obj_links[1] = new Image();
+obj_links[1].src = "images/wand_links_2.jpg";
+obj_links[2] = new Image();
+obj_links[2].src = "images/wand_links_3.jpg";
+obj_links[3] = new Image();
+obj_links[3].src = "images/wand_links_4.jpg";
+obj_links[4] = new Image();
+obj_links[4].src = "images/wand_links_5.jpg";
+obj_links[5] = new Image();
+obj_links[5].src = "images/wand_links_6.jpg";
+
+obj_links_frei = new Array(6);
+obj_links_frei[0] = new Image();
+obj_links_frei[0].src = "images/frei_links_1.jpg";
+obj_links_frei[1] = new Image();
+obj_links_frei[1].src = "images/frei_links_2.jpg";
+obj_links_frei[2] = new Image();
+obj_links_frei[2].src = "images/frei_links_3.jpg";
+obj_links_frei[3] = new Image();
+obj_links_frei[3].src = "images/frei_links_4.jpg";
+obj_links_frei[4] = new Image();
+obj_links_frei[4].src = "images/frei_links_5.jpg";
+obj_links_frei[5] = new Image();
+obj_links_frei[5].src = "images/frei_links_6.jpg";
+
+obj_rechts = new Array(6);
+obj_rechts[0] = new Image();
+obj_rechts[0].src = "images/wand_rechts_1.jpg";
+obj_rechts[1] = new Image();
+obj_rechts[1].src = "images/wand_rechts_2.jpg";
+obj_rechts[2] = new Image();
+obj_rechts[2].src = "images/wand_rechts_3.jpg";
+obj_rechts[3] = new Image();
+obj_rechts[3].src = "images/wand_rechts_4.jpg";
+obj_rechts[4] = new Image();
+obj_rechts[4].src = "images/wand_rechts_5.jpg";
+obj_rechts[5] = new Image();
+obj_rechts[5].src = "images/wand_rechts_6.jpg";
+
+obj_rechts_frei = new Array(6);
+obj_rechts_frei[0] = new Image();
+obj_rechts_frei[0].src = "images/frei_rechts_1.jpg";
+obj_rechts_frei[1] = new Image();
+obj_rechts_frei[1].src = "images/frei_rechts_2.jpg";
+obj_rechts_frei[2] = new Image();
+obj_rechts_frei[2].src = "images/frei_rechts_3.jpg";
+obj_rechts_frei[3] = new Image();
+obj_rechts_frei[3].src = "images/frei_rechts_4.jpg";
+obj_rechts_frei[4] = new Image();
+obj_rechts_frei[4].src = "images/frei_rechts_5.jpg";
+obj_rechts_frei[5] = new Image();
+obj_rechts_frei[5].src = "images/frei_rechts_6.jpg";
+
+obj_vorne = new Array(5);
+obj_vorne[0] = new Image();
+obj_vorne[0].src = "images/wand_vorne_1.jpg";
+obj_vorne[1] = new Image();
+obj_vorne[1].src = "images/wand_vorne_2.jpg";
+obj_vorne[2] = new Image();
+obj_vorne[2].src = "images/wand_vorne_3.jpg";
+obj_vorne[3] = new Image();
+obj_vorne[3].src = "images/wand_vorne_4.jpg";
+obj_vorne[4] = new Image();
+obj_vorne[4].src = "images/wand_vorne_5.jpg";
+
+obj_ziel = new Array(5);
+obj_ziel[0] = new Image();
+obj_ziel[0].src = "images/ziel_1.jpg";
+obj_ziel[1] = new Image();
+obj_ziel[1].src = "images/ziel_2.jpg";
+obj_ziel[2] = new Image();
+obj_ziel[2].src = "images/ziel_3.jpg";
+obj_ziel[3] = new Image();
+obj_ziel[3].src = "images/ziel_4.jpg";
+obj_ziel[4] = new Image();
+obj_ziel[4].src = "images/ziel_5.jpg";
+</script>
+
+<body style="margin:0px;" bgcolor=#000000 onload="start();">
+
+<center>
+<table cellpadding=0 cellspacing=0 style="position:relative;">
+
+<tr><td width=40 rowspan=13><img name="links1" src="images/wand_links_1.jpg"></td><td height=30 colspan=11><img src="images/decke_1.jpg"></td><td width=40 rowspan=13><img name="rechts1" src="images/wand_rechts_1.jpg"></td></tr>
+<tr><td width=160 rowspan=11><img name="links2" src="images/wand_links_2.jpg"></td><td height=120 colspan=9><img src="images/decke_2.jpg"></td><td width=160 rowspan=11><img name="rechts2" src="images/wand_rechts_2.jpg"></td></tr>
+<tr><td width=80 rowspan=9><img name="links3" src="images/wand_links_3.jpg"></td><td height=60 colspan=7><img src="images/decke_3.jpg"></td><td width=80 rowspan=9><img name="rechts3" src="images/wand_rechts_3.jpg"></td></tr>
+<tr><td width=40 rowspan=7><img name="links4" src="images/wand_links_4.jpg"></td><td height=30 colspan=5><img src="images/decke_4.jpg"></td><td width=40 rowspan=7><img name="rechts4" src="images/wand_rechts_4.jpg"></td></tr>
+<tr><td width=20 rowspan=5><img name="links5" src="images/wand_links_5.jpg"></td><td height=15 colspan=3><img src="images/decke_5.jpg"></td><td width=20 rowspan=5><img name="rechts5" src="images/wand_rechts_5.jpg"></td></tr>
+<tr><td width=10 rowspan=3><img name="links6" src="images/wand_links_6.jpg"></td> <td width=100><img src="images/decke_6.jpg"></td> <td width=10 rowspan=3><img name="rechts6" src="images/wand_rechts_6.jpg"></td></tr>
+
+<tr><td background="images/dunkel.jpg" height=76 width=100></td></tr>
+
+<tr> <td width=100><img src="images/boden_6.jpg"></td> </tr>
+<tr><td height=15 colspan=3><img src="images/boden_5.jpg"></td></tr>
+<tr><td height=30 colspan=5><img src="images/boden_4.jpg"></td></tr>
+<tr><td height=60 colspan=7><img src="images/boden_3.jpg"></td></tr>
+<tr><td height=120 colspan=9><img src="images/boden_2.jpg"></td></tr>
+<tr><td height=30 colspan=11><img src="images/boden_1.jpg"></td></tr>
+
+<tr><td></td>
+<td><img name="vorne1" style="position:absolute; top:30px;" src="images/leer.gif"></td>
+<td><img name="vorne2" style="position:absolute; top:150px;" src="images/leer.gif"></td>
+<td><img name="vorne3" style="position:absolute; top:210px;" src="images/leer.gif"></td>
+<td><img name="vorne4" style="position:absolute; top:240px;" src="images/leer.gif"></td>
+<td><img name="vorne5" style="position:absolute; top:255px;" src="images/leer.gif"></td>
+</tr>
+
+<tr><td colspan=13 align=center border=0>
+
+<script type="text/javascript">
+function start() {
+  if (window.location.search=="?fortsetzen") {
+    if (document.cookie)
+      level = Number(document.cookie);
+    else
+      level = 0;
+  }
+  else
+    level = 0;
+  id = 0;
+  starte_level(level);
+}
+
+function setze_wand(n) {
+  for (var i=1; i<6; i++) {
+    if (i==n)
+      document.images["vorne"+String(i)].src = obj_vorne[i-1].src;
+  }
+  for (var i=1; i<6; i++) {
+    if (i!=n)
+      document.images["vorne"+String(i)].src = obj_leer.src;
+  }
+}
+
+function setze_ziel(n) {
+  for (var i=1; i<6; i++) {
+    if (i==n)
+      document.images["vorne"+String(i)].src = obj_ziel[i-1].src;
+  }
+  for (var i=1; i<6; i++) {
+    if (i!=n)
+      document.images["vorne"+String(i)].src = obj_leer.src;
+  }
+}
+
+function aktualisieren() {
+var check = false;
+if (x==zx & y==zy) {
+  move = false;
+  id++;
+  document.all.anzeige.innerHTML += " - Geschafft!";
+  if (level+1>=data.length) {
+    document.all.start.innerHTML = "<a href='index.htm?ende'>E N D E</a>";
+    document.cookie = "0";
+  }
+  else {
+    document.all.start.innerHTML = "<a href='javascript:starte_level("+String(level+1)+");'>Nächstes Level</a>";
+    var ablauf = new Date();
+    ablauf.setTime(ablauf.getTime()+30*24*60*60*1000);
+    if (document.cookie) {
+      if (document.cookie<level+1)
+        document.cookie = String(level+1)+"; expires="+ablauf.toGMTString();
+    }
+    else
+      document.cookie = String(level+1)+"; expires="+ablauf.toGMTString();
+  }
+}
+else {
+for (var i=0; i<6; i++) {
+  if (d==1) {
+    if (data[level][y][x+i]==1) {
+      setze_wand(i);
+      check = true;
+      break;
+    }
+    else if (data[level][y][x+i]==3) {
+      setze_ziel(i);
+      check = true;
+      break;
+    }
+    if (data[level][y-1][x+i]==1)
+      document.images["links"+String(i+1)].src = obj_links[i].src;
+    else
+      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+    if (data[level][y+1][x+i]==1)
+      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+    else
+      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+  }
+  else if (d==2) {
+    if (data[level][y-i][x]==1) {
+      setze_wand(i);
+      check = true;
+      break;
+    }
+    else if (data[level][y-i][x]==3) {
+      setze_ziel(i);
+      check = true;
+      break;
+    }
+    if (data[level][y-i][x-1]==1)
+      document.images["links"+String(i+1)].src = obj_links[i].src;
+    else
+      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+    if (data[level][y-i][x+1]==1)
+      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+    else
+      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+  }
+  else if (d==3) {
+    if (data[level][y][x-i]==1) {
+      setze_wand(i);
+      check = true;
+      break;
+    }
+    else if (data[level][y][x-i]==3) {
+      setze_ziel(i);
+      check = true;
+      break;
+    }
+    if (data[level][y+1][x-i]==1)
+      document.images["links"+String(i+1)].src = obj_links[i].src;
+    else
+      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+    if (data[level][y-1][x-i]==1)
+      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+    else
+      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+  }
+  else if (d==4) {
+    if (data[level][y+i][x]==1) {
+      setze_wand(i);
+      check = true;
+      break;
+    }
+    else if (data[level][y+i][x]==3) {
+      setze_ziel(i);
+      check = true;
+      break;
+    }
+    if (data[level][y+i][x+1]==1)
+      document.images["links"+String(i+1)].src = obj_links[i].src;
+    else
+      document.images["links"+String(i+1)].src = obj_links_frei[i].src;
+    if (data[level][y+i][x-1]==1)
+      document.images["rechts"+String(i+1)].src = obj_rechts[i].src;
+    else
+      document.images["rechts"+String(i+1)].src = obj_rechts_frei[i].src;
+  }
+}
+if (check==false)
+  setze_wand(0);
+}
+}
+
+function vor() {
+  if (move==true) {
+    if (d==1)
+      if (data[level][y][x+1]!=1)
+        x++;
+    if (d==2)
+      if (data[level][y-1][x]!=1)
+        y--;
+    if (d==3)
+      if (data[level][y][x-1]!=1)
+        x--;
+    if (d==4)
+      if (data[level][y+1][x]!=1)
+        y++;
+    if (!zeit_start) {
+      zeit_start = true;
+      zeit(T[level],id);
+    }
+    aktualisieren();
+  }
+}
+
+function zurueck() {
+  if (move==true) {
+    if (d==1)
+      if (data[level][y][x-1]!=1)
+        x--;
+    if (d==2)
+      if (data[level][y+1][x]!=1)
+        y++;
+    if (d==3)
+      if (data[level][y][x+1]!=1)
+        x++;
+    if (d==4)
+      if (data[level][y-1][x]!=1)
+        y--;
+    if (!zeit_start) {
+      zeit_start = true;
+      zeit(T[level],id);
+    }
+    aktualisieren();
+  }
+}
+
+function linkz() {
+  if (move==true) {
+    if (d==4)
+      d = 1;
+    else
+      d++;
+    if (!zeit_start) {
+      zeit_start = true;
+      zeit(T[level],id);
+    }
+    aktualisieren();
+  }
+}
+
+function rechts() {
+  if (move==true) {
+    if (d==1)
+      d = 4;
+    else
+      d--;
+    if (!zeit_start) {
+      zeit_start = true;
+      zeit(T[level],id);
+    }
+    aktualisieren();
+  }
+}
+
+function bewegen(e) {
+  if (!e)
+    e = window.event;
+  if (e.which) {
+    if (e.which==37)
+      linkz();
+    else if (e.which==38)
+      vor();
+    else if (e.which==39)
+      rechts();
+    else if (e.which==40)
+      zurueck();
+  }
+  else {
+    if (e.keyCode==37)
+      linkz();
+    else if (e.keyCode==38)
+      vor();
+    else if (e.keyCode==39)
+      rechts();
+    else if (e.keyCode==40)
+      zurueck();
+  }
+}
+document.onkeydown = bewegen;
+
+function zeit(sek,l_id) {
+  if (l_id==id) {
+    var str = "";
+    t = sek
+    if (sek<=0) {
+      str = "<font color=#FF0000>Zeit abgelaufen!</font>";
+      move = false;
+    }
+    else {
+      str += "Zeit - ";
+      if (sek<=10)
+        str += "<font color=#FF0000>";
+      str += String(Math.floor(sek/60))+":";
+      if (sek%60<10)
+        str += "0";
+      str += String(sek%60);
+      if (sek<=10)
+        str += "</font>";
+      if (zeit_start)
+        setTimeout("zeit("+String(sek-1)+","+String(l_id)+");",1000);
+    }
+    document.all.anzeige.innerHTML = str;
+  }
+}
+
+function starte_level(n) {
+  id++;
+  zeit_start = false;
+  zeit(T[n],id);
+  d = D[n];
+  move = true;
+  
+  for (var i=0; i<data[n].length; i++) {
+    for (var j=0; j<data[n][i].length; j++) {
+      if (data[n][i][j]==2) {
+        X = j;
+        Y = i;
+      }
+      else if (data[n][i][j]==3) {
+        zx = j;
+        zy = i;
+      }
+    }
+  }
+  level = n;
+  x = X;
+  y = Y;
+  
+  document.all.start.innerHTML = "<a href='javascript:starte_level("+String(level)+");'>Level neu starten</a>";
+  document.all.levelnr.innerHTML = "Level "+String(level+1);
+  
+  aktualisieren();
+}
+</script>
+
+<table width=100% height=100% border=0 cellpadding=6 cellspacing=0>
+<tr>
+<td width=200><p id="levelnr"></p></td>
+<td align=center rowspan=2>
+
+<table cellpadding=0 cellspacing=0 border=0>
+<tr><td></td><td><img name="strg_oben" src="images/strg_oben_0.jpg" onmouseover="bildan('strg_oben');" onmouseout="bildaus('strg_oben');" onclick="vor();"></td><td></td></tr>
+<tr><td><img name="strg_links" src="images/strg_links_0.jpg" onmouseover="bildan('strg_links');" onmouseout="bildaus('strg_links');" onclick="linkz();"></td><td><img src="images/strg_mitte.jpg"></td><td><img name="strg_rechts" src="images/strg_rechts_0.jpg" onmouseover="bildan('strg_rechts');" onmouseout="bildaus('strg_rechts');" onclick="rechts();"></td></tr>
+<tr><td></td><td><img name="strg_unten" src="images/strg_unten_0.jpg" onmouseover="bildan('strg_unten');" onmouseout="bildaus('strg_unten');" onclick="zurueck();"></td><td></td></tr>
+</table>
+
+<script type="text/javascript">
+function bildan(n) {
+  document.images[n].src = "images/"+n+"_1.jpg";
+}
+
+function bildaus(n) {
+  document.images[n].src = "images/"+n+"_0.jpg";
+}
+</script>
+
+</td>
+
+<td align=right width=200><p id="anzeige"></p></td></tr>
+<tr>
+<td><a href="index.htm">Spiel beenden</a></td>
+<td align=right><p id="start"></p></td>
+</tr>
+</table>
+
+</td></tr>
+</table>
+
+</center>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<html>
+
+<head>
+
+<title>MazeMaster - Editor</title>
+
+<style type="text/css">
+
+td {
+  border:1px solid #999999;
+}
+body {
+  font-family : arial;
+  font-size : 12px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+farbe = new Array("#FFFFFF","#444444","#FF0000","#0000FF");
+start_x = -1;
+start_y = -1;
+
+function markierung() {
+  for (var i=0; i<document.getElementsByName("objekt").length; i++)
+    if (document.getElementsByName("objekt")[i].checked)
+      return i;
+  return -1;
+}
+
+function objekt_setzen(x,y) {
+  if (markierung() !== -1) {
+    feld[y][x] = markierung();
+    if (feld[y][x] == 2) {
+      if (start_x !== -1 || start_y !== -1) {
+        feld[start_y][start_x] = 0;
+        document.getElementById(String(start_x)+"_"+String(start_y)).style.backgroundColor = farbe[0];
+      }
+      start_x = x;
+      start_y = y;
+    }
+    else
+      if (x == start_x && y == start_y) {
+        start_x = -1;
+        start_y = -1;
+      }
+    document.getElementById(String(x)+"_"+String(y)).style.backgroundColor = farbe[feld[y][x]];
+  }
+}
+
+function speichern() {
+  var zeit = "1";
+  do
+    var zeit = prompt("Zeit :",zeit);
+  while ((isNaN(Number(zeit)) || zeit < 1) && zeit !== null)
+  var rich = "1";
+  do
+    var rich = prompt("Richtung (1=rechts, 2=oben, 3=links, 4=unten) :",rich);
+  while ((isNaN(Number(rich)) || rich < 1) && rich !== null)
+  var level = "0";
+  do
+    var level = prompt("Levelnummer :",level);
+  while ((isNaN(Number(level)) || level < 0) && level !== null)
+  
+  var fenster = window.open("about:blank","code","width=640,height=480");
+  fenster.document.writeln("<pre>");
+  fenster.document.writeln("data["+level+"] = new Array();");
+  fenster.document.writeln("D["+level+"] = "+rich+";");
+  fenster.document.writeln("T["+level+"] = "+zeit+";");
+  for (var i=0; i<hoehe*2+1; i++) {
+    fenster.document.write("data["+level+"]["+String(i)+"] = new Array(");
+    for (var j=0; j<breite*2+1; j++) {
+      fenster.document.write(String(feld[i][j]));
+      if (j < breite*2)
+        fenster.document.write(",");
+    }
+    fenster.document.writeln(");");
+  }
+}
+
+</script>
+
+</head>
+
+<body>
+
+<center>
+<input type="button" value="Speichern" onclick="void speichern();">
+<font style="background-color:#EEEEEE;"><input type="radio" name="objekt"> Frei </font>
+<font color=#FFFFFF style="background-color:#000000;"><input type="radio" name="objekt"> Wand </font>
+<font color=#FFFFFF style="background-color:#FF0000;"><input type="radio" name="objekt"> Start </font>
+<font color=#FFFFFF style="background-color:#0000FF;"><input type="radio" name="objekt"> Ziel </font>
+</center>
+<hr>
+
+<script type="text/javascript">
+
+var breite = "1";
+do
+  var breite = prompt("Breite des Labyrinths :",breite);
+while ((isNaN(Number(breite)) || breite < 1) && breite !== null)
+
+var hoehe = "1";
+do
+  var hoehe = prompt("Höhe des Labyrinths :",hoehe);
+while ((isNaN(Number(hoehe)) || hoehe < 1) && hoehe !== null)
+
+feld = new Array();
+document.write("<table align=center cellspacing=0 cellpadding=0 style='border-collapse:collapse;'>");
+for (var i=0; i<hoehe*2+1; i++) {
+  feld[i] = new Array();
+  document.write("<tr>");
+  for (var j=0; j<breite*2+1; j++) {
+    if (i == 0 || i == hoehe*2 || j == 0 || j == breite*2 || (i%2 == 0 && j%2 == 0)) {
+      feld[i][j] = 1;
+      document.write("<td width=24 height=24 bgcolor="+farbe[1]+"> </td>");
+    }
+    else {
+      feld[i][j] = 0;
+      document.write("<td width=24 height=24 id='"+String(j)+"_"+String(i)+"' onmousedown='objekt_setzen("+String(j)+","+String(i)+");'> </td>");
+    }
+  }
+  document.write("</tr>");
+}
+
+</script>
+
+</body>
+
+</html>

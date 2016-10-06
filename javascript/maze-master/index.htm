@@ -1,0 +1,135 @@
+<html>
+<head><title>Labyrinth</title></head>
+
+<style type="text/css">
+body, td {
+  font-family: "Comic Sans MS";
+  font-size: 12px;
+  color:#DDDDDD;
+}
+a:link {
+  color: #D3D3D3;
+  text-decoration:none;
+  font-weight:bold;
+}
+a:visited {
+  color: #D3D3D3;
+  text-decoration:none;
+  font-weight:bold;
+}
+a:hover {
+  color: #DEDEDE;
+  text-decoration:underline;
+  font-weight:bold;
+}
+</style>
+
+<script type="text/javascript">
+button_0 = new Array(5);
+button_1 = new Array(5);
+
+button_0[0] = new Image();
+button_0[0].src = "images/spiel_starten_0.jpg";
+button_1[0] = new Image();
+button_1[0].src = "images/spiel_starten_1.jpg";
+
+button_0[1] = new Image();
+button_0[1].src = "images/spiel_fortsetzen_0.jpg";
+button_1[1] = new Image();
+button_1[1].src = "images/spiel_fortsetzen_1.jpg";
+
+button_0[2] = new Image();
+button_0[2].src = "images/anleitung_0.jpg";
+button_1[2] = new Image();
+button_1[2].src = "images/anleitung_1.jpg";
+
+button_0[3] = new Image();
+button_0[3].src = "images/credits_0.jpg";
+button_1[3] = new Image();
+button_1[3].src = "images/credits_1.jpg";
+
+button_0[4] = new Image();
+button_0[4].src = "images/schliessen_0.jpg";
+button_1[4] = new Image();
+button_1[4].src = "images/schliessen_1.jpg";
+schliessen_up = new Image();
+schliessen_up.src = "images/schliessen_2.jpg";
+
+function bild(n,i) {
+  if (i==1)
+    document.images["button"+String(n+1)].src = button_1[n].src;
+  else
+    document.images["button"+String(n+1)].src = button_0[n].src;
+}
+
+function anleitung(n) {
+  document.all.button5.style.visibility = "visible";
+  document.all.uschrift.innerHTML = "Anleitung (Seite "+String(n)+"/4)";
+  var str = "";
+  switch (n) {
+    case 1 : { str += "In <font color=#956100><b>MazeMaster</b></font> geht es darum eine Spielfigur durch ein Labyrinth zu führen und den Ausgang zu finden. Man sieht das Labyrinth aus Sicht der Figur. Hat mein ein Labyrinth bewältigt, kommt man ins nächste. Für jedes Labyrinth steht dem Spieler nur eine bestimmte Zeit zur Verfügung, er kann es aber so oft er will von neuem beginnen.<br><br>Hier im <b>Menü</b> stehen nun folgende Möglichkeiten zur Verfügung: Mit einem Klick auf &quot;Spiel starten&quot; beginnen Sie das Spiel mit dem ersten Labyrinth. Wenn Sie bei dem Labyrinth beginnen möchten, das Sie zuletzt bewältigt haben, müssen Sie &quot;Spiel fortsetzen&quot; auswählen."; break; }
+    case 2 : { str += "Unter &quot;Anleitung&quot; konnten Sie diese Spielbeschreibung aufrufen. Unter der letzten Option &quot;Credits&quot; erfahren Sie wichtige Informationen zur Entwicklung dieses kleinen Spieles.<br><br>Im Spiel steht ihnen eine <b>Anzeige</b> am unteren Bildschirmrand zur Verfügung. Auf der linken Seite sehen Sie das aktuelle Level und darunter einen Link mit dem Sie zurück zum Hauptmenü gelangen."; break; }
+    case 3 : { str += "In der Mitte der Anzeige befindet sich ein <b>Navigationsfeld</b>, mit dem sich die Figur im Labyrinth steuern lässt. Ein Klick auf den Pfeil nach oben lässt die Figur ein Feld nach vorne laufen, der Pfeil nach unten lässt den Spieler ein Feld nach hinten bewegen. Mit den Pfeilen nach rechts und links dreht sich die Figur um 90 Grad nach rechts bzw. links. Optional können für die Bewegung auch die Pfeiltasten der Tastatur verwendet werden, welche sich wegen der schnelleren Steuerung als vorteilhaft erweisen."; break; }
+    case 4 : { str += "Auf der rechten Seite finden Sie eine <b>Zeitanzeige</b>, die Ihnen die noch zur Verfügung stehende Zeit mitteil. Darunter finden Sie nicht zuletzt noch einen Link mit dem Sie ein Labyrinth neu starten können oder ins nächste Level gelangen. Letzteres ist der Fall, wenn Sie den Ausgang eines Labyrinthes gefunden haben. In diesem Fall wird das aktuelle Labyrinth gespeichert und Sie können jederzeit an dieser Stelle fortsetzen wenn Sie das Spiel beenden sollten.<br><br>Nun viel Spaß bei der Suche nach dem richtigen Weg der kniffligen Labyrinthe!"; break; }
+  }
+  str +="<br><br>";
+  if (n>1)
+    str += "<a href='javascript:anleitung("+String(n-1)+")'>zurück</a>";
+  else
+    str += "zurück";
+  str += " | ";
+  if (n<4)
+    str += "<a href='javascript:anleitung("+String(n+1)+")'>weiter</a>";
+  else
+    str += "weiter";
+  document.all.fenster.innerHTML = str;
+}
+
+function credits() {
+  document.all.button5.style.visibility = "visible";
+  document.all.uschrift.innerHTML = "Credits";
+  document.all.fenster.innerHTML = "Programm, Grafik und Labyrinthe<br><a href='mailto:Galadrim@gmx.de'>Sascha Swiercy</a><br><br>Dieses Spiel wurde komplett mit JavaScript programmiert.<br>Alle Grafiken wurden mit Adobe Photoshop erstellt.<br><br>Viel Spaß beim Spielen!";
+}
+
+function schliessen() {
+  document.all.button5.style.visibility = "hidden";
+  document.all.fenster.innerHTML = "";
+  document.all.uschrift.innerHTML = "";
+}
+
+function ende() {
+  if (document.location.search=="?ende") {
+    document.all.button5.style.visibility = "visible";
+    document.all.uschrift.innerHTML = "Ende";
+    document.all.fenster.innerHTML = "Herzlichen Glückwunsch!<br><br>Sie haben alle Labyrinthe durchgespielt!<br>Danke, dass Sie <font color=#CD871D><b>MazeMaster</b></font> gespielt haben.<br><br><br>Programm, Grafik und Labyrinthe<br><a href='mailto:Galadrim@gmx.de'>Sascha Swiercy</a>";
+  }
+}
+</script>
+
+<body bgcolor=#000000 style="margin:0px;" onload="ende();">
+
+<table align=center cellspacing=0 cellpadding=0 width=800 height=600 background="images/menue.jpg" border=0>
+<tr>
+<td rowspan=4 width=77></td>
+<td valign=top width=222 rowspan=4>
+
+<a onmouseover="bild(0,1)" onmouseout="bild(0,0)" href="laby.htm"><img name="button1" style="margin-top:157px; visibility:visible;" src="images/spiel_starten_0.jpg" border=0></a><br>
+<a onmouseover="bild(1,1)" onmouseout="bild(1,0)" href="laby.htm?fortsetzen"><img name="button2" style="margin-top:14px; visibility:visible;" src="images/spiel_fortsetzen_0.jpg" border=0></a><br>
+<a onmouseover="bild(2,1)" onmouseout="bild(2,0)" href="javascript:anleitung(1);"><img name="button3" style="margin-top:16px; visibility:visible;" src="images/anleitung_0.jpg" border=0></a><br>
+<a onmouseover="bild(3,1)" onmouseout="bild(3,0)" href="javascript:credits();"><img name="button4" style="margin-top:16px; visibility:visible;" src="images/credits_0.jpg" border=0></a>
+
+</td><td width=409 height=150 colspan=2></td><td rowspan=4 width=91></td></tr>
+<tr><td height=38 style="padding:10px;" valign=middle>
+<p id="uschrift" style="text-decoration:underline; font-weight:bold;"></p>
+</td>
+<td><img style="visibility:hidden; margin-right:10px;" align=right src="images/schliessen_0.jpg" onmouseover="bild(4,1);" onmouseout="bild(4,0);" onmousedown="document.images['button5'].src=schliessen_up.src;" onmouseup="bild(4,1);" name="button5" onclick="schliessen();"></td>
+</tr>
+<tr><td height=247 valign=top style="padding:10px;" colspan=2>
+<p id="fenster"></p>
+</td></tr>
+<tr><td></td></tr>
+</table>
+
+</body>
+
+</html>

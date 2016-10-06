@@ -1,0 +1,762 @@
+<html>
+
+<head>
+
+<title>Billard</title>
+
+<style type="text/css">
+
+body, td {
+  font-family : arial;
+  font-size : 12px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+if (document.cookie)
+  var ext = document.cookie;
+else {
+  if (confirm("Einige Grafiken liegen in zwei Formaten vor, weil einige Browser das PNG-Format nicht richtig darstellen aber dieses besser aussieht als das GIF-Format.\n\"OK\" - Grafiken im PNG-Format benutzen\n\"Abbrechen\" - Grafiken im GIF-Format benutzen"))
+    var ext = ".png";
+  else
+    var ext = ".gif";
+  var datum = new Date();
+  datum.setTime(datum.getTime()+(7*24*60*60*1000));
+  document.cookie = ext+"; expires="+datum.toGMTString();
+}
+spiel_id = -1;
+cpu_id = -1;
+spieler = new Array();
+farbe = new Array();
+sp_name = new Array();
+ball = new Array();
+loch_x = new Array(30,400,770,770,400,30);
+loch_y = new Array(30,25,30,450,455,450);
+loch_r = new Array(15*Math.SQRT2,20,15*Math.SQRT2,15*Math.SQRT2,20,15*Math.SQRT2);
+ki_loch_x = new Array(50,400,750,750,400,50);
+ki_loch_y = new Array(50,45,50,430,435,430);
+
+function init() {
+  if (document.getElementById("spieler1_wahl").selectedIndex == 0) {
+    spieler[0] = "mensch";
+    sp_name[0] = document.getElementById("spieler1_eig").firstChild.value;
+  }
+  else {
+    spieler[0] = "cpu";
+    sp_name[0] = "Computer (";
+    switch (document.getElementById("spieler1_eig").firstChild.selectedIndex) {
+      case 0 : spieler[0] += "0"; sp_name[0] += "leicht"; break;
+      case 1 : spieler[0] += "1"; sp_name[0] += "mittel"; break;
+      case 2 : spieler[0] += "2"; sp_name[0] += "schwer"; break;
+    }
+    sp_name[0] += ")";
+  }
+  if (document.getElementById("spieler2_wahl").selectedIndex == 0) {
+    spieler[1] = "mensch";
+    sp_name[1] = document.getElementById("spieler2_eig").firstChild.value;
+  }
+  else {
+    spieler[1] = "cpu";
+    sp_name[1] = "Computer (";
+    switch (document.getElementById("spieler2_eig").firstChild.selectedIndex) {
+      case 0 : spieler[1] += "0"; sp_name[1] += "leicht"; break;
+      case 1 : spieler[1] += "1"; sp_name[1] += "mittel"; break;
+      case 2 : spieler[1] += "2"; sp_name[1] += "schwer"; break;
+    }
+    sp_name[1] += ")";
+  }
+  farbe[0] = "";
+  farbe[1] = "";
+  am_zug = Math.floor(Math.random()*2);
+  ende = false;
+  gelocht = 0;
+  ruhe_event = false;
+  
+  weisse_zurueck();
+  start_pos();
+  kugeln_ruhen = true;
+  if (cpu_id !== -1)
+    clearTimeout(cpu_id);
+  if (spiel_id == -1)
+    spiel_id = setInterval("spiel();",25);
+}
+
+function start_pos() {
+  var pos_x = new Array(600,621,621,642,642,663,663,663,663,684,684,684,684,684);
+  var pos_y = new Array(240,228,252,216,264,204,228,252,276,192,216,240,264,288);
+  if (ball.length !== 16) {
+    ball[1] = new ball_objekt(1,642,240,"schwarz");
+    var i = 2;
+    while (pos_x.length > 0) {
+      var r = Math.floor(Math.random()*pos_x.length);
+      if (i < 9)
+        ball[i] = new ball_objekt(i,pos_x[r],pos_y[r],"rot");
+      else
+        ball[i] = new ball_objekt(i,pos_x[r],pos_y[r],"blau");
+      pos_x.splice(r,1);
+      pos_y.splice(r,1);
+      i++;
+    }
+  }
+  else {
+    ball[1].x = 642;
+    ball[1].y = 240;
+    ball[1].vx = 0;
+    ball[1].vy = 0;
+    ball[1].loch = -1;
+    document.getElementById("kugel1").style.backgroundImage = "url(kugel_"+ball[1].farbe+ext+")";
+    var i = 2;
+    while (pos_x.length > 0) {
+      var r = Math.floor(Math.random()*pos_x.length);
+      ball[i].x = pos_x[r];
+      ball[i].y = pos_y[r];
+      ball[i].vx = 0;
+      ball[i].vy = 0;
+      ball[i].loch = -1;
+      document.getElementById("kugel"+String(i)).style.backgroundImage = "url(kugel_"+ball[i].farbe+ext+")";
+      pos_x.splice(r,1);
+      pos_y.splice(r,1);
+      i++;
+    }
+  }
+}
+
+function weisse_zurueck() {
+  if (ball.length > 0) {
+    ball[0].x = 200;
+    ball[0].y = 240;
+    ball[0].vx = 0;
+    ball[0].vy = 0;
+    ball[0].loch = -1;
+    document.getElementById("kugel0").style.backgroundImage = "url(kugel_"+ball[0].farbe+ext+")";
+  }
+  else
+    ball[0] = new ball_objekt(0,200,240,"weiss");
+}
+
+function ball_objekt(N,X,Y,T) {
+  this.x = X;
+  this.y = Y;
+  this.vx = 0/*(Math.floor(Math.random()*2)*2-1)*/;
+  this.vy = 0/*(Math.floor(Math.random()*2)*2-1)*/;
+  this.farbe = T;
+  this.loch = -1;
+  var table = document.createElement("table");
+  var tr = table.insertRow(0);
+  tr.appendChild(document.createElement("td"));
+  table.style.width = 24;
+  table.style.height = 24;
+  table.style.backgroundImage = "url(kugel_"+T+ext+")";
+  table.id = "kugel"+String(N);
+  table.style.position = "absolute";
+  table.style.left = String(X-12)+"px";
+  table.style.top = String(Y-12)+"px";
+  document.getElementById("kugeln").appendChild(table);
+}
+
+function reibung(n,wert) {
+  var v = Math.sqrt(ball[n].vx*ball[n].vx+ball[n].vy*ball[n].vy);
+  if (v > wert) {
+    ball[n].vx *= (v-wert)/v;
+    ball[n].vy *= (v-wert)/v;
+  }
+  else {
+    ball[n].vx = 0;
+    ball[n].vy = 0;
+  }
+}
+
+function info_aktu() {
+  var str = "";
+  if (am_zug == 0)
+    str += "<span style='font-weight:bold; text-decoration:underline;'>";
+  str += sp_name[0];
+  if (am_zug == 0)
+    str += "</span>";
+  if (farbe[0] !== "")
+    str += "<img src='kugel_"+farbe[0]+ext+"' align=middle hspace=6>";
+  if (am_zug == 2)
+    str += " <b>GEWINNER!</b>";
+  document.getElementById("spieler1").innerHTML = str;
+  str = "";
+  if (am_zug == 3)
+    str += "<b>GEWINNER!</b> ";
+  if (farbe[1] !== "")
+    str += "<img src='kugel_"+farbe[1]+ext+"' align=middle hspace=6>";
+  if (am_zug == 1)
+    str += "<span style='font-weight:bold; text-decoration:underline;'>";
+  str += sp_name[1];
+  if (am_zug == 1)
+    str += "</span>";
+  document.getElementById("spieler2").innerHTML = str;
+}
+
+function spiel() {
+  kugeln_ruhen = true;
+  for (var i=0; i<ball.length; i++) {
+    reibung(i,0.03);
+    ball[i].x += ball[i].vx;
+    ball[i].y += ball[i].vy;
+    
+    if (ball[i].loch == -1) {
+      for (var j=0; j<6; j++) {
+        var l = abstand(ball[i].x,ball[i].y,loch_x[j],loch_y[j]);
+        if (l < loch_r[j]-12) {
+          ball[i].loch = j;
+          document.getElementById("kugel"+String(i)).style.backgroundImage = "url(kugel_"+ball[i].farbe+"_loch"+ext+")";
+          if (farbe[am_zug] == "" && ball[i].farbe !== "weiss" && ball[i].farbe !== "schwarz") {
+            farbe[am_zug] = ball[i].farbe;
+            if (ball[i].farbe == "blau")
+              farbe[1-am_zug] = "rot";
+            else
+              farbe[1-am_zug] = "blau";
+            info_aktu();
+          }
+          if (gelocht !== 2 && ball[i].farbe !== "weiss" && (farbe[am_zug] == ball[i].farbe || farbe[am_zug] == ""))
+            gelocht = 1;
+          if (farbe[am_zug] !== ball[i].farbe || (farbe[am_zug] == "" && (ball[i].farbe == "weiss" || ball[i].farbe == "schwarz")))
+            gelocht = 2;
+        }
+        if (l < loch_r[j]) {
+          ball[i].vx += (loch_x[j]-ball[i].x)/l/2;
+          ball[i].vy += (loch_y[j]-ball[i].y)/l/2;
+        }
+      }
+      
+      kollision_strecke(i,65,35,376,35,-1);
+      kollision_strecke(i,376,35,380,25,-1);
+      kollision_strecke(i,420,25,424,35,-1);
+      kollision_strecke(i,424,35,735,35,-1);
+      kollision_strecke(i,735,35,755,15,-1);
+      kollision_strecke(i,785,45,765,65,-1);
+      kollision_strecke(i,765,65,765,415,-1);
+      kollision_strecke(i,765,415,785,435,-1);
+      kollision_strecke(i,755,465,735,445,-1);
+      kollision_strecke(i,735,445,424,445,-1);
+      kollision_strecke(i,424,445,420,455,-1);
+      kollision_strecke(i,380,455,376,445,-1);
+      kollision_strecke(i,376,445,65,445,-1);
+      kollision_strecke(i,65,445,45,465,-1);
+      kollision_strecke(i,15,435,35,415,-1);
+      kollision_strecke(i,35,415,35,65,-1);
+      kollision_strecke(i,35,65,15,45,-1);
+      kollision_strecke(i,45,15,65,35,-1);
+      
+      kollision_kreis(i,400,25,20,0,180,true);
+      kollision_kreis(i,770,30,15*Math.SQRT2,315,135,true);
+      kollision_kreis(i,770,450,15*Math.SQRT2,225,45,true);
+      kollision_kreis(i,400,455,20,180,360,true);
+      kollision_kreis(i,30,450,15*Math.SQRT2,135,315,true);
+      kollision_kreis(i,30,30,15*Math.SQRT2,45,225,true);
+      
+      kollision_punkt(i,376,35);
+      kollision_punkt(i,380,25);
+      kollision_punkt(i,420,25);
+      kollision_punkt(i,424,35);
+      kollision_punkt(i,735,35);
+      kollision_punkt(i,765,65);
+      kollision_punkt(i,765,415);
+      kollision_punkt(i,735,445);
+      kollision_punkt(i,424,445);
+      kollision_punkt(i,420,455);
+      kollision_punkt(i,380,455);
+      kollision_punkt(i,376,445);
+      kollision_punkt(i,65,445);
+      kollision_punkt(i,35,415);
+      kollision_punkt(i,35,65);
+      kollision_punkt(i,65,35);
+      
+      for (var j=i+1; j<ball.length; j++)
+        if (ball[j].loch == -1)
+          kollision_ball(i,j);
+    }
+    else {
+      kollision_kreis(i,loch_x[ball[i].loch],loch_y[ball[i].loch],loch_r[ball[i].loch],0,360,true);
+    }
+    
+    document.getElementById("kugel"+String(i)).style.left = String(ball[i].x-12)+"px";
+    document.getElementById("kugel"+String(i)).style.top = String(ball[i].y-12)+"px";
+    
+    if (ball[i].vx !== 0 || ball[i].vy !== 0)
+      kugeln_ruhen = false;
+  }
+  
+  if (kugeln_ruhen) {
+    if (ruhe_event == false) {
+      ruhe_event = true;
+      kugeln_ruhe();
+    }
+  }
+}
+
+function kugeln_ruhe() {
+  am_zug = 1-am_zug;
+  if (ball[0].loch !== -1)
+    weisse_zurueck();
+  else if (gelocht == 1)
+    am_zug = 1-am_zug;
+  gelocht = 0;
+  if (ball[1].loch !== -1) {
+    ende = true;
+    if (farbe_vorhanden(farbe[1-am_zug]) == false)
+      am_zug = 1-am_zug +2;
+    else
+      am_zug = am_zug +2;
+    clearInterval(spiel_id);
+    spiel_id = -1;
+  }
+  info_aktu();
+  if (ende == false) {
+    if (spieler[am_zug] !== "mensch" && ende == false)
+      cpu_id = setTimeout("cpu(Number(spieler[am_zug].slice(3,4)),farbe[am_zug]);",1000);
+  }
+}
+
+function kollision_strecke(n,x1,y1,x2,y2,r) {
+  /*
+  x1 + (x2-x1)*r + s*nx = ball[n].x;
+  y1 + (y2-y1)*r + s*ny = ball[n].y;
+  
+  x1*(y2-y1) + r*(x2-x1)*(y2-y1) + s*(y2-y1)*(y2-y1) = ball[n].x*(y2-y1);
+  y1*(x2-x1) + r*(y2-y1)*(x2-x1) + s*(x1-x2)*(x2-x1) = ball[n].y*(x2-x1);
+  
+  x1*(y2-y1) + s*(y2-y1)*(y2-y1) - y1*(x2-x1) - s*(x1-x2)*(x2-x1) = ball[n].x*(y2-y1) - ball[n].y*(x2-x1)
+  
+  x1*ny + (x2-x1)*r*ny + s*nx*ny = ball[n].x*ny;
+  y1*nx + (y2-y1)*r*nx + s*ny*nx = ball[n].y*nx;
+  
+  x1*ny + (x2-x1)*r*ny - y1*nx - (y2-y1)*r*nx = ball[n].x*ny - ball[n].y*nx
+  r = (ball[n].x*ny - ball[n].y*nx - x1*ny + y1*nx)/((x2-x1)*ny - (y2-y1)*nx);
+  */
+  
+  var nx = (y2-y1)*r;
+  var ny = (x1-x2)*r;
+  var l = Math.sqrt(nx*nx+ny*ny);
+  nx /= l;
+  ny /= l;
+  var s = (ball[n].x*(y2-y1) - ball[n].y*(x2-x1) - x1*(y2-y1) + y1*(x2-x1))/(nx*(y2-y1) - ny*(x2-x1));
+  var g = (ball[n].x*ny - ball[n].y*nx - x1*ny + y1*nx)/((x2-x1)*ny - (y2-y1)*nx);
+  
+  if (Math.abs(s) <= 12 && g >= 0 && g <= 1) {
+    /*
+    t * ball[n].vx + o * (x2-x1) + nx = 0
+    t * ball[n].vy + o * (y2-y1) + ny = 0
+    
+    t * ball[n].vx * (y2-y1) + o * (x2-x1) * (y2-y1) + nx * (y2-y1) = 0
+    t * ball[n].vy * (x2-x1) + o * (y2-y1) * (x2-x1) + ny * (x2-x1) = 0
+    
+    t * ball[n].vx * (y2-y1) + nx * (y2-y1) - t * ball[n].vy * (x2-x1) - ny * (x2-x1) = 0
+    t = (ny*(x2-x1)-nx*(y2-y1))/(ball[n].vx*(y2-y1)-ball[n].vy*(x2-x1))
+    
+    a * nx + ball[n].vx + s * (x2-x1) = 0
+    a * ny + ball[n].vy + s * (y2-y1) = 0
+    
+    a * nx * (y2-y1) + ball[n].vx * (y2-y1) + s * (x2-x1) * (y2-y1) = 0
+    a * ny * (x2-x1) + ball[n].vy * (x2-x1) + s * (y2-y1) * (x2-x1) = 0
+    
+    a * nx * (y2-y1) + ball[n].vx * (y2-y1) - a * ny * (x2-x1) - ball[n].vy * (x2-x1) = 0
+    
+    a = (ball[n].vy * (x2-x1) - ball[n].vx * (y2-y1))/(nx * (y2-y1) - ny * (x2-x1))
+    */
+    var t = (ny*(x2-x1)-nx*(y2-y1))/(ball[n].vx*(y2-y1)-ball[n].vy*(x2-x1));
+    ball[n].x -= (12-s)*t*ball[n].vx;
+    ball[n].y -= (12-s)*t*ball[n].vy;
+    l = Math.sqrt(ball[n].vx*ball[n].vx+ball[n].vy*ball[n].vy);
+    var a = (ball[n].vy*(x2-x1)-ball[n].vx*(y2-y1))/(nx*(y2-y1)-ny*(x2-x1));
+    ball[n].vx += 2*a*nx;
+    ball[n].vy += 2*a*ny;
+    ball[n].x += (12-s)*t*ball[n].vx;
+    ball[n].y += (12-s)*t*ball[n].vy;
+    reibung(n,1);
+  }
+}
+
+function kollision_punkt(n,x,y) {
+  if (Math.sqrt((ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y))<=12) {
+    /*
+    (ball[n].x+r*ball[n].vx-x)^2+(ball[n].y+r*ball[n].vy-y)^2 = 12^2
+    (ball[n].x-x)^2+2*r*ball[n].vx*(ball[n].x-x)+(r*ball[n].vx)^2+(ball[n].y-y)^2+2*(ball[n].y-y)*r*ball[n].vy+(r*ball[n].vy)^2 = 12^2
+    
+    r^2*(ball[n].vx^2+ball[n].vy^2)+r*(2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy)+(ball[n].x-x)^2+(ball[n].y-y)^2 = 12^2
+    
+    r = -(2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy)/(2*(ball[n].vx^2+ball[n].vy^2))+Math.sqrt(((2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy)^2-4*(ball[n].vx^2+ball[n].vy^2)*((ball[n].x-x)^2+(ball[n].y-y)^2))/(4*(ball[n].vx^2+ball[n].vy^2)^2));
+    
+    ball[n].vx + s * (ball[n].x-x) + t * (ball[n].y-y) = 0
+    ball[n].vy + s * (ball[n].y-y) + t * (x-ball[n].x) = 0
+    
+    ball[n].vx * (x-ball[n].x) + s * (ball[n].x-x) * (x-ball[n].x) + t * (ball[n].y-y) * (x-ball[n].x) = 0
+    ball[n].vy * (ball[n].y-y) + s * (ball[n].y-y) * (ball[n].y-y) + t * (x-ball[n].x) * (ball[n].y-y) = 0
+    
+    ball[n].vx * (x-ball[n].x) + s * (ball[n].x-x) * (x-ball[n].x) - ball[n].vy * (ball[n].y-y) - s * (ball[n].y-y) * (ball[n].y-y) = 0
+    
+    s = (ball[n].vy * (ball[n].y-y) - ball[n].vx * (x-ball[n].x))/((ball[n].x-x) * (x-ball[n].x) - (ball[n].y-y) * (ball[n].y-y))
+    */
+    var a = ball[n].vx*ball[n].vx+ball[n].vy*ball[n].vy;
+    var b = 2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy;
+    var c = (ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y)-12*12;
+    var r = -b/(2*a)-Math.sqrt((b*b-4*a*c)/(4*a*a));
+    ball[n].x += r*ball[n].vx;
+    ball[n].y += r*ball[n].vy;
+    var s = (ball[n].vy*(ball[n].y-y)-ball[n].vx*(x-ball[n].x))/((ball[n].x-x)*(x-ball[n].x)-(ball[n].y-y)*(ball[n].y-y));
+    ball[n].vx += 2*s*(ball[n].x-x);
+    ball[n].vy += 2*s*(ball[n].y-y);
+    ball[n].x -= r*ball[n].vx;
+    ball[n].y -= r*ball[n].vy;
+    reibung(n,1);
+  }
+}
+
+function kollision_kreis(n,x,y,r,w1,w2,innen) {
+  if (innen == true) {
+    var d = Math.sqrt((ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y));
+    if (d >= r-12 && d < r+12) {
+      var w = winkel(x,y,ball[n].x,ball[n].y);
+      if ((w1 <= w2 && w > w1 && w < w2) || (w1 > w2 && (w > w1 || w < w2))) {
+        var a = ball[n].vx*ball[n].vx+ball[n].vy*ball[n].vy;
+        var b = 2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy;
+        var c = (ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y)-(r-12)*(r-12);
+        if (b*b-4*a*c < 0) {
+          var l = abstand(x,y,ball[n].x,ball[n].y);
+          ball[n].x = x+(ball[n].x-x)/l*(r-13);
+          ball[n].y = y+(ball[n].y-y)/l*(r-13);
+        }
+        else {
+          var t = -b/(2*a)+Math.sqrt((b*b-4*a*c)/(4*a*a));
+          ball[n].x += t*ball[n].vx;
+          ball[n].y += t*ball[n].vy;
+          if (t < -0.9 || t > 0.9) {
+            var l = abstand(x,y,ball[n].x,ball[n].y);
+            ball[n].x -= (ball[n].x-x)/l;
+            ball[n].y -= (ball[n].y-y)/l;
+          }
+        }
+        var s = (ball[n].vy*(ball[n].y-y)-ball[n].vx*(x-ball[n].x))/((ball[n].x-x)*(x-ball[n].x)-(ball[n].y-y)*(ball[n].y-y));
+        ball[n].vx += 2*s*(ball[n].x-x);
+        ball[n].vy += 2*s*(ball[n].y-y);
+        if (b*b-4*a*c >= 0) {
+          ball[n].x -= t*ball[n].vx;
+          ball[n].y -= t*ball[n].vy;
+        }
+        reibung(n,1);
+      }
+    }
+  }
+  else {
+    if (Math.sqrt((ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y)) <= r+12) {
+      var a = ball[n].vx*ball[n].vx+ball[n].vy*ball[n].vy;
+      var b = 2*ball[n].vx*(ball[n].x-x)+2*(ball[n].y-y)*ball[n].vy;
+      var c = (ball[n].x-x)*(ball[n].x-x)+(ball[n].y-y)*(ball[n].y-y)-(r+12)*(r+12);
+      var t = -b/(2*a)-Math.sqrt((b*b-4*a*c)/(4*a*a));
+      ball[n].x += t*ball[n].vx;
+      ball[n].y += t*ball[n].vy;
+      var s = (ball[n].vy*(ball[n].y-y)-ball[n].vx*(x-ball[n].x))/((ball[n].x-x)*(x-ball[n].x)-(ball[n].y-y)*(ball[n].y-y));
+      ball[n].vx += 2*s*(ball[n].x-x);
+      ball[n].vy += 2*s*(ball[n].y-y);
+      ball[n].x -= t*ball[n].vx;
+      ball[n].y -= t*ball[n].vy;
+      reibung(n,1);
+    }
+  }
+}
+
+function winkel(x1,y1,x2,y2) {
+  if (x2 > x1) {
+    if (y2 < y1)
+      return Math.atan((y1-y2)/(x2-x1))/Math.PI*180;
+    else if (y2 > y1)
+      return 360-Math.atan((y2-y1)/(x2-x1))/Math.PI*180;
+    else
+      return 0;
+  }
+  else if (x2 < x1) {
+    if (y2 < y1)
+      return 180-Math.atan((y1-y2)/(x1-x2))/Math.PI*180;
+    else if (y2 > y1)
+      return 180+Math.atan((y2-y1)/(x1-x2))/Math.PI*180;
+    else
+      return 180;
+  }
+  else {
+    if (y2 > y1)
+      return 270;
+    else if (y2 < y1)
+      return 90;
+    if (y1 == y2)
+      return false;
+  }
+}
+
+function kollision_ball(n,m) {
+  if (Math.sqrt((ball[n].x-ball[m].x)*(ball[n].x-ball[m].x)+(ball[n].y-ball[m].y)*(ball[n].y-ball[m].y)) < 24) {
+    var r1 = 0;
+    var r2 = 1;
+    for (var i=0; i<20; i++) {
+      Math.sqrt((ball[n].x-ball[m].x)*(ball[n].x-ball[m].x)+(ball[n].y-ball[m].y)*(ball[n].y-ball[m].y))
+      var d1 = abstand(ball[n].x-ball[n].vx*((r2-r1)/4+r1),ball[n].y-ball[n].vy*((r2-r1)/4+r1),ball[m].x-ball[m].vx*((r2-r1)/4+r1),ball[m].y-ball[m].vy*((r2-r1)/4+r1));
+      var d2 = abstand(ball[n].x-ball[n].vx*((r2-r1)/4*3+r1),ball[n].y-ball[n].vy*((r2-r1)/4*3+r1),ball[m].x-ball[m].vx*((r2-r1)/4*3+r1),ball[m].y-ball[m].vy*((r2-r1)/4*3+r1));
+      if (Math.abs(d1-24) > Math.abs(d2-24))
+        var r1 = (r2-r1)/2+r1;
+      else
+        var r2 = (r2-r1)/2+r1;
+    }
+    ball[n].x -= (r1+r2)/2*ball[n].vx;
+    ball[n].y -= (r1+r2)/2*ball[n].vy;
+    ball[m].x -= (r1+r2)/2*ball[m].vx;
+    ball[m].y -= (r1+r2)/2*ball[m].vy;
+    
+    /*
+    r * (ball[m].x-ball[n].x) + s * (ball[m].y-ball[n].y) - ball[n].vx = 0
+    r * (ball[m].y-ball[n].y) + s * (ball[n].x-ball[m].x) - ball[n].vy = 0
+    
+    r * (ball[m].x-ball[n].x) * (ball[n].x-ball[m].x) + s * (ball[m].y-ball[n].y) * (ball[n].x-ball[m].x) - ball[n].vx * (ball[n].x-ball[m].x) = 0
+    r * (ball[m].y-ball[n].y) * (ball[m].y-ball[n].y) + s * (ball[n].x-ball[m].x) * (ball[m].y-ball[n].y) - ball[n].vy * (ball[m].y-ball[n].y) = 0
+    
+    r * (ball[m].x-ball[n].x) * (ball[n].x-ball[m].x) - ball[n].vx * (ball[n].x-ball[m].x) - r * (ball[m].y-ball[n].y) * (ball[m].y-ball[n].y) + ball[n].vy * (ball[m].y-ball[n].y) = 0
+    
+    r = (ball[n].vx * (ball[n].x-ball[m].x) - ball[n].vy * (ball[m].y-ball[n].y))/((ball[m].x-ball[n].x) * (ball[n].x-ball[m].x) - (ball[m].y-ball[n].y) * (ball[m].y-ball[n].y))
+    */
+    var r1 = (ball[n].vx*(ball[n].x-ball[m].x)-ball[n].vy*(ball[m].y-ball[n].y))/((ball[m].x-ball[n].x)*(ball[n].x-ball[m].x)-(ball[m].y-ball[n].y)*(ball[m].y-ball[n].y));
+    var r2 = (ball[m].vx*(ball[m].x-ball[n].x)-ball[m].vy*(ball[n].y-ball[m].y))/((ball[n].x-ball[m].x)*(ball[m].x-ball[n].x)-(ball[n].y-ball[m].y)*(ball[n].y-ball[m].y));
+    
+    var v2x = ball[m].vx-r2*(ball[n].x-ball[m].x)+r1*(ball[m].x-ball[n].x);
+    var v2y = ball[m].vy-r2*(ball[n].y-ball[m].y)+r1*(ball[m].y-ball[n].y);
+    
+    var v1x = ball[n].vx+r1*(ball[n].x-ball[m].x)+r2*(ball[n].x-ball[m].x);
+    var v1y = ball[n].vy+r1*(ball[n].y-ball[m].y)+r2*(ball[n].y-ball[m].y);
+    
+    ball[n].vx = v1x;
+    ball[n].vy = v1y;
+    ball[m].vx = v2x;
+    ball[m].vy = v2y;
+  }
+}
+
+function strecke_frei(n,x1,y1,x2,y2) {
+  for (var i=0; i<ball.length; i++) {
+    var check = true;
+    if (ball[i].loch !== -1)
+      var check = false;
+    else {
+      var check = true;
+      for (var j=0; j<n.length; j++)
+        if (i == n[j])
+          check = false;
+    }
+    if (check) {
+      /*
+      x1 + r * (x1-x2) + s * (y2-y1) = ball[i].x
+      y1 + r * (y1-y2) + s * (x1-x2) = ball[i].y
+      
+      x1 * (y1-y2) + r * (x1-x2) * (y1-y2) + s * (y2-y1) * (y1-y2) = ball[i].x * (y1-y2)
+      y1 * (x1-x2) + r * (y1-y2) * (x1-x2) + s * (x1-x2) * (x1-x2) = ball[i].y * (x1-x2)
+      
+      x1 * (y1-y2) + s * (y2-y1) * (y1-y2) - y1 * (x1-x2) - s * (x1-x2) * (x1-x2) = ball[i].x * (y1-y2) - ball[i].y * (x1-x2)
+      
+      s = (ball[i].x * (y1-y2) - ball[i].y * (x1-x2) - x1 * (y1-y2) + y1 * (x1-x2))/((y2-y1) * (y1-y2) - (x1-x2) * (x1-x2))
+      
+      x1 * (x1-x2) + r * (x1-x2) * (x1-x2) + s * (y2-y1) * (x1-x2) = ball[i].x * (x1-x2)
+      y1 * (y2-y1) + r * (y1-y2) * (y2-y1) + s * (x1-x2) * (y2-y1) = ball[i].y * (y2-y1)
+      
+      x1 * (x1-x2) + r * (x1-x2) * (x1-x2) - y1 * (y2-y1) - r * (y1-y2) * (y2-y1) = ball[i].x * (x1-x2) - ball[i].y * (y2-y1)
+      
+      r = (ball[i].x * (x1-x2) - ball[i].y * (y2-y1) - x1 * (x1-x2) + y1 * (y2-y1))/((x1-x2) * (x1-x2) - (y1-y2) * (y2-y1))
+      */
+      var l = abstand(x1,y1,x2,y2);
+      var nx = (y2-y1)/l;
+      var ny = (x1-x2)/l;
+      var s = (ball[i].x*(y1-y2)-ball[i].y*(x1-x2)-x1*(y1-y2)+y1*(x1-x2))/(nx*(y1-y2)-ny*(x1-x2));
+      var r = (ball[i].x*ny-ball[i].y*nx-x1*ny+y1*nx)/((x1-x2)*ny-(y1-y2)*nx);
+      if (Math.abs(s) <= 24 && r >= -1 && r <= 0)
+        return false;
+    }
+  }
+  return true;
+}
+
+function vektor_winkel(x1,y1,x2,y2) {
+  return Math.acos((x1*x2+y1*y2)/(Math.sqrt(x1*x1+y1*y1)*Math.sqrt(x2*x2+y2*y2)));
+}
+
+function farbe_vorhanden(f) {
+  for (var i=0; i<ball.length; i++)
+    if (ball[i].farbe == f && ball[i].loch == -1)
+      return true;
+  return false;
+}
+
+function cpu(s,f) {
+  cpu_id = -1;
+  var w_min = -1;
+  var vx = 0;
+  var vy = 0;
+  var liste = new Array();
+  var check = false;
+  if (f !== "")
+    check = farbe_vorhanden(f);
+  for (var i=0; i<ball.length; i++) {
+    if (ball[i].farbe !== "weiss" && ball[i].loch == -1 && ((f == "" && ball[i].farbe !== "schwarz") || (f !== "" && ((check == true && f == ball[i].farbe) || (check == false && ball[i].farbe == "schwarz"))))) {
+      liste[liste.length] = i;
+      for (var j=0; j<ki_loch_x.length; j++) {
+        var l = abstand(ki_loch_x[j],ki_loch_y[j],ball[i].x,ball[i].y);
+        var x = ball[i].x+(ball[i].x-ki_loch_x[j])/l*24;
+        var y = ball[i].y+(ball[i].y-ki_loch_y[j])/l*24;
+        var w1 = vektor_winkel(x-ball[0].x,y-ball[0].y,ki_loch_x[j]-ball[i].x,ki_loch_y[j]-ball[i].y);
+        var w2 = vektor_winkel(loch_x[j]-ki_loch_x[j],loch_y[j]-ki_loch_y[j],ki_loch_x[j]-ball[i].x,ki_loch_y[j]-ball[i].y);
+        if (Math.abs(w1) < 60/180*Math.PI && (w_min == -1 || Math.abs(w1) < w_min) && Math.abs(w2) < 50 && strecke_frei([0,i],ball[0].x,ball[0].y,x,y) && strecke_frei([i],x,y,ki_loch_x[j],ki_loch_y[j])) {
+          var w_min = Math.abs(w1);
+          var l = abstand(x,y,ball[0].x,ball[0].y);
+          var vx = (x-ball[0].x)/l*8;
+          var vy = (y-ball[0].y)/l*8;
+          var laenge = 8;
+        }
+      }
+    }
+  }
+  if (vx == 0 && vy == 0) {
+    var n = liste[Math.floor(Math.random()*liste.length)];
+    var x = ball[n].x+Math.random()*10-5;
+    var y = ball[n].y+Math.random()*10-5;
+    var l = abstand(x,y,ball[0].x,ball[0].y);
+    var laenge = l;
+    var vx = (x-ball[0].x)/l*12;
+    var vy = (y-ball[0].y)/l*12;
+    var laenge = 12;
+  }
+  if (s < 2) {
+    l = Math.sqrt(vx*vx+vy*vy);
+    var nx = -vy/l;
+    var ny = vx/l;
+    if (s == 0) {
+      vx += nx/3*(1-Math.random()*2);
+      vy += nx/3*(1-Math.random()*2);
+    }
+    else {
+      vx += nx/1.5*(1-Math.random()*2);
+      vy += nx/1.5*(1-Math.random()*2);
+    }
+    l = Math.sqrt(vx*vx+vy*vy);
+    vx = vx/l*laenge;
+    vy = vy/l*laenge;
+  }
+  ball[0].vx = vx;
+  ball[0].vy = vy;
+  ruhe_event = false;
+}
+
+function mouse_x(evt) {
+  if (!evt)
+    evt = window.event;
+  if (document.body.clientWidth >= 800)
+    return Math.floor(evt.clientX-(document.body.clientWidth-800)/2);
+  else
+    return evt.clientX+document.body.scrollLeft;
+}
+
+function mouse_y(evt) {
+  if (!evt)
+    evt = window.event;
+  if (document.body.clientHeight >= 512)
+    return Math.floor(evt.clientY-(document.body.clientHeight-512)/2);
+  else
+    return evt.clientY+document.body.scrollTop;
+}
+
+function schuss(evt) {
+  if (kugeln_ruhen == true && spieler[am_zug] == "mensch" && ende == false && document.getElementById('neues_spiel').style.visibility == 'hidden') {
+    var l = abstand(mouse_x(evt),mouse_y(evt),ball[0].x,ball[0].y);
+    ball[0].vx = (mouse_x(evt)-ball[0].x)/l*(document.getElementById("power").selectedIndex+1);
+    ball[0].vy = (mouse_y(evt)-ball[0].y)/l*(document.getElementById("power").selectedIndex+1);
+    ruhe_event = false;
+  }
+}
+
+function abstand(x1,y1,x2,y2) {
+  return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+}
+
+function einst() {
+  if (document.getElementById("neues_spiel").style.visibility == "visible") {
+    document.getElementById("neues_spiel").style.visibility = "hidden";
+    document.getElementById("fenster").style.cursor = "crosshair";
+  }
+  else {
+    document.getElementById("neues_spiel").style.visibility = "visible";
+    document.getElementById("fenster").style.cursor = "auto";
+  }
+}
+
+function sp_aendern(n) {
+  if (document.getElementById("spieler"+String(n)+"_wahl").selectedIndex == 0) {
+    document.getElementById("spieler"+String(n)+"_name").innerHTML = "<nobr>Name :</nobr>";
+    document.getElementById("spieler"+String(n)+"_eig").innerHTML = "<input type='text' size=17 maxlength=10>";
+  }
+  else {
+    document.getElementById("spieler"+String(n)+"_name").innerHTML = "<nobr>Schwierigkeit :</nobr>";
+    document.getElementById("spieler"+String(n)+"_eig").innerHTML = "<select size=1><option>Leicht</option><option>Mittel</option><option>Schwer</option></select>";
+  }
+}
+
+</script>
+
+</head>
+
+<body bgcolor=#000000 onload="init(); document.getElementById('fenster').onmousedown = schuss; document.getElementById('neues_spiel').style.backgroundImage = 'url(menu_bg'+ext+')';" style="margin:0px;">
+
+<table width=100% height=100% cellpadding=0 cellspacing=0><tr><td align=center valign=middle>
+
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td background="tisch.jpg" valign=top width=800 height=480 id="fenster" colspan=3 style="cursor:crosshair;">
+<div style="position:absolute;" id="kugeln">
+<table width=420 height=80 cellpadding=0 cellspacing=0 id="neues_spiel" style="position:absolute; left:190px; top:390px; z-index:1; visibility:hidden;"><tr><td valign=top>
+
+<div style="position:absolute;">
+<table cellpadding=4 cellspacing=0 border=0 width=400 style="position:absolute; left:10px; top: 10px;">
+<tr><td width=17%><nobr>Spieler 1 : </nobr></td>
+<td width=25%><select id="spieler1_wahl" size=1 onchange="sp_aendern(1);"><option>Mensch</option><option selected>Computer</option></select></td>
+<td width=23% id="spieler1_name" align=right><nobr>Schwierigkeit :</nobr></td>
+<td width=35% id="spieler1_eig"><select size=1><option selected>Leicht</option><option>Mittel</option><option>Schwer</option></select></td>
+</tr>
+<tr><td><nobr>Spieler 2 : </nobr></td>
+<td><select id="spieler2_wahl" size=1 onchange="sp_aendern(2);"><option>Mensch</option><option selected>Computer</option></select></td>
+<td id="spieler2_name" align=right><nobr>Schwierigkeit :</nobr></td>
+<td id="spieler2_eig"><select size=1><option selected>Leicht</option><option>Mittel</option><option>Schwer</option></select></td>
+</tr>
+</table>
+</div>
+
+</td></tr></table>
+</div>
+</td></tr>
+<tr><td height=32 style="color:#FFFFFF; padding:0px 6px;" id="spieler1">
+
+</td><td align="center" style="color:#FFFFFF;">
+Power :
+<select size=1 style="width:45px;" id="power">
+  <option style="background-color:#44FF00;">1</option>
+  <option style="background-color:#66FF00;">2</option>
+  <option style="background-color:#88FF00;">3</option>
+  <option style="background-color:#AAFF00;">4</option>
+  <option style="background-color:#CCFF00;">5</option>
+  <option style="background-color:#EEFF00;">6</option>
+  <option style="background-color:#FFEE00;">7</option>
+  <option style="background-color:#FFCC00;" selected>8</option>
+  <option style="background-color:#FFAA00;">9</option>
+  <option style="background-color:#FF8800;">10</option>
+  <option style="background-color:#FF6600;">11</option>
+  <option style="background-color:#FF4400;">12</option>
+</select>
+<input type="button" value="Einstellungen" onclick="einst();">
+<input type="button" value="Neues Spiel" onclick="init(); if (document.getElementById('neues_spiel').style.visibility == 'visible') einst();">
+<input type="button" value="Anleitung" onclick="window.open('anleitung.htm','anleitung','width=420,height=420,scrollbars=yes');">
+</td><td align=right style="color:#FFFFFF; padding:0px 6px;" id="spieler2">
+
+</td></tr>
+</table>
+
+</td></tr></table>
+
+</body>
+
+</html>

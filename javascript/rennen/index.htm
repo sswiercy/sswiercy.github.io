@@ -1,0 +1,554 @@
+<html>
+
+<head><title>JavaScriptRennen</title></head>
+
+<style type="text/css">
+body, td {
+  font-family : "arial";
+  font-size : 14px;
+  font-weight : bold;
+}
+input {
+  width : 128px;
+  margin : 4px;
+  background-color : #C0C0C0;
+  border : 1px solid black;
+}
+</style>
+
+<script type="text/javascript" src="strecken.js"></script>
+
+<script type="text/javascript">
+
+if (document.cookie)
+  var ext = document.cookie;
+else {
+  if (confirm("Einige Grafiken liegen in zwei Formaten vor, weil einige Browser das PNG-Format nicht richtig darstellen aber dieses besser aussieht als das GIF-Format.\n\"OK\" - Grafiken im PNG-Format benutzen\n\"Abbrechen\" - Grafiken im GIF-Format benutzen"))
+    var ext = ".png";
+  else
+    var ext = ".gif";
+  var datum = new Date();
+  datum.setTime(datum.getTime()+(7*24*60*60*1000));
+  document.cookie = ext+"; expires="+datum.toGMTString();
+}
+auto = new Array();
+for (var i=0; i<60; i++) {
+  auto[i] = new Image();
+  auto[i].src = String(i)+ext;
+}
+gerade_h = new Image();
+gerade_h.src = "gerade_h.jpg";
+gerade_v = new Image();
+gerade_v.src = "gerade_v.jpg";
+kurve_ur = new Image();
+kurve_ur.src = "kurve_ur.jpg";
+kurve_ul = new Image();
+kurve_ul.src = "kurve_ul.jpg";
+kurve_or = new Image();
+kurve_or.src = "kurve_or.jpg";
+kurve_ol = new Image();
+kurve_ol.src = "kurve_ol.jpg";
+frei = new Image();
+frei.src = "frei.jpg";
+ziel_vo = new Image();
+ziel_vo.src = "ziel_vo.gif";
+ziel_vu = new Image();
+ziel_vu.src = "ziel_vu.gif";
+ziel_hl = new Image();
+ziel_hl.src = "ziel_hl.gif";
+ziel_hr = new Image();
+ziel_hr.src = "ziel_hr.gif";
+
+beste_edit = 0;
+beste = new Array();
+for (var i=0; i<strecken.length; i++) {
+  beste[i] = 0;
+}
+
+taste_links = false;
+taste_hoch = false;
+taste_rechts = false;
+taste_runter = false;
+
+tuning = new Array(0,0,0,0);  // Geschwindigkeit, Beschleunigung, Handling, Lenkung
+
+if (window.location.search=="") {
+  punkte = 6;
+  strecke = 0;
+}
+else {
+  punkte = 20;
+  strecke = -1;
+}
+
+level = 0;
+runden = new Array();
+timer_on = false;
+
+function laden(n) {
+  if (strecke!==-1) {
+    if (level==strecke || strecke==strecken.length-1)
+      document.all.weiter.disabled = true;
+    else
+      document.all.weiter.disabled = false;
+    if (strecke==0)
+      document.all.zurueck.disabled = true;
+    else
+      document.all.zurueck.disabled = false;
+  }
+  if (n==-1) {
+    var str = unescape(window.location.search);
+    var str = str.slice(1,str.length);
+    document.all.anz_bestezeit.innerHTML = zeitString(beste_edit);
+  }
+  else {
+    var str = strecken[n];
+    document.all.anz_bestezeit.innerHTML = zeitString(beste[strecke]);
+  }
+  var t1 = new Array("frei","gerade_h","gerade_v","kurve_or","kurve_ol","kurve_ur","kurve_ul");
+  var t2 = new Array("ziel_vo","ziel_vu","ziel_hl","ziel_hr");
+  for (var i=0; i<4; i++)
+    for (var j=0; j<5; j++) {
+      document.getElementById(String(j)+"_"+String(i)).src = t1[Number(str.slice(5*i+j,5*i+j+1))]+".jpg";
+      document.getElementById(String(j)+"_"+String(i)).name = t1[Number(str.slice(5*i+j,5*i+j+1))];
+    }
+  ziel_x = Number(str.slice(21,22));
+  ziel_y = Number(str.slice(22,23));
+  ziel_t = t2[Number(str.slice(23,24))];
+  document.all.ziel.style.left = String(ziel_x*160+160)+"px";
+  document.all.ziel.style.top = String(ziel_y*160)+"px";
+  document.all.ziel.src = ziel_t+".gif";
+  minzeit = Number(str.slice(25,str.lastIndexOf("-")));
+  maxrunden = Number(str.slice(str.lastIndexOf("-")+1,str.length));
+  document.all.start.innerHTML = "";
+  document.all.num.innerHTML = "Strecke "+String(strecke+1);
+}
+
+function neuladen() {
+  auto_x = ziel_x*160+208;
+  auto_y = ziel_y*160+48;
+  auto_vx = 0;
+  auto_vy = 0;
+  switch (ziel_t) {
+    case "ziel_vo" : { auto_rx = 0; auto_ry = -1; break; }
+    case "ziel_vu" : { auto_rx = 0; auto_ry = 1; break; }
+    case "ziel_hl" : { auto_rx = -1; auto_ry = 0.001; break; }
+    case "ziel_hr" : { auto_rx = 1; auto_ry = 0.001; break; }
+  }
+  document.all.auto.style.left = String(auto_x)+"px";
+  document.all.auto.style.top = String(auto_y)+"px";
+  document.all.auto.src = auto[(Math.round(-Math.atan2(auto_ry,auto_rx)/2/Math.PI*60)+60)%60].src;
+  
+  zeit = -120;
+  document.all.anz_zeit.innerHTML = "0 : 00 . 00";
+  document.all.anz_minzeit.innerHTML = zeitString(minzeit);
+  runde = 1;
+  document.all.anz_runde.innerHTML = String(runde)+" / "+String(maxrunden);
+  im_ziel = false;
+  rundencheck(strecke);
+  document.all.punkte.innerHTML = String(punkte);
+}
+
+function zeitString(z) {
+  var str = String(Math.floor(z/40/60))+" : ";
+  if ((z/40)%60<10)
+    var str = str+"0";
+  var str = str+String(Math.floor((z/40)%60))+" . ";
+  if (Math.round(((z/40)%60-Math.floor((z/40)%60))*100)<10)
+    var str = str+"0";
+  var str = str+String(Math.round(((z/40)%60-Math.floor((z/40)%60))*100));
+  return str;
+}
+
+function abstand(x1,y1,x2,y2) {
+  return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+}
+
+function kollision(zx,zy,a) {
+  var hx = auto_x+32-(feld_x+zx);
+  var hy = auto_y+32-(feld_y+zy);
+  var r = a/Math.sqrt(hx*hx+hy*hy);
+  auto_x = feld_x+zx+hx*r-32;
+  auto_y = feld_y+zy+hy*r-32;
+  auto_vx = 0;
+  auto_vy = 0;
+}
+
+function rundencheck(n) {
+  if (n==-1) {
+    var str = unescape(window.location.search);
+    var str = str.slice(1,str.length);
+  }
+  else
+    var str = strecken[n];
+  runden.splice(0,runden.length);
+  for (var i=0; i<4; i++)
+    for (var j=0; j<5; j++)
+      if (str.slice(i*5+j,i*5+j+1)!=="0")
+        runden[runden.length] = String(j)+"_"+String(i);
+}
+
+function checkpoint(x,y) {
+  for (var i=0; i<runden.length; i++)
+    if (runden[i]==String(x)+"_"+String(y)) {
+      runden.splice(i,1);
+      break;
+    }
+}
+
+function imZiel(n) {
+  if (runde==maxrunden) {
+    im_ziel = true;
+    switch (n) {
+      case 0 : { zeit -= (feld_y+35-auto_y-12)/(auto_y_alt-auto_y); break; }
+      case 1 : { zeit -= (auto_y+64-12-feld_y-160+35)/(auto_y-auto_y_alt); break; }
+      case 2 : { zeit -= (feld_x+35-auto_x-12)/(auto_x_alt-auto_x); break; }
+      case 3 : { zeit -= (auto_x+64-12-feld_x-160+35)/(auto_x-auto_x_alt); break; }
+    }
+    document.all.anz_zeit.innerHTML = zeitString(zeit);
+    if (strecke!==-1) {
+      if (beste[strecke]==0 || beste[strecke]>zeit) {
+        beste[strecke] = zeit;
+        document.all.anz_bestezeit.innerHTML = zeitString(zeit);
+      }
+      if (zeit<=minzeit)
+        if (strecke==level) {
+          if (level==strecken.length-1) {
+            setTimeout("document.all.ende.style.visibility = 'visible';",1500);
+            punkte++;
+            document.all.punkte.innerHTML = String(punkte);
+            level = -1;
+          }
+          else {
+            document.all.weiter.disabled = false;
+            punkte++;
+            document.all.punkte.innerHTML = String(punkte);
+            level++;
+          }
+        }
+    }
+    else
+      if (beste_edit==0 || beste_edit>zeit) {
+        beste_edit = zeit;
+        document.all.anz_bestezeit.innerHTML = zeitString(zeit);
+      }
+  }
+  else {
+    runde++;
+    rundencheck(strecke);
+    document.all.anz_runde.innerHTML = String(runde)+" / "+String(maxrunden);
+  }
+}
+
+function spiel() {
+  if (zeit>=0 && im_ziel==false) {
+    if (taste_hoch) {
+      if (abstand(0,0,auto_vx,auto_vy)<tuning[0]*1.5+6) {
+        auto_vx += auto_rx*(tuning[1]*0.05+0.2);
+        auto_vy += auto_ry*(tuning[1]*0.05+0.2);
+      }
+    }
+    if (taste_runter) {
+      if (abstand(0,0,auto_vx,auto_vy)<tuning[0]*0.75+3) {
+        auto_vx -= auto_rx*(tuning[1]*0.05+0.2);
+        auto_vy -= auto_ry*(tuning[1]*0.05+0.2);
+      }
+    }
+    if (taste_links) {
+      var hx = auto_rx+auto_ry*(0.05+0.005*tuning[3]);
+      var hy = auto_ry-auto_rx*(0.05+0.005*tuning[3]);
+      var p = Math.sqrt(hx*hx+hy*hy);
+      auto_rx = hx/p;
+      auto_ry = hy/p;
+    }
+    if (taste_rechts) {
+      var hx = auto_rx-auto_ry*(0.05+0.005*tuning[3]);
+      var hy = auto_ry+auto_rx*(0.05+0.005*tuning[3]);
+      var p = Math.sqrt(hx*hx+hy*hy);
+      auto_rx = hx/p;
+      auto_ry = hy/p;
+    }
+    if (zeit%40==0)
+      document.all.anz_zeit.innerHTML = zeitString(zeit)
+  }
+  
+  var hx = -auto_ry;
+  var hy = auto_rx;
+  var r = (auto_vx-auto_vy/auto_ry*auto_rx)/(hx-hy/auto_ry*auto_rx);
+  auto_vx -= hx*r/(16-1.5*tuning[2]);
+  auto_vy -= hy*r/(16-1.5*tuning[2]);
+  
+  if (im_ziel) {
+    auto_vx *= 0.9;
+    auto_vy *= 0.9;
+  }
+  else {
+    auto_vx *= 0.98;
+    auto_vy *= 0.98;
+  }
+  
+  auto_x += auto_vx;
+  auto_y += auto_vy;
+  
+  feld_x = Math.floor((auto_x+32)/160)*160;
+  feld_y = Math.floor((auto_y+32)/160)*160;
+  
+  switch (document.getElementById(String(feld_x/160-1)+"_"+String(feld_y/160)).name) {
+    case "gerade_v" : {
+      if (auto_x<feld_x+3) {
+        auto_x = feld_x+3;
+        auto_vx = 0;
+        auto_vy = 0;
+      }
+      if (auto_x>feld_x+93) {
+        auto_x = feld_x+93;
+        auto_vx = 0;
+        auto_vy = 0;
+      }
+      break;
+    }
+    case "gerade_h" : {
+      if (auto_y<feld_y+3) {
+        auto_y = feld_y+3;
+        auto_vx = 0;
+        auto_vy = 0;
+      }
+      if (auto_y>feld_y+93) {
+        auto_y = feld_y+93;
+        auto_vx = 0;
+        auto_vy = 0;
+      }
+      break;
+    }
+    case "kurve_ur" : {
+      var a = abstand(feld_x+160,feld_y+160,auto_x+32,auto_y+32)
+      if (a>125)
+        kollision(160,160,125);
+      else if (a<35)
+        kollision(160,160,35);
+      break;
+    }
+    case "kurve_ul" : {
+      var a = abstand(feld_x,feld_y+160,auto_x+32,auto_y+32)
+      if (a>125)
+        kollision(0,160,125);
+      else if (a<35)
+        kollision(0,160,35);
+      break;
+    }
+    case "kurve_or" : {
+      var a = abstand(feld_x+160,feld_y,auto_x+32,auto_y+32)
+      if (a>125)
+        kollision(160,0,125);
+      else if (a<35)
+        kollision(160,0,35);
+      break;
+    }
+    case "kurve_ol" : {
+      var a = abstand(feld_x,feld_y,auto_x+32,auto_y+32)
+      if (a>125)
+        kollision(0,0,125);
+      else if (a<35)
+        kollision(0,0,35);
+      break;
+    }
+  }
+  
+  document.all.auto.style.left = String(auto_x)+"px";
+  document.all.auto.style.top = String(auto_y)+"px";
+  document.all.auto.src = auto[(Math.round(-Math.atan2(auto_ry,auto_rx)/2/Math.PI*60)+60)%60].src;
+  
+  switch (zeit) {
+    case -120 : { document.all.start.innerHTML = "3"; break; }
+    case -80 : { document.all.start.innerHTML = "2"; break; }
+    case -40 : { document.all.start.innerHTML = "1"; break; }
+    case 0 : { document.all.start.innerHTML = "LOS"; break; }
+    case 40 : { document.all.start.innerHTML = ""; break; }
+  }
+  if (zeit<40)
+    document.all.start.style.color = "rgb("+String(100-(zeit+120)%40/2)+"%,0%,0%)";
+  
+  if (im_ziel==false) {
+    zeit++;
+    checkpoint(feld_x/160-1,feld_y/160);
+    if (feld_x/160-1==ziel_x && feld_y/160==ziel_y && runden.length==0) {
+      switch (ziel_t) {
+        case "ziel_vo" : {
+          if (auto_y+12<feld_y+35)
+            imZiel(0);
+          break;
+        }
+        case "ziel_vu" : {
+          if (auto_y+64-12>feld_y+160-35)
+            imZiel(1);
+          break;
+        }
+        case "ziel_hl" : {
+          if (auto_x+12<feld_x+35)
+            imZiel(2);
+          break;
+        }
+        case "ziel_hr" : {
+          if (auto_x+64-12>feld_x+160-35)
+            imZiel(3);
+          break;
+        }
+      }
+    }
+  }
+  
+  auto_x_alt = auto_x;
+  auto_y_alt = auto_y;
+}
+
+function tune(kat,r) {
+  if (r>0) {
+    if (punkte>0 && tuning[kat]<5) {
+      document.getElementById("t_"+String(kat)+"_"+String(tuning[kat])).style.backgroundColor = "#FF0000";
+      tuning[kat]++;
+      punkte--;
+    }
+  }
+  else if (tuning[kat]>0) {
+    tuning[kat]--;
+    punkte++;
+    document.getElementById("t_"+String(kat)+"_"+String(tuning[kat])).style.backgroundColor = "#999999";
+  }
+  document.all.punkte.innerHTML = String(punkte);
+}
+
+function gedrueckt(ereignis) {
+  if (window.event)
+    ereignis = window.event;
+  if (ereignis.which)
+    var taste = ereignis.which;
+  else
+    var taste = ereignis.keyCode;
+  switch (taste) {
+    case 37 : { taste_links = true; break; }
+    case 38 : { taste_hoch = true; break; }
+    case 39 : { taste_rechts = true; break; }
+    case 40 : { taste_runter = true; break; }
+  }
+}
+
+function losgelassen(ereignis) {
+  if (window.event)
+    ereignis = window.event;
+  if (ereignis.which)
+    var taste = ereignis.which;
+  else
+    var taste = ereignis.keyCode;
+  switch (taste) {
+    case 37 : { taste_links = false; break; }
+    case 38 : { taste_hoch = false; break; }
+    case 39 : { taste_rechts = false; break; }
+    case 40 : { taste_runter = false; break; }
+  }
+}
+
+document.onkeydown = gedrueckt;
+document.onkeyup = losgelassen;
+
+</script>
+
+<body onload="document.all.laden.style.visibility = 'hidden';" style="margin:0px;">
+
+<table id="laden" style="position:absolute; left:0; top:0; z-index:3;" width=960 height=640 bgcolor=#CCCCCC><tr><td align=center valign=middle style="font-size:24px;">Spiel wird geladen...</td></tr></table>
+
+<img id="auto" style="position:absolute; z-index:1;">
+
+<table cellpadding=0 cellspacing=0 style="border-collapse:collapse;">
+<tr><td width=148 bgcolor=#CCCCCC valign=middle style="padding:6px;">
+<span id="num"></span><hr color=#000000 style="margin-bottom:10px;">
+<table cellpadding=0 cellspacing=0 width=148><tr><td height=20>Zeit</td><td align=right id="anz_zeit"></td></tr><tr><td height=20>beste Zeit</td><td align=right id="anz_bestezeit">0 : 00 . 00</td></tr><tr><td height=20>min. Zeit</td><td align=right id="anz_minzeit"></td></tr><tr><td height=20>Runde</td><td align=right id="anz_runde"></td></tr></table>
+</td><td><img id="0_0"></td><td><img id="1_0"></td><td><img id="2_0"></td><td><img id="3_0"></td><td><img id="4_0"></td></tr>
+<tr><td width=148 bgcolor=#CCCCCC id="optionen" valign=top style="padding:6px;" align=center><input type="button" value="Start" onclick="neuladen(); if (timer_on==false) { timer = setInterval('spiel();',25); timer_on = true; }">
+<script type="text/javascript">
+if (window.location.search!=="") {
+  document.write("<input type='button' value='Editor' onclick='location.href = \"editor.htm\"+unescape(window.location.search);'>");
+  document.write("<input type='button' value='Zurück zum Spiel' onclick='location.href = \"index.htm\";'>");
+}
+else {
+  document.write("<input id='weiter' disabled type='button' value='Nächstes Rennen' onclick='strecke++; laden(strecke); neuladen(); if (timer_on==true) { clearInterval(timer); timer_on = false; }'>");
+  document.write("<input id='zurueck' disabled type='button' value='Voriges Rennen' onclick='strecke--; laden(strecke); neuladen(); if (timer_on==true) { clearInterval(timer); timer_on = false; }'>");
+  document.write("<input type='button' value='Editor' onclick='location.href = \"editor.htm\";'>");
+}
+</script>
+</td><td><img id="0_1"></td><td><img id="1_1"></td><td><img id="2_1"></td><td><img id="3_1"></td><td><img id="4_1"></td></tr>
+<tr><td rowspan=2 width=148 bgcolor=#CCCCCC id="tuning" valign=middle style="padding:6px;">
+
+Punkte : <span id="punkte"></span>
+
+<br><br>
+Geschwindigkeit
+<table cellspacing=2 cellpadding=0 style="table-layout:fixed; margin-top:4px;" border=0 align=center><tr>
+<td width=18 height=18><input type="button" value="-" style="width:18px; height:18px; margin:0px;" onclick="tune(0,-1);"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_0_0"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_0_1"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_0_2"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_0_3"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_0_4"></td>
+<td width=18 height=18><input type="button" value="+" style="width:18px; height:18px; margin:0px;" onclick="tune(0,1);"></td>
+</tr></table>
+
+<br>
+Beschleunigung
+<table cellspacing=2 cellpadding=0 style="table-layout:fixed; margin-top:4px;" border=0 align=center><tr>
+<td width=18 height=18><input type="button" value="-" style="width:18px; height:18px; margin:0px;" onclick="tune(1,-1);"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_1_0"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_1_1"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_1_2"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_1_3"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_1_4"></td>
+<td width=18 height=18><input type="button" value="+" style="width:18px; height:18px; margin:0px;" onclick="tune(1,1);"></td>
+</tr></table>
+
+<br>
+Handling
+<table cellspacing=2 cellpadding=0 style="table-layout:fixed; margin-top:4px;" border=0 align=center><tr>
+<td width=18 height=18><input type="button" value="-" style="width:18px; height:18px; margin:0px;" onclick="tune(2,-1);"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_2_0"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_2_1"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_2_2"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_2_3"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_2_4"></td>
+<td width=18 height=18><input type="button" value="+" style="width:18px; height:18px; margin:0px;" onclick="tune(2,1);"></td>
+</tr></table>
+
+<br>
+Lenkung
+<table cellspacing=2 cellpadding=0 style="table-layout:fixed; margin-top:4px;" border=0 align=center><tr>
+<td width=18 height=18><input type="button" value="-" style="width:18px; height:18px; margin:0px;" onclick="tune(3,-1);"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_3_0"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_3_1"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_3_2"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_3_3"></td>
+<td width=18 height=18 bgcolor=#999999 id="t_3_4"></td>
+<td width=18 height=18><input type="button" value="+" style="width:18px; height:18px; margin:0px;" onclick="tune(3,1);"></td>
+</tr></table>
+
+</td><td><img id="0_2"></td><td><img id="1_2"></td><td><img id="2_2"></td><td><img id="3_2"></td><td><img id="4_2"></td></tr>
+<tr><td><img id="0_3"></td><td><img id="1_3"></td><td><img id="2_3"></td><td><img id="3_3"></td><td><img id="4_3"></td></tr>
+</table>
+
+<img style="position:absolute; left:0px; top:0px;" id="ziel">
+
+<table style="position:absolute; left:160px; top:0px; z-index:2;"><tr><td style="font-size:64px;" width=800 height=640 id="start" align=center></td></tr></table>
+
+<table id="ende" bgcolor=#CCCCCC style="position:absolute; left:400px; top:200px; border:1px solid black; z-index:2; visibility:hidden;" cellpadding=10><tr><td width=320 height=240>
+Sie haben alle Strecken freigeschaltet!<br><br>
+Sie können nun versuchen neue Bestzeiten für jede Strecke aufzustellen.<br>
+Vielen Dank, dass Sie dieses JavaScript-Rennspiel gespielt haben und weiterhin viel Spaß beim spielen!<br><br>
+<p align=right style="font-size:10px;">© 2005 Sascha Swiercy</p><br>
+<center><input type="button" value="Schließen" onclick="document.all.ende.style.visibility = 'hidden';"></center>
+</td></tr></table>
+
+<script type="text/javascript">
+laden(strecke);
+neuladen();
+</script>
+
+</body>
+
+</html>

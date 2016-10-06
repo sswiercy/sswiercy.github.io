@@ -1,0 +1,212 @@
+<html>
+<head><title>Snake</title></head>
+
+<style type="text/css">
+body, td {
+  font-family : "Arial";
+  font-size : 12px;
+  font-weight : bold;
+}
+</style>
+
+<body>
+
+<table align=center bgcolor=#EAEAEA style="table-layout:auto;" cellpadding=6 width=504 height=440 cellspacing=1 border=0>
+<script type="text/javascript">
+col = new Array(17);
+for (var i=0; i<17; i++) {
+  document.write("<tr>");
+  col[i] = new Array(21);
+  for (var j=0; j<21; j++) {
+    if ((i==0) | (i==16) | (j==0) | (j==20)) {
+      document.write("<td id='feld_"+String(j)+"_"+String(i)+"' width=24 height=24 bgcolor=#C0C0C0></td>");
+      col[i][j] = 1;
+    }
+    else {
+      document.write("<td id='feld_"+String(j)+"_"+String(i)+"' width=24 height=24></td>");
+      col[i][j] = 0;
+    }
+  }
+  document.write("</tr>");
+}
+</script>
+<tr><td colspan=4 height=32><p id="punkteanzeige">Punkte : 0</p></td><td colspan=6 id="bonusanzeige"></td><td colspan=11 align=right><p id="highscore"></p></td></tr>
+<tr><td colspan=21 align=right bgcolor=#FFFFFF><font size=1>© 2005 Sascha Swiercy</font></td></tr>
+</table>
+
+<script type="text/javascript">
+if (document.cookie) {
+  document.all.highscore.innerHTML = "Highscore : "+String(document.cookie);
+}
+
+colend = false;
+n_end = 0;
+punkte = 0;
+bonus = false;
+ind = 0;
+ind2 = 0;
+
+x = new Array();
+y = new Array();
+
+x[0] = 10;
+y[0] = 8;
+x[1] = 10;
+y[1] = 8;
+x[2] = 10;
+y[2] = 8;
+n = 3;
+d = 0;
+document.getElementById("feld_"+String(x[0])+"_"+String(y[0])).bgColor = "00A400";
+col[y[0]][x[0]] = 1;
+
+function bonusablauf(i) {
+  if (ind==i)
+    bonus = false;
+}
+
+function anzeige_loeschen(i) {
+  if (ind2==i)
+    document.all.bonusanzeige.innerHTML = "";
+}
+
+function richtung(e) {
+  var check = false;
+  if (d==0)
+    check = true;
+  if (!e)
+    e = window.event;
+  if (e.which)
+    switch (e.which) {
+      case 37 :
+        if (x[1]!=x[0]-1)
+          d = 3;
+        break;
+      case 38 :
+        if (y[1]!=y[0]-1)
+          d = 2;
+        break;
+      case 39 :
+        if (x[1]!=x[0]+1)
+          d = 1;
+        break;
+      case 40 :
+        if (y[1]!=y[0]+1)
+          d = 4;
+        break;
+    }
+  else
+    switch (e.keyCode) {
+      case 37 :
+        if (x[1]!=x[0]-1)
+          d = 3;
+        break;
+      case 38 :
+        if (y[1]!=y[0]-1)
+          d = 2;
+        break;
+      case 39 :
+        if (x[1]!=x[0]+1)
+          d = 1;
+        break;
+      case 40 :
+        if (y[1]!=y[0]+1)
+          d = 4;
+        break;
+    }
+  if (check)
+    step();
+}
+document.onkeydown = richtung;
+
+function setze_feld(x,y,c) {
+  document.getElementById("feld_"+String(x)+"_"+String(y)).bgColor = c;
+  col[y][x] = 1;
+}
+
+function loesche_feld(x,y) {
+  document.getElementById("feld_"+String(x)+"_"+String(y)).bgColor = "";
+  col[y][x] = 0;
+}
+
+function step() {
+  if (!colend) {
+    loesche_feld(x[n-1],y[n-1]);
+    for (var i=n-1; i>0; i--) {
+      x[i] = x[i-1];
+      y[i] = y[i-1];
+      setze_feld(x[i],y[i],"00CC00");
+    }
+    switch (d) {
+      case 1 :
+        x[0] += 1;
+        break;
+      case 2 :
+        y[0] -= 1;
+        break;
+      case 3 :
+        x[0] -= 1;
+        break;
+      case 4 :
+        y[0] += 1;
+        break;
+    }
+    if (col[y[0]][x[0]]==1) {
+      colend = true;
+      ablauf = new Date();
+      ablauf.setTime(ablauf.getTime()+30*24*60*60*1000);
+      if (document.cookie) {
+        if (Number(document.cookie)<punkte)
+          document.cookie = String(punkte)+"; expires="+ablauf.toGMTString();
+      }
+      else
+        document.cookie = String(punkte)+"; expires="+ablauf.toGMTString();
+    }
+    if (col[y[0]][x[0]]==2) {
+      x[n] = x[n-1];
+      y[n] = y[n-1];
+      n++;
+      col[y[0]][x[0]]==0;
+      sammeln();
+      if (bonus) {
+        punkte += 5;
+        document.all.bonusanzeige.innerHTML = "<font color=#FF0000>+ 5 Bonus</font>";
+        ind2++;
+        setTimeout("anzeige_loeschen("+String(ind2)+");",1000);
+      }
+      bonus = true;
+      ind++;
+      setTimeout("bonusablauf("+String(ind)+");",3000);
+      
+      punkte+=10;
+      document.all.punkteanzeige.innerHTML = "Punkte : "+String(punkte);
+    }
+    
+    setze_feld(x[0],y[0],"00A400");
+    
+    setTimeout("step()",135);
+  }
+  else {
+    if (n_end<n) {
+      document.getElementById("feld_"+String(x[n_end])+"_"+String(y[n_end])).bgColor = "FF0000";
+      n_end++;
+      setTimeout("step()",100);
+    }
+  }
+}
+
+function sammeln() {
+  do {
+    var x = Math.floor(Math.random()*19)+1;
+    var y = Math.floor(Math.random()*15)+1;
+  } while (col[y][x]!=0)
+  document.getElementById("feld_"+String(x)+"_"+String(y)).bgColor = "996633";
+  col[y][x] = 2;
+}
+sammeln()
+
+</script>
+
+</body>
+
+</html>
