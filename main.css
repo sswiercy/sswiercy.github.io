@@ -2,7 +2,7 @@ body {
 	background-color: #eee;
 	color: #444;
 	font-family: sans-serif;
-	margin: 2rem 0rem;
+	margin: 1.5rem 0rem;
 }
 
 h1, h2, h3, p {
@@ -11,6 +11,7 @@ h1, h2, h3, p {
 }
 
 img {
+	margin-right: 0.5rem;
 	vertical-align: middle;
 }
 
@@ -60,8 +61,4 @@ a:hover, a:active {
 .project-details {
 	font-style: italic;
 	margin-left: 0.5rem;
-}
-
-.project-images {
-	background-color: #bbb;
 }
