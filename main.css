@@ -1,0 +1,67 @@
+body {
+	background-color: #eee;
+	color: #444;
+	font-family: sans-serif;
+	margin: 2rem 0rem;
+}
+
+h1, h2, h3, p {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+img {
+	vertical-align: middle;
+}
+
+a:link, a:hover, a:active {
+	color: #00c;
+}
+
+a:visited {
+	color: #339;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	text-decoration: underline;
+}
+
+.author, .project-text {
+	background-color: #ddd;
+	border-color: #444;
+	border-style: solid;
+	border-width: 0.15rem 0rem;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+}
+
+.author, .project-text, .project-images {
+	padding-left: 3.5rem;
+}
+
+.author-left {
+	float: left;
+	font-weight: bold;
+	margin-right: 1.5rem;
+}
+
+.author-element, .project-text-line {
+	padding: 0.1rem 0rem;
+}
+
+.project-text {
+	margin: 1.5rem 0rem 0.5rem 0rem;
+}
+
+.project-details {
+	font-style: italic;
+	margin-left: 0.5rem;
+}
+
+.project-images {
+	background-color: #bbb;
+}
