@@ -59,6 +59,7 @@ a:hover, a:active {
 }
 
 .project-details {
+	color: #666;
 	font-style: italic;
 	margin-left: 0.5rem;
 }
