@@ -11,7 +11,7 @@ h1, h2, h3, p {
 }
 
 img {
-	margin-right: 0.5rem;
+	margin: 0.5rem 0.5rem 0rem 0rem;
 	vertical-align: middle;
 }
 
@@ -55,7 +55,8 @@ a:hover, a:active {
 }
 
 .project-text {
-	margin: 1.5rem 0rem 0.5rem 0rem;
+	margin-top: 1.5rem;
+	padding-right: 0.5rem;
 }
 
 .project-details {
