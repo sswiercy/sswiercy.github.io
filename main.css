@@ -78,43 +78,26 @@ a:hover, a:active {
 	padding: 0.25em 0.5em;
 	vertical-align: middle;
 }
-
-.project-label.sdl {
-	background-color: #aa0;
-}
-
-.project-label.sdl:after {
-	content: "SDL";
+.project-label > a {
+	color: #eee;
 }
 
 .project-label.c-language {
 	background-color: #c00;
 }
 
-.project-label.c-language:after {
-	content: "C";
+.project-label.extension {
+	background-color: #0aa;
 }
 
 .project-label.game-maker {
 	background-color: #0c0;
 }
 
-.project-label.game-maker:after {
-	content: "Game Maker";
-}
-
-.project-label.game-maker-ext {
-	background-color: #0aa;
-}
-
-.project-label.game-maker-ext:after {
-	content: "Game Maker Extension";
-}
-
 .project-label.javascript {
 	background-color: #a0a;
 }
 
-.project-label.javascript:after {
-	content: "JavaScript";
+.project-label.sdl {
+	background-color: #aa0;
 }
