@@ -3,25 +3,25 @@ window.onload = function() {
 	const labelData = {
 		"c-language": {
 			name: "C",
-			title: "Written in the C programming language"
+			title: "Geschrieben in der Programmiersprache C"
 		},
 		"extension": {
 			name: "Extension",
-			title: "Provides extended functionality"
+			title: "Stellt erweiterte Funktionalität zur Verfügung"
 		},
 		"game-maker": {
 			name: "Game Maker",
 			href: "https://www.yoyogames.com/gamemaker",
-			title: "Developed using the Game Maker by YoYo Games"
+			title: "Entwickelt mit dem Game Maker von YoYo Games"
 		},
 		"javascript": {
 			name: "JavaScript",
-			title: "Written in JavaScript"
+			title: "Geschrieben in JavaScript"
 		},
 		"sdl": {
 			name: "SDL",
 			href: "https://www.libsdl.org/",
-			title: "Developed using the Simple DirectMedia Layer"
+			title: "Entwickelt mit der Simple DirectMedia Layer Bibliothek"
 		}
 	};
 	
