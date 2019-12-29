@@ -49,7 +49,7 @@ function loadLabels() {
 	);
 }
 
-const gallery = (function() {
+const galleryController = (function() {
 	
 	let images;
 	let index;
@@ -142,5 +142,5 @@ const gallery = (function() {
 
 window.onload = function() {
 	loadLabels();
-	gallery.load();
+	galleryController.load();
 }
