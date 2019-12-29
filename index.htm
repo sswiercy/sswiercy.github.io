@@ -7,17 +7,15 @@
 		<script src="main.js"></script>
 	</head>
 	<body>
-		<div id="overlay">
+		<div id="gallery">
 			<div class="navbar">
-				<span class="title">Eingabedaten</span>
-				<button class="nav">&laquo;</button>
-				<span class="counter">1 / 3</span>
-				<button class="nav">&raquo;</button>
-				<button class="close">&times;</button>
+				<span id="gallery-title"></span>
+				<button class="nav" onclick="gallery.previous()">&laquo;</button>
+				<span id="gallery-counter"></span>
+				<button class="nav" onclick="gallery.next()">&raquo;</button>
+				<button class="close" onclick="gallery.hide()">&times;</button>
 			</div>
-			<div class="content">
-				<a href="content/hashi-solver/img/large/3.jpg"><img src="content/hashi-solver/img/large/3.jpg"/></a>
-			</div>
+			<div id="gallery-content"></div>
 		</div>
 		<h1>Autor</h1>
 		<div class="author">
@@ -37,12 +35,12 @@
 				<span class="project-details">(10,5 KB)</span>
 				<span class="project-label c-language"></span>
 			</div>
-			<div class="project-text-line">Konsolenanwendung zum Lösen von Hashiwokakero Logikrätsel inklusive Quellcode (<a href="content/hashi-solver/doc.htm">Dokumentation</a>)</div>
+			<div class="project-text-line">Konsolenanwendung zum Lösen von <em>Hashiwokakero</em> Logikrätsel inklusive Quellcode (<a href="content/hashi-solver/doc.htm">Dokumentation</a>)</div>
 		</div>
 		<div class="project-images">
-			<a href="content/hashi-solver/img/large/1.jpg"><img src="content/hashi-solver/img/small/1.jpg" alt="Eingabedaten"/></a>
-			<a href="content/hashi-solver/img/large/2.jpg"><img src="content/hashi-solver/img/small/2.jpg" alt="Lösung in Textform"/></a>
-			<a href="content/hashi-solver/img/large/3.jpg"><img src="content/hashi-solver/img/small/3.jpg" alt="Lösung in grafischer Darstellung"/></a>
+			<img src="content/hashi-solver/img/small/1.jpg" data-large="content/hashi-solver/img/large/1.jpg" alt="Eingabedaten"/>
+			<img src="content/hashi-solver/img/small/2.jpg" data-large="content/hashi-solver/img/large/2.jpg" alt="Lösung in Textform"/>
+			<img src="content/hashi-solver/img/small/3.jpg" data-large="content/hashi-solver/img/large/3.jpg" alt="Lösung in grafischer Darstellung"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -54,11 +52,11 @@
 			<div class="project-text-line">Tischtennisspiel in der Seitenansicht, bei dem der Ball zum Zielen stoppt, und das sich wahlweise gegen einen computergesteuerten Gegner oder im Zweispielermodus spielen lässt</div>
 		</div>
 		<div class="project-images">
-			<a href="content/ping-pong/img/large/1.jpg"><img src="content/ping-pong/img/small/1.jpg" alt="Spieleinstellungen"/></a>
-			<a href="content/ping-pong/img/large/2.jpg"><img src="content/ping-pong/img/small/2.jpg" alt="Steuerung und Schwierigkeitsgrad"/></a>
-			<a href="content/ping-pong/img/large/3.jpg"><img src="content/ping-pong/img/small/3.jpg" alt="Laufendes Spiel"/></a>
-			<a href="content/ping-pong/img/large/4.jpg"><img src="content/ping-pong/img/small/4.jpg" alt="Pausiertes Spiel"/></a>
-			<a href="content/ping-pong/img/large/5.jpg"><img src="content/ping-pong/img/small/5.jpg" alt="Beendetes Spiel"/></a>
+			<img src="content/ping-pong/img/small/1.jpg" data-large="content/ping-pong/img/large/1.jpg" alt="Spieleinstellungen"/>
+			<img src="content/ping-pong/img/small/2.jpg" data-large="content/ping-pong/img/large/2.jpg" alt="Steuerung und Schwierigkeitsgrad"/>
+			<img src="content/ping-pong/img/small/3.jpg" data-large="content/ping-pong/img/large/3.jpg" alt="Laufendes Spiel"/>
+			<img src="content/ping-pong/img/small/4.jpg" data-large="content/ping-pong/img/large/4.jpg" alt="Pausiertes Spiel"/>
+			<img src="content/ping-pong/img/small/5.jpg" data-large="content/ping-pong/img/large/5.jpg" alt="Beendetes Spiel"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -70,13 +68,13 @@
 			<div class="project-text-line">Programm zum Zählen von Darts Spielen, das sich über eine serielle Schnittstelle mit einer echten, elektronischen Dartscheibe verbinden lässt (<a href="content/darts/doc.htm">Dokumentation</a>)</div>
 		</div>
 		<div class="project-images">
-			<a href="content/darts/img/large/1.jpg"><img src="content/darts/img/small/1.jpg" alt="Spieler hat triple 20 geworfen"/></a>
-			<a href="content/darts/img/large/2.jpg"><img src="content/darts/img/small/2.jpg" alt="Spieler hat mit triple 15 überworfen"/></a>
-			<a href="content/darts/img/large/3.jpg"><img src="content/darts/img/small/3.jpg" alt="Weboberfläche zum Einstellen und Starten"/></a>
-			<a href="content/darts/img/large/4.jpg"><img src="content/darts/img/small/4.jpg" alt="Verlauf aller gespielten Spiele"/></a>
-			<a href="content/darts/img/large/5.jpg"><img src="content/darts/img/small/5.jpg" alt="Statistische Auswertung aller Spieler"/></a>
-			<a href="content/darts/img/large/6.jpg"><img src="content/darts/img/small/6.jpg" alt="Häufigkeitsverteilung der getroffenen Segmente"/></a>
-			<a href="content/darts/img/large/7.jpg"><img src="content/darts/img/small/7.jpg" alt="Verkabelung einer Dartscheibe mit einem Arduino"/></a>
+			<img src="content/darts/img/small/1.jpg" data-large="content/darts/img/large/1.jpg" alt="Spieler hat Triple 20 geworfen"/>
+			<img src="content/darts/img/small/2.jpg" data-large="content/darts/img/large/2.jpg" alt="Spieler hat mit Triple 15 überworfen"/>
+			<img src="content/darts/img/small/3.jpg" data-large="content/darts/img/large/3.jpg" alt="Weboberfläche zum Einstellen und Starten"/>
+			<img src="content/darts/img/small/4.jpg" data-large="content/darts/img/large/4.jpg" alt="Verlauf aller gespielten Spiele"/>
+			<img src="content/darts/img/small/5.jpg" data-large="content/darts/img/large/5.jpg" alt="Statistische Auswertung aller Spieler"/>
+			<img src="content/darts/img/small/6.jpg" data-large="content/darts/img/large/6.jpg" alt="Häufigkeitsverteilung der getroffenen Segmente"/>
+			<img src="content/darts/img/small/7.jpg" data-large="content/darts/img/large/7.jpg" alt="Verkabelung einer Dartscheibe mit einem Arduino"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -88,12 +86,12 @@
 			<div class="project-text-line">Steuere die Raketenbohne von <a href="https://www.rocketbeans.tv/">Rocket Beans TV</a> durch das Weltall, um verlorene Bohnen einzusammeln und nutze dabei die Gravitation umliegender Planeten</div>
 		</div>
 		<div class="project-images">
-			<a href="content/beans-vs-gravity/img/large/1.jpg"><img src="content/beans-vs-gravity/img/small/1.jpg" alt="Hauptmenü"/></a>
-			<a href="content/beans-vs-gravity/img/large/2.jpg"><img src="content/beans-vs-gravity/img/small/2.jpg" alt="Levelauswahl"/></a>
-			<a href="content/beans-vs-gravity/img/large/3.jpg"><img src="content/beans-vs-gravity/img/small/3.jpg" alt="Aktiver Boost"/></a>
-			<a href="content/beans-vs-gravity/img/large/4.jpg"><img src="content/beans-vs-gravity/img/small/4.jpg" alt="Explodierende Asteroiden"/></a>
-			<a href="content/beans-vs-gravity/img/large/5.jpg"><img src="content/beans-vs-gravity/img/small/5.jpg" alt="Portale"/></a>
-			<a href="content/beans-vs-gravity/img/large/6.jpg"><img src="content/beans-vs-gravity/img/small/6.jpg" alt="Levelabschluss"/></a>
+			<img src="content/beans-vs-gravity/img/small/1.jpg" data-large="content/beans-vs-gravity/img/large/1.jpg" alt="Hauptmenü"/>
+			<img src="content/beans-vs-gravity/img/small/2.jpg" data-large="content/beans-vs-gravity/img/large/2.jpg" alt="Levelauswahl"/>
+			<img src="content/beans-vs-gravity/img/small/3.jpg" data-large="content/beans-vs-gravity/img/large/3.jpg" alt="Aktiver Boost"/>
+			<img src="content/beans-vs-gravity/img/small/4.jpg" data-large="content/beans-vs-gravity/img/large/4.jpg" alt="Explodierende Asteroiden"/>
+			<img src="content/beans-vs-gravity/img/small/5.jpg" data-large="content/beans-vs-gravity/img/large/5.jpg" alt="Portale"/>
+			<img src="content/beans-vs-gravity/img/small/6.jpg" data-large="content/beans-vs-gravity/img/large/6.jpg" alt="Levelabschluss"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -104,14 +102,14 @@
 			<div class="project-text-line">Rennspiel aus der Vogelperspektive, dessen Strecken durch europäische Metropolen führen</div>
 		</div>
 		<div class="project-images">
-			<a href="content/swerve/img/large/1.jpg"><img src="content/swerve/img/small/1.jpg" alt="Hauptmenü"/></a>
-			<a href="content/swerve/img/large/2.jpg"><img src="content/swerve/img/small/2.jpg" alt="Fahrzeugauswahl"/></a>
-			<a href="content/swerve/img/large/3.jpg"><img src="content/swerve/img/small/3.jpg" alt="Streckenauswahl"/></a>
-			<a href="content/swerve/img/large/4.jpg"><img src="content/swerve/img/small/4.jpg" alt="Rennen in London"/></a>
-			<a href="content/swerve/img/large/5.jpg"><img src="content/swerve/img/small/5.jpg" alt="Piccadilly Circus"/></a>
-			<a href="content/swerve/img/large/6.jpg"><img src="content/swerve/img/small/6.jpg" alt="Start in Paris"/></a>
-			<a href="content/swerve/img/large/7.jpg"><img src="content/swerve/img/small/7.jpg" alt="Rennen in Paris"/></a>
-			<a href="content/swerve/img/large/8.jpg"><img src="content/swerve/img/small/8.jpg" alt="Motion blur bei hoher Geschwindigkeit"/></a>
+			<img src="content/swerve/img/small/1.jpg" data-large="content/swerve/img/large/1.jpg" alt="Hauptmenü"/>
+			<img src="content/swerve/img/small/2.jpg" data-large="content/swerve/img/large/2.jpg" alt="Fahrzeugauswahl"/>
+			<img src="content/swerve/img/small/3.jpg" data-large="content/swerve/img/large/3.jpg" alt="Streckenauswahl"/>
+			<img src="content/swerve/img/small/4.jpg" data-large="content/swerve/img/large/4.jpg" alt="Rennen in London"/>
+			<img src="content/swerve/img/small/5.jpg" data-large="content/swerve/img/large/5.jpg" alt="Piccadilly Circus"/>
+			<img src="content/swerve/img/small/6.jpg" data-large="content/swerve/img/large/6.jpg" alt="Start in Paris"/>
+			<img src="content/swerve/img/small/7.jpg" data-large="content/swerve/img/large/7.jpg" alt="Rennen in Paris"/>
+			<img src="content/swerve/img/small/8.jpg" data-large="content/swerve/img/large/8.jpg" alt="Motion blur bei hoher Geschwindigkeit"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -122,10 +120,10 @@
 			<div class="project-text-line">Elfmeterschießen im Comic-Look, wahlweise gegen den Computer oder einen anderen Spieler</div>
 		</div>
 		<div class="project-images">
-			<a href="content/oolfmeter/img/large/1.jpg"><img src="content/oolfmeter/img/small/1.jpg" alt="Hauptmenü"/></a>
-			<a href="content/oolfmeter/img/large/2.jpg"><img src="content/oolfmeter/img/small/2.jpg" alt="Schussstärke einstellen"/></a>
-			<a href="content/oolfmeter/img/large/3.jpg"><img src="content/oolfmeter/img/small/3.jpg" alt="Aus der Sicht des Torwarts"/></a>
-			<a href="content/oolfmeter/img/large/4.jpg"><img src="content/oolfmeter/img/small/4.jpg" alt="Aus der Sicht des Schützen"/></a>
+			<img src="content/oolfmeter/img/small/1.jpg" data-large="content/oolfmeter/img/large/1.jpg" alt="Hauptmenü"/>
+			<img src="content/oolfmeter/img/small/2.jpg" data-large="content/oolfmeter/img/large/2.jpg" alt="Schussstärke einstellen"/>
+			<img src="content/oolfmeter/img/small/3.jpg" data-large="content/oolfmeter/img/large/3.jpg" alt="Aus der Sicht des Torwarts"/>
+			<img src="content/oolfmeter/img/small/4.jpg" data-large="content/oolfmeter/img/large/4.jpg" alt="Aus der Sicht des Schützen"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -136,10 +134,10 @@
 			<div class="project-text-line">Baue Strecken für eine Achterbahn, die in diesem physikbasierten Spiel zunächst alle Sterne durchfahren muss, bevor sie ihr Ziel erreicht</div>
 		</div>
 		<div class="project-images">
-			<a href="content/coaster-rider/img/large/1.jpg"><img src="content/coaster-rider/img/small/1.jpg" alt="Levelauswahl"/></a>
-			<a href="content/coaster-rider/img/large/2.jpg"><img src="content/coaster-rider/img/small/2.jpg" alt="Stern eingesammelt"/></a>
-			<a href="content/coaster-rider/img/large/3.jpg"><img src="content/coaster-rider/img/small/3.jpg" alt="Boost aufgenommen"/></a>
-			<a href="content/coaster-rider/img/large/4.jpg"><img src="content/coaster-rider/img/small/4.jpg" alt="Kurz vor dem Ziel"/></a>
+			<img src="content/coaster-rider/img/small/1.jpg" data-large="content/coaster-rider/img/large/1.jpg" alt="Levelauswahl"/>
+			<img src="content/coaster-rider/img/small/2.jpg" data-large="content/coaster-rider/img/large/2.jpg" alt="Stern eingesammelt"/>
+			<img src="content/coaster-rider/img/small/3.jpg" data-large="content/coaster-rider/img/large/3.jpg" alt="Boost aufgenommen"/>
+			<img src="content/coaster-rider/img/small/4.jpg" data-large="content/coaster-rider/img/large/4.jpg" alt="Kurz vor dem Ziel"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -150,9 +148,9 @@
 			<div class="project-text-line">Umsetzung des klassischen <em>Hau den Lukas</em> im Kontext des Euro-Towers aus dem Europa-Park</div>
 		</div>
 		<div class="project-images">
-			<a href="content/eurotower-minigame/img/large/1.jpg"><img src="content/eurotower-minigame/img/small/1.jpg" alt="Zielen und Stärke festlegen"/></a>
-			<a href="content/eurotower-minigame/img/large/2.jpg"><img src="content/eurotower-minigame/img/small/2.jpg" alt="Die Platform fliegt nach oben"/></a>
-			<a href="content/eurotower-minigame/img/large/3.jpg"><img src="content/eurotower-minigame/img/small/3.jpg" alt="Bestenliste"/></a>
+			<img src="content/eurotower-minigame/img/small/1.jpg" data-large="content/eurotower-minigame/img/large/1.jpg" alt="Zielen und Stärke festlegen"/>
+			<img src="content/eurotower-minigame/img/small/2.jpg" data-large="content/eurotower-minigame/img/large/2.jpg" alt="Die Platform fliegt nach oben"/>
+			<img src="content/eurotower-minigame/img/small/3.jpg" data-large="content/eurotower-minigame/img/large/3.jpg" alt="Bestenliste"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -163,9 +161,9 @@
 			<div class="project-text-line">Baue Achterbahnen und fahre sie aus der Egoperspektive mit der Möglichkeit die Geschwindigkeit zu steuern, um Bestzeiten zu fahren</div>
 		</div>
 		<div class="project-images">
-			<a href="content/achterbahnfahrer/img/large/1.jpg"><img src="content/achterbahnfahrer/img/small/1.jpg" alt="Hauptmenü"/></a>
-			<a href="content/achterbahnfahrer/img/large/2.jpg"><img src="content/achterbahnfahrer/img/small/2.jpg" alt="Streckeneditor"/></a>
-			<a href="content/achterbahnfahrer/img/large/3.jpg"><img src="content/achterbahnfahrer/img/small/3.jpg" alt="Fahrt auf der Achterbahn"/></a>
+			<img src="content/achterbahnfahrer/img/small/1.jpg" data-large="content/achterbahnfahrer/img/large/1.jpg" alt="Hauptmenü"/>
+			<img src="content/achterbahnfahrer/img/small/2.jpg" data-large="content/achterbahnfahrer/img/large/2.jpg" alt="Streckeneditor"/>
+			<img src="content/achterbahnfahrer/img/small/3.jpg" data-large="content/achterbahnfahrer/img/large/3.jpg" alt="Fahrt auf der Achterbahn"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -176,7 +174,7 @@
 			<div class="project-text-line">Wellensimulation mit verschiedenen Einstellungsmöglichkeiten und der Funktion, eigene Hintergrundbilder laden zu können</div>
 		</div>
 		<div class="project-images">
-			<a href="content/wasserwellen/img/large/1.jpg"><img src="content/wasserwellen/img/small/1.jpg" alt="Vorschau"/></a>
+			<img src="content/wasserwellen/img/small/1.jpg" data-large="content/wasserwellen/img/large/1.jpg" alt="Vorschau"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -187,8 +185,8 @@
 			<div class="project-text-line">Einfache Umsetzung des bekannten Würfelspiels mit Bestenlisten und bis zu drei Spalten, die frei genutzt werden können</div>
 		</div>
 		<div class="project-images">
-			<a href="content/yatzee/img/large/1.jpg"><img src="content/yatzee/img/small/1.jpg" alt="Im Spiel"/></a>
-			<a href="content/yatzee/img/large/2.jpg"><img src="content/yatzee/img/small/2.jpg" alt="Bestenliste"/></a>
+			<img src="content/yatzee/img/small/1.jpg" data-large="content/yatzee/img/large/1.jpg" alt="Im Spiel"/>
+			<img src="content/yatzee/img/small/2.jpg" data-large="content/yatzee/img/large/2.jpg" alt="Bestenliste"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -199,8 +197,8 @@
 			<div class="project-text-line">Chatprogramm für lokale Netzwerke</div>
 		</div>
 		<div class="project-images">
-			<a href="content/lan-chat/img/large/1.jpg"><img src="content/lan-chat/img/small/1.jpg" alt="Raumsuche und Einstellungen"/></a>
-			<a href="content/lan-chat/img/large/2.jpg"><img src="content/lan-chat/img/small/2.jpg" alt="Im Chatraum"/></a>
+			<img src="content/lan-chat/img/small/1.jpg" data-large="content/lan-chat/img/large/1.jpg" alt="Raumsuche und Einstellungen"/>
+			<img src="content/lan-chat/img/small/2.jpg" data-large="content/lan-chat/img/large/2.jpg" alt="Im Chatraum"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -211,8 +209,8 @@
 			<div class="project-text-line">Rätselspiel, basierend auf dem Klassiker <em>Sokoban</em>, mit insgesamt 50 Levels</div>
 		</div>
 		<div class="project-images">
-			<a href="content/block/img/large/1.jpg"><img src="content/block/img/small/1.jpg" alt="Startbildschirm"/></a>
-			<a href="content/block/img/large/2.jpg"><img src="content/block/img/small/2.jpg" alt="Das siebte Level"/></a>
+			<img src="content/block/img/small/1.jpg" data-large="content/block/img/large/1.jpg" alt="Startbildschirm"/>
+			<img src="content/block/img/small/2.jpg" data-large="content/block/img/large/2.jpg" alt="Das siebte Level"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -223,8 +221,8 @@
 			<div class="project-text-line">Digitale Umsetzung des üblicherweise auf Papier gespielten Strategiespiels <em>Käsekästchen</em> mit wahlweise Computergegner oder Zweispielermodus</div>
 		</div>
 		<div class="project-images">
-			<a href="content/squarebattle/img/large/1.jpg"><img src="content/squarebattle/img/small/1.jpg" alt="Spieleinstellungen"/></a>
-			<a href="content/squarebattle/img/large/2.jpg"><img src="content/squarebattle/img/small/2.jpg" alt="Im Spiel"/></a>
+			<img src="content/squarebattle/img/small/1.jpg" data-large="content/squarebattle/img/large/1.jpg" alt="Spieleinstellungen"/>
+			<img src="content/squarebattle/img/small/2.jpg" data-large="content/squarebattle/img/large/2.jpg" alt="Im Spiel"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -235,7 +233,7 @@
 			<div class="project-text-line">Auf dem Prinzip der <em>Türme von Hanoi</em> basierendes Rätselspiel</div>
 		</div>
 		<div class="project-images">
-			<a href="content/pagode/img/large/1.jpg"><img src="content/pagode/img/small/1.jpg" alt="Vorschau"/></a>
+			<img src="content/pagode/img/small/1.jpg" data-large="content/pagode/img/large/1.jpg" alt="Vorschau"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">
@@ -246,7 +244,7 @@
 			<div class="project-text-line">Version des Klassikers <em>Pong!</em>, die nur über das Netzwerk gegen einen anderen Spieler gespielt werden kann</div>
 		</div>
 		<div class="project-images">
-			<a href="content/pong/img/large/1.jpg"><img src="content/pong/img/small/1.jpg" alt="Vorschau"/></a>
+			<img src="content/pong/img/small/1.jpg" data-large="content/pong/img/large/1.jpg" alt="Vorschau"/>
 		</div>
 		<div class="project-text">
 			<div class="project-text-line">

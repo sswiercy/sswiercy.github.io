@@ -5,8 +5,9 @@ body {
 	margin: 1.5em 0em;
 }
 
-#overlay {
+#gallery {
 	background-color: rgba(0, 0, 0, 0.75);
+	display: none;
 	height: 100%;
 	width: 100%;
 	position: fixed;
@@ -14,7 +15,7 @@ body {
 	top: 0em;
 }
 
-#overlay .navbar {
+#gallery .navbar {
 	background-color: #000;
 	box-sizing: border-box;
 	color: #ddd;
@@ -23,28 +24,28 @@ body {
 	padding: 0.375em;
 }
 
-#overlay .navbar .title {
+#gallery-title {
 	font-weight: bold;
 	position: absolute;
 	left: 1.5em;
 	top: 0.9em;
 }
 
-#overlay .navbar .counter {
+#gallery-counter {
 	display: inline-block;
 	font-weight: bold;
 	margin: 0em 1em;
 	vertical-align: middle;
 }
 
-#overlay .content {
+#gallery-content {
 	bottom: 0em;
 	top: 3em;
 	position: absolute;
 	width: 100%;
 }
 
-#overlay img {
+#gallery img {
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -89,7 +90,8 @@ h1 {
 	margin: 1em;
 }
 
-img {
+.project-images img {
+	cursor: pointer;
 	margin: 0.5em 0.5em 0em 0em;
 	vertical-align: middle;
 }

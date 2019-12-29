@@ -1,4 +1,4 @@
-window.onload = function() {
+function loadLabels() {
 	
 	const labelData = {
 		"c-language": {
@@ -47,4 +47,100 @@ window.onload = function() {
 			);
 		}
 	);
+}
+
+const gallery = (function() {
+	
+	let images;
+	let index;
+	
+	function Image(title, url) {
+		this.title = title;
+		this.url = url;
+	}
+	
+	function showGallery() {
+		document.getElementById("gallery").style.display = "block";
+	}
+	
+	function updateTitle() {
+		document.getElementById("gallery-title").innerText = images[index].title;
+	}
+	
+	function updateCounter() {
+		document.getElementById("gallery-counter").innerText = (index + 1) + " / " + images.length;
+	}
+	
+	function updateImage() {
+		const content = document.getElementById("gallery-content");
+		
+		const img = document.createElement("img");
+		const a = document.createElement("a");
+		
+		img.alt = images[index].title;
+		img.src = images[index].url;
+		
+		a.href = images[index].url;
+		a.appendChild(img);
+		
+		if (content.firstChild) {
+			content.removeChild(content.firstChild);
+		}
+		
+		content.appendChild(a);
+	}
+	
+	function update() {
+		updateTitle();
+		updateCounter();
+		updateImage();
+	}
+	
+	return {
+		load: function() {
+			Array.prototype.forEach.call(
+				document.getElementsByClassName("project-images"),
+				function(projectImages) {
+					const myImages = [];
+					Array.prototype.forEach.call(
+						projectImages.getElementsByTagName("img"),
+						function(img, myIndex) {
+							myImages.push(new Image(img.alt, img.getAttribute("data-large")));
+							img.onclick = function() {
+								images = myImages;
+								index = myIndex;
+								showGallery();
+								update();
+							};
+						}
+					);
+				}
+			);
+		},
+		
+		previous: function() {
+			if (!index) {
+				index = images.length;
+			}
+			--index;
+			update();
+		},
+		
+		next: function() {
+			++index;
+			if (index >= images.length) {
+				index = 0;
+			}
+			update();
+		},
+		
+		hide: function() {
+			document.getElementById("gallery").style.display = "none";
+		}
+	};
+})();
+
+window.onload = function() {
+	loadLabels();
+	gallery.load();
 }
