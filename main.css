@@ -5,6 +5,85 @@ body {
 	margin: 1.5em 0em;
 }
 
+#overlay {
+	background-color: rgba(0, 0, 0, 0.75);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	text-align: center;
+	top: 0em;
+}
+
+#overlay .navbar {
+	background-color: #000;
+	box-sizing: border-box;
+	color: #ddd;
+	height: 3em;
+	width: 100%;
+	padding: 0.375em;
+}
+
+#overlay .navbar .title {
+	font-weight: bold;
+	position: absolute;
+	left: 1.5em;
+	top: 0.9em;
+}
+
+#overlay .navbar .counter {
+	display: inline-block;
+	font-weight: bold;
+	margin: 0em 1em;
+	vertical-align: middle;
+}
+
+#overlay .content {
+	bottom: 0em;
+	top: 3em;
+	position: absolute;
+	width: 100%;
+}
+
+#overlay img {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	margin: auto;
+	max-height: 100%;
+	max-width: 100%;
+	position: absolute;
+}
+
+button {
+	background-color: transparent;
+	border: none;
+	border-radius: 0.5em;
+	color: #ddd;
+	cursor: pointer;
+	font-size: 1.5em;
+	font-weight: bold;
+	height: 1.5em;
+	width: 1.5em;
+	margin: 0em;
+	vertical-align: middle;
+}
+
+button.nav {
+	padding-bottom: 0.1em;
+}
+
+button.close {
+	padding-top: 0.1em;
+	position: absolute;
+	right: 1em;
+}
+
+button:hover {
+	background-color: #ddd;
+	color: #000;
+}
+
 h1 {
 	font-size: 1.5em;
 	margin: 1em;
