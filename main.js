@@ -41,7 +41,9 @@ function loadLabels() {
 						}
 						
 						link.title = data.title;
+						
 						element.appendChild(link);
+						element.style.display = "inline-block";
 					}
 				}
 			);
