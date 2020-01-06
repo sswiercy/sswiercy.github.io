@@ -2,6 +2,7 @@
 <html lang="de">
 	<head>
 		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Sascha Swiercy</title>
 		<link rel="stylesheet" href="main.css">
 		<script src="main.js"></script>
@@ -10,10 +11,14 @@
 		<div id="gallery">
 			<div class="navbar">
 				<span id="gallery-title"></span>
-				<button class="nav" onclick="galleryController.previous()">&laquo;</button>
-				<span id="gallery-counter"></span>
-				<button class="nav" onclick="galleryController.next()">&raquo;</button>
-				<button class="close" onclick="galleryController.hide()">&times;</button>
+				<span id="gallery-nav">
+					<button onclick="galleryController.previous()">&laquo;</button>
+					<span id="gallery-counter"></span>
+					<button onclick="galleryController.next()">&raquo;</button>
+				</span>
+				<span id="gallery-close">
+					<button onclick="galleryController.hide()">&times;</button>
+				</span>
 			</div>
 			<div id="gallery-content"></div>
 		</div>
