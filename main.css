@@ -150,6 +150,7 @@ a:hover, a:active {
 
 .project-text-line:first-child {
 	font-size: 1.2em;
+	margin-bottom: 0.25em;
 }
 
 .project-text {
