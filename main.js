@@ -22,14 +22,19 @@ function loadLabels() {
 			name: "SDL",
 			href: "https://www.libsdl.org/",
 			title: "Entwickelt mit der Simple DirectMedia Layer Bibliothek"
+		},
+		"bricklink-studio": {
+			name: "BrickLink Studio",
+			href: "https://www.bricklink.com/v3/studio/download.page",
+			title: "Entworfen mit der LEGO Design Software BrickLink Studio"
 		}
 	};
 	
 	Array.prototype.forEach.call(
 		document.getElementsByClassName("project-label"),
-		function(element) {
+		function (element) {
 			element.className.split(' ').forEach(
-				function(name) {
+				function (name) {
 					const data = labelData[name];
 					
 					if (data) {
@@ -51,7 +56,7 @@ function loadLabels() {
 	);
 }
 
-const galleryController = (function() {
+const galleryController = (function () {
 	
 	let images;
 	let index;
@@ -99,16 +104,17 @@ const galleryController = (function() {
 	}
 	
 	return {
-		load: function() {
+		load: function () {
 			Array.prototype.forEach.call(
 				document.getElementsByClassName("project-images"),
-				function(projectImages) {
+				function (projectImages) {
 					const myImages = [];
 					Array.prototype.forEach.call(
 						projectImages.getElementsByTagName("img"),
-						function(img, myIndex) {
+						function (img, myIndex) {
 							myImages.push(new Image(img.alt, img.getAttribute("data-large")));
-							img.onclick = function() {
+							img.title = img.alt;
+							img.onclick = function () {
 								images = myImages;
 								index = myIndex;
 								showGallery();
@@ -120,7 +126,7 @@ const galleryController = (function() {
 			);
 		},
 		
-		previous: function() {
+		previous: function () {
 			if (!index) {
 				index = images.length;
 			}
@@ -128,7 +134,7 @@ const galleryController = (function() {
 			update();
 		},
 		
-		next: function() {
+		next: function () {
 			++index;
 			if (index >= images.length) {
 				index = 0;
@@ -136,13 +142,13 @@ const galleryController = (function() {
 			update();
 		},
 		
-		hide: function() {
+		hide: function () {
 			document.getElementById("gallery").style.display = "none";
 		}
 	};
 })();
 
-window.onload = function() {
+window.onload = function () {
 	loadLabels();
 	galleryController.load();
 }
