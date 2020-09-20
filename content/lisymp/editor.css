@@ -1,0 +1,103 @@
+div.editor {
+	padding: 0em 1em 1em 1em;
+}
+
+div.editor textarea {
+	background-color: #eee;
+	border-style: none;
+	box-sizing: border-box;
+	display: block;
+	font-size: 1.2em;
+	overflow: auto;
+	padding: 0.5em;
+	resize: vertical;
+	white-space: pre;
+	width: 100%;
+}
+
+#error-box {
+	display: none;
+}
+
+#error {
+	background-color: #fdd;
+	margin: 0em;
+	padding: 0.5em;
+}
+
+#evaluation-box {
+	display: none;
+}
+
+#evaluation {
+	background-color: #eee;
+	font-size: 1.2em;
+	margin: 0em;
+	overflow: auto;
+	padding: 0.5em;
+	tab-size: 4;
+}
+
+div.editor div.nav button,
+div.editor select,
+div.editor input {
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	margin: 1em 0em 0em 0em;
+	padding: 0.5em;
+}
+
+div.editor div.nav button:disabled,
+div.editor select:disabled {
+	background: none;
+	color: #bbb;
+	cursor: default;
+}
+
+div.editor div.nav button {
+	background-color: #ddd;
+}
+
+div.editor div.nav button:hover:not(:disabled) {
+	background-color: #999;
+	color: #fff;
+}
+
+#error button {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 1em;
+	font-style: italic;
+	margin: 0em;
+	padding: 0em;
+}
+
+#error button:hover {
+	text-decoration: underline;
+}
+
+div.editor select,
+div.editor input {
+	background-color: #eee;
+}
+
+div.editor input {
+	cursor: text;
+}
+
+div.editor div.title {
+	background-color: #ddd;
+	font-weight: bold;
+	margin-top: 1em;
+	padding: 0.5em;
+}
+
+#error-box > div.title {
+	background-color: #fbb;
+}
+
+div.editor ol {
+	margin: 0.5em 0em;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>LiSymP</title>
+		<link rel="stylesheet" href="main.css">
+		<link rel="stylesheet" href="problem.css">
+		<link rel="stylesheet" href="editor.css">
+		<script src="language.js"></script>
+		<script src="problem.js"></script>
+		<script src="problem-list.js"></script>
+		<script src="editor.js"></script>
+	</head>
+	<body>
+		<div class="problem">
+			<div id="introduction">
+				<h1>Welcome to <em>LiSymP</em>, a programming game based on a functional programming language!</h1>
+				<p><em>LiSymP</em> stands for <em>List and Symbol programming</em>. Its name refers to the two data types, that the language consists of: <em>Lists</em> and <em>Symbols</em>. The language is explained in detail in tutorials you can choose from the <em>Problem</em> dropdown menu below. The first one explains how to use the program editor while the others go into detail regarding the language itself. After you learned the language and how to use the program editor, you can either use it to write your own programs or take a shot at the other problems you can find in the <em>Problem</em> dropdown menu. They are divided into categories which contain problems of increasing difficulty.</p>
+			</div>
+			<div>
+				<select id="problem-select" onchange="problem.doSelectProblem()" title="Select problem to work on">
+					<option value="">- Problem -</option>
+				</select>
+			</div>
+			<div id="problem-info" class="hidden">
+				<hr>
+				<h1>Description</h1>
+				<div id="description"></div>
+				<div id="validation">
+					<hr>
+					<h1>Validation</h1>
+					<p>It follows the list of problem instances used to validate your solution. Each row in the following table consists of the expression that is evaluated in the context of your definitions, and the expected result. Click on the <em>Validate</em> button below to run the validation. If compiling your definitions fails, an error message appears next to the button. Otherwise, a column named <em>Actual</em> appears in the table and shows the result of each instance with either a green background if it matches the expected value, or red otherwise. On failure, click on the corresponding expression to copy it to the editor so you can analyze what went wrong.</p><p>If all instances are green, you successfully solved the problem and your definitions are saved for this problem in the local storage of your browser. All solved problems are highlighted in the <em>Problem</em> dropdown menu. If you select an already solved problem from there, you are asked whether to restore the solution.</p>
+					<div id="validation-definitions">
+						<p>The following definitions are used for validation and included when the expressions below are evaluated. Note that you cannot define symbols of equal name yourself.</p>
+						<pre id="problem-definitions"></pre>
+					</div>
+					<div class="scroll">
+						<table>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Expression</th>
+									<th>Expected</th>
+									<th class="actual">Actual</th>
+								</tr>
+							</thead>
+							<tbody id="instances"></tbody>
+						</table>
+					</div>
+					<button type="button" id="validate" onclick="problem.doValidate()">Validate</button>
+					<span id="validation-error"></span>
+				</div>
+			</div>
+		</div>
+		<div class="editor">
+			<div class="nav">
+				<button type="button" onclick="editor.doResize()" title="Resize textareas vertically to match content">Resize</button>
+				<button type="button" id="clear" onclick="editor.doClear()" title="Clear definitions and expression" disabled>Clear</button>
+				<input type="text" id="program-name" oninput="editor.doUpdateProgram()" title="Name for storing definitions and expression as program">
+				<button type="button" id="save" onclick="editor.doSave()" title="Save program under the given name" disabled>Save</button>
+				<select id="program" onchange="editor.doSelectProgram()" title="Select stored program for loading or removal">
+					<option>- Program -</option>
+				</select>
+				<button type="button" id="load" onclick="editor.doLoad()" title="Load selected program" disabled>Load</button>
+				<button type="button" id="remove" onclick="editor.doRemove()" title="Remove selected program" disabled>Remove</button>
+			</div>
+			<div class="title">Definitions</div>
+			<textarea id="definitions" rows="10" oninput="editor.doUpdateCode()"></textarea>
+			<div class="title">Expression</div>
+			<textarea id="expression" rows="1" oninput="editor.doUpdateCode()"></textarea>
+			<div class="nav">
+				<button type="button" id="compile" onclick="editor.doCompile()">Compile</button>
+				<button type="button" id="evaluate" onclick="editor.doEvaluate()" disabled>Evaluate</button>
+				<select id="symbol" onchange="editor.doSelectSymbol()" title="Mark definition of symbol and show usages" disabled>
+					<option>- Symbol -</option>
+				</select>
+				<select id="usage" onchange="editor.doSelectUsage()" title="Mark usage of selected symbol" disabled>
+					<option>- Usage -</option>
+				</select>
+				<button type="button" id="previous" onclick="editor.doPrevious()" title="Step through usages in backward direction" disabled>Previous</button>
+				<button type="button" id="next" onclick="editor.doNext()" title="Step through usages in forward direction" disabled>Next</button>
+				<select id="indent" onchange="editor.doSelectIndent()" title="Select levels of indentation for formatting evaluation output" disabled>
+					<option value="0">- Indent -</option>
+				</select>
+			</div>
+			<div id ="error-box">
+				<div class="title">Error</div>
+				<div id="error"></div>
+			</div>
+			<div id="evaluation-box">
+				<div class="title">Evaluation</div>
+				<pre id="evaluation"></pre>
+			</div>
+		</div>
+	</body>
+</html>
