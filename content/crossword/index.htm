@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Crossword Generator</title>
+		<link rel="stylesheet" href="main.css">
+		<script src="dictionary.js"></script>
+		<script src="generator.js"></script>
+		<script src="editor.js"></script>
+	</head>
+	<body>
+		<div id="controls">
+			<fieldset id="grid-size">
+				<legend>Grid</legend>
+				<input type="number" id="width" value="10" min="2" max="100" title="width of grid">
+				&times;
+				<input type="number" id="height" value="10" min="2" max="100" title="height of grid">
+				<input type="button" id="clear-mask" value="Clear" title="clear all letters and deactivated cells of the grid">
+			</fieldset>
+			<fieldset id="mask-storage">
+				<legend title="a mask defines which cells of the grid are active and can be persisted to the local storage of the browser">Mask</legend>
+				<select id="stored-masks" title="select any of the stored masks">
+				</select>
+				<input type="button" id="load" value="Load" title="load the currently selected mask">
+				<input type="button" id="delete" value="Delete" title="delete the currently selected mask">
+				<input type="text" id="mask-name" title="name to use when saving a mask">
+				<input type="button" id="save" value="Save" title="saves the current grid layout as mask using the given name, possibly overwriting an already existing mask with this name">
+			</fieldset>
+			<fieldset id="dictionary">
+				<legend title="a dictionary defines a list of words that are used by the generator to create a crossword puzzle">Dictionary</legend>
+				<span id="dictionary-source">
+					<form>
+						<input type="file" id="dictionary-file">
+					</form>
+					<input type="button" id="dictionary-load" value="Load" title="select a local file containing a dictionary as whitespace (including line breaks) separated words, filtering those that contain characters other than A-Z">
+					<input type="button" id="dictionary-reload" value="Reload" title="reload the dictionary from the selected file in case its content changed">
+					<input type="button" id="dictionary-reset" value="Reset" title="use the default dictionary again instead of the selected file">
+				</span>
+				<span id="dictionary-info">
+					<span id="dictionary-name"></span>(
+					<span id="dictionary-count"></span>words)
+				</span>
+				<fieldset>
+					<legend title="dictionary exceptions are words that are excluded from the dictionary by the generator">Exceptions</legend>
+					<input type="button" id="clear-exceptions" value="Clear" title="remove all dictionary exceptions" disabled>
+					<span id="dictionary-exceptions">
+					</span>
+				</fieldset>
+			</fieldset>
+			<fieldset id="generation">
+				<legend>Generation</legend>
+				<input type="button" id="generate" value="Generate" title="try to generate a crossword puzzle (leaving the grid empty if none is found) using the current settings under the following rules:
+    - words are at least 2 letters long
+    - words range from one deactivated cell to another
+    - any two consecutive cells, horizontally or vertically, are part of a word">
+				<input type="button" id="clear-generation" value="Clear" title="clear all letters of the grid but preserve deactivated cells">
+				<div>
+					<fieldset>
+						<legend>Randomness</legend>
+						<input type="range" id="randomness" min="0" max="1" value="0.5" step="any" title="higher values lead to more random crossword puzzles but may also take longer to generate or lead to no solution at all (try to generate multiple times)">
+					</fieldset>
+					<fieldset>
+						<legend>Max Level</legend>
+						<input type="number" id="max-level" value="10" min="1" title="limits each branch of the search tree to a number of the most promising words to fill in and therefore lower values speed up the search process but may fail to find a valid solution">
+					</fieldset>
+					<fieldset>
+						<legend>Max Total</legend>
+						<input type="number" id="max-total" value="100000" min="1" title="limits the total number of steps to perform in the search process, possibly terminating without a solution">
+					</fieldset>
+				</div>
+			</fieldset>
+		</div>
+		<div id="grid">
+		</div>
+	</body>
+</html>

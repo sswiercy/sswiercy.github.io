@@ -1,0 +1,137 @@
+body {
+	font-family: sans-serif;
+	margin: 0;
+}
+
+#controls {
+	padding: 0 1em;
+}
+
+#dictionary-source {
+	display: inline-block;
+	margin-right: 0.5em;
+}
+
+#dictionary-info {
+	display: inline-block;
+	margin: 0.5em 0;
+}
+
+#dictionary-name {
+	font-weight: bold;
+	margin-right: 0.5em;
+}
+
+#dictionary-count {
+	font-style: italic;
+	margin-right: 0.5em;
+}
+
+#dictionary-exceptions input {
+	background-color: lightcoral;
+	border-radius: 1em;
+}
+
+#dictionary-exceptions input[type="button"]:hover {
+	background-color: indianred;
+}
+
+#generation fieldset {
+	display: inline-block;
+	margin: 0.5em 0.5em 0 0.5em;
+	vertical-align: top;
+}
+
+#grid {
+	padding: 1.5em 1em 1em 1em;
+}
+
+#controls > fieldset {
+	background-color: lightgray;
+	border: 0.1em solid black;
+	box-shadow: 0 0 0.4em gray;
+	margin: 1em 0 0 0;
+}
+
+fieldset fieldset {
+	border-color: black;
+	border-style: dotted;
+	border-width: 0.1em 0 0 0;
+	margin: 0.5em 0 0 0;
+}
+
+#controls > fieldset > legend {
+	font-style: italic;
+	text-shadow: 0 0 0.4em gray;
+}
+
+fieldset fieldset legend {
+	font-size: 0.8em;
+	font-style: italic;
+}
+
+legend[title],
+#dictionary-name[title] {
+	cursor: help;
+}
+
+input[type="file"] {
+	position: absolute;
+	visibility: hidden;
+}
+
+input, select {
+	border: 0.1em solid black;
+	font-size: 1em;
+	margin: 0.2em;
+	padding: 0.4em;
+}
+
+input[type="range"],
+input[type="button"]:not([disabled]),
+select:not([disabled]) {
+	cursor: pointer;
+}
+
+input[type="button"]:hover:not([disabled]) {
+	background-color: darkgray;
+}
+
+input[type="range"] {
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	box-shadow: 0 0 0.4em gray;
+	table-layout: fixed;
+}
+
+td {
+	border: 0.1em solid black;
+	text-align: center;
+	min-width: 2.5em;
+	width: 2.5em;
+	height: 2.5em;
+}
+
+table:not(.generated) td,
+table.generated td.marked {
+	cursor: pointer;
+}
+
+table:not(.generated) td:hover {
+	background-color: lightgray;
+}
+
+td.inactive {
+	background-color: gray;
+}
+
+table:not(.generated) td.inactive:hover {
+	background-color: black;
+}
+
+td.marked {
+	background-color: lightcoral;
+}
