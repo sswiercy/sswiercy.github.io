@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8">
+		<title>Yatzee JS</title>
+        <link rel="stylesheet" href="base.css">
+		<link rel="stylesheet" href="game.css">
+        <script src="base.js"></script>
+		<script src="game.js"></script>
+	</head>
+	<body>
+        <div class="content">
+            <table class="pad def">
+                <tr class="head">
+                    <th class="cat">Kategorie</th>
+                    <th class="calc">Berechnung</th>
+                    <th class="col">1</th>
+                    <th class="col">2</th>
+                    <th class="col">3</th>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">1er</th>
+                    <th class="calc">alle Einser zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">2er</th>
+                    <th class="calc">alle Zweier zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">3er</th>
+                    <th class="calc">alle Dreier zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">4er</th>
+                    <th class="calc">alle Vierer zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">5er</th>
+                    <th class="calc">alle Fünfer zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top fill">
+                    <th class="cat">6er</th>
+                    <th class="calc">alle Sechser zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top sum">
+                    <th class="cat">Summe</th>
+                    <th class="calc">1er bis 6er</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top bonus">
+                    <th class="cat">Bonus bei 63+</th>
+                    <th class="calc">35 Punkte</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top total">
+                    <th class="cat">gesamt oben</th>
+                    <th class="calc">Summe + Bonus</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="sep">
+                    <td colspan="5"></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Dreierpasch</th>
+                    <th class="calc">alle Augen zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Viererpasch</th>
+                    <th class="calc">alle Augen zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Full House</th>
+                    <th class="calc">25 Punkte</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Kleine Straße</th>
+                    <th class="calc">30 Punkte</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Große Straße</th>
+                    <th class="calc">40 Punkte</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Yatzee</th>
+                    <th class="calc">50 Punkte</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot fill">
+                    <th class="cat">Chance</th>
+                    <th class="calc">alle Augen zählen</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="bot total">
+                    <th class="cat">gesamt unten</th>
+                    <th class="calc">Dreierpasch bis Chance</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top total">
+                    <th class="cat">gesamt oben</th>
+                    <th class="calc">Übertrag</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="top bot total">
+                    <th class="cat"></th>
+                    <th class="calc">oben + unten</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="panel">
+                <table class="dice">
+                    <tr>
+                        <th class="roll">werfen</th>
+                        <th class="keep">behalten</th>
+                    </tr>
+                    <tr class="dice">
+                        <td class="roll"></td>
+                        <td class="keep"></td>
+                    </tr>
+                    <tr class="dice">
+                        <td class="roll"></td>
+                        <td class="keep"></td>
+                    </tr>
+                    <tr class="dice">
+                        <td class="roll"></td>
+                        <td class="keep"></td>
+                    </tr>
+                    <tr class="dice">
+                        <td class="roll"></td>
+                        <td class="keep"></td>
+                    </tr>
+                    <tr class="dice">
+                        <td class="roll"></td>
+                        <td class="keep"></td>
+                    </tr>
+                </table>
+                <button id="btn-roll"></button>
+                <button id="btn-restart">neues Spiel</button>
+                <select id="col-count">
+                    <option>Spalten: 1</option>
+                    <option>Spalten: 2</option>
+                    <option>Spalten: 3</option>
+                </select>
+                <button id="btn-highscore">Bestenlisten</button>
+            </div>
+        </div>
+	</body>
+</html>

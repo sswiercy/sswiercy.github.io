@@ -1,0 +1,28 @@
+tr.cols th {
+    background-color: gainsboro;
+}
+
+tr.cols th:nth-child(1) {
+    width: 2em;
+}
+
+tr.cols th:nth-child(2) {
+    width: 10em;
+}
+
+tr.cols th:nth-child(3) {
+    width: 4em;
+}
+
+td {
+    text-align: center;
+}
+
+table td.empty {
+    font-style: italic;
+    padding: 1em 2em;
+}
+
+select {
+    margin: 1em;
+}

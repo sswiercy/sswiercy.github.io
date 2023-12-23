@@ -1,0 +1,106 @@
+table.pad th.col {
+    width: 4em;
+}
+
+table.pad td.inactive {
+    background-color: darkgray;
+}
+
+table.pad td {
+    text-align: center;
+}
+
+table.pad tr.fill td.empty {
+    cursor: pointer;
+}
+
+table.pad tr.fill td.empty:hover {
+    background-color: deepskyblue;
+}
+
+table.pad tr.top:not(.fill) :not(.inactive),
+table.pad tr.bot:not(.fill) :not(.inactive) {
+    background-color: gainsboro;
+}
+
+table.pad th.calc {
+    font-style: italic;
+}
+
+table.pad tr.top th.calc,
+table.pad tr.bot th.calc {
+    font-weight: normal;
+}
+
+table.pad tr.sep {
+    height: 1em;
+}
+
+table.pad tr.sep td {
+    background-color: dimgray;
+    padding: 0;
+}
+
+div.panel {
+    display: inline-block;
+    margin: 1em;
+}
+
+table.dice {
+    border-collapse: collapse;
+    margin-bottom: 1em;
+}
+
+table.dice th {
+    padding: 0.4em 0.8em;
+}
+
+table.dice td {
+    width: 6em;
+    height: 5em;
+    padding: 0;
+}
+
+table.dice th.keep {
+    background-color: darkred;
+    border: 0.25em solid darkred;
+    color: white;
+}
+
+table.dice td.keep {
+    background-color: lightpink;
+    border-left: 0.25em solid darkred;
+    border-right: 0.25em solid darkred;
+}
+
+table.dice tr:last-child td.keep {
+    border-bottom: 0.25em solid darkred;
+}
+
+svg {
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+
+svg rect {
+    fill: lightgray;
+    stroke: black;
+    stroke-width: 0.1;
+}
+
+select {
+    background-color: silver;
+    border-top: none;
+    margin-bottom: 1em;
+    text-align: center;
+    width: 100%;
+}
+
+button#btn-roll {
+    margin-bottom: 1rem;
+}
+
+button#btn-restart {
+    border-bottom: none;
+}

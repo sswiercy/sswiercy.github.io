@@ -1,0 +1,64 @@
+body {
+    background-color: lightblue;
+    font-family: sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+div.content {
+    display: inline-block;
+    overflow: auto;
+    text-align: initial;
+}
+
+table.def {
+    background-color: white;
+    border: 0.25em solid black;
+    border-collapse: collapse;
+    float: left;
+    margin: 1em;
+}
+
+table.def th,
+table.def td {
+    border: 0.1em solid black;
+    padding: 0.4em 0.8em;
+}
+
+table.def tr.head th {
+    background-color: black;
+    border: 0.25em solid black;
+    color: white;
+}
+
+select {
+    border: 0.25em solid black;
+    cursor: pointer;
+    font-size: 100%;
+    padding: 0.2em 0.4em;
+}
+
+button {
+    background-color: gainsboro;
+    border: 0.25rem solid black;
+    display: block;
+    font-size: 150%;
+    padding: 0.4em 0.8em;
+    width: 100%;
+}
+
+button:disabled {
+    border-color: darkgray;
+    color: darkgray;
+}
+
+button:hover:enabled,
+button:active:enabled {
+    background-color: silver;
+    cursor: pointer;
+}
+
+button:active:enabled {
+    background-color: black;
+    color: white;
+}
