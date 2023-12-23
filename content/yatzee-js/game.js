@@ -407,6 +407,6 @@ window.onload = function () {
     };
 
     document.getElementById("btn-highscore").onclick = function () {
-        window.open("highscore", "_blank");
+        window.open("highscore/", "_blank");
     };
 };
