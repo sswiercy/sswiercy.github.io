@@ -81,99 +81,107 @@ function loadLabels() {
 	);
 }
 
-const galleryController = (function () {
-	
-	let images;
-	let index;
-	
-	function Image(title, url) {
-		this.title = title;
-		this.url = url;
-	}
-	
-	function showGallery() {
-		document.getElementById("gallery").style.display = "block";
-	}
-	
-	function updateTitle() {
-		document.getElementById("gallery-title").innerText = images[index].title;
-	}
-	
-	function updateCounter() {
-		document.getElementById("gallery-counter").innerText = (index + 1) + " / " + images.length;
-	}
-	
-	function updateImage() {
-		const content = document.getElementById("gallery-content");
+function Gallery() {
+	this.data;
+	this.index;
+}
+
+Gallery.prototype.selected = function () {
+	return this.data[this.index];
+};
+
+Gallery.prototype.open = function () {
+	document.getElementById("gallery").style.display = "block";
+};
+
+Gallery.prototype.close = function () {
+	document.getElementById("gallery").style.display = "none";
+};
+
+Gallery.prototype.updateTitle = function () {
+	document.getElementById("gallery-title").innerText = this.selected().title;
+};
+
+Gallery.prototype.updateCounter = function () {
+	document.getElementById("gallery-counter").innerText = (this.index + 1) + " / " + this.data.length;
+};
+
+Gallery.prototype.updateImage = function () {
+	const content = document.getElementById("gallery-content");
 		
-		const img = document.createElement("img");
-		const a = document.createElement("a");
-		
-		img.alt = images[index].title;
-		img.src = images[index].url;
-		
-		a.href = images[index].url;
-		a.appendChild(img);
-		
-		if (content.firstChild) {
-			content.removeChild(content.firstChild);
-		}
-		
-		content.appendChild(a);
+	const img = document.createElement("img");
+	const a = document.createElement("a");
+	
+	img.alt = this.selected().title;
+	img.src = this.selected().url;
+	
+	a.href = this.selected().url;
+	a.appendChild(img);
+	
+	if (content.firstChild) {
+		content.removeChild(content.firstChild);
 	}
 	
-	function update() {
-		updateTitle();
-		updateCounter();
-		updateImage();
-	}
-	
-	return {
-		load: function () {
+	content.appendChild(a);
+};
+
+Gallery.prototype.update = function () {
+	this.updateTitle();
+	this.updateCounter();
+	this.updateImage();
+};
+
+Gallery.prototype.load = function () {
+	Array.prototype.forEach.call(
+		document.getElementsByClassName("project-images"),
+		function (projectImages) {
+			const projectData = [];
 			Array.prototype.forEach.call(
-				document.getElementsByClassName("project-images"),
-				function (projectImages) {
-					const myImages = [];
-					Array.prototype.forEach.call(
-						projectImages.getElementsByTagName("img"),
-						function (img, myIndex) {
-							myImages.push(new Image(img.alt, img.getAttribute("data-large")));
-							img.title = img.alt;
-							img.onclick = function () {
-								images = myImages;
-								index = myIndex;
-								showGallery();
-								update();
-							};
+				projectImages.getElementsByTagName("img"),
+				function (img, projectIndex) {
+					projectData.push(
+						{
+							title: img.alt,
+							url: img.getAttribute("data-large")
 						}
 					);
-				}
+					img.title = img.alt;
+					img.onclick = function () {
+						this.data = projectData;
+						this.index = projectIndex;
+						this.open();
+						this.update();
+					}.bind(this);
+				}.bind(this)
 			);
-		},
-		
-		previous: function () {
-			if (!index) {
-				index = images.length;
-			}
-			--index;
-			update();
-		},
-		
-		next: function () {
-			++index;
-			if (index >= images.length) {
-				index = 0;
-			}
-			update();
-		},
-		
-		hide: function () {
-			document.getElementById("gallery").style.display = "none";
-		}
-	};
-})();
+		}.bind(this)
+	);
+	this.register();
+};
+
+Gallery.prototype.register = function () {
+	document.getElementById("gallery-previous-button").onclick = this.previous.bind(this);
+	document.getElementById("gallery-next-button").onclick = this.next.bind(this);
+	document.getElementById("gallery-close-button").onclick = this.close.bind(this);
+};
+
+Gallery.prototype.previous = function () {
+	if (!this.index) {
+		this.index = this.data.length;
+	}
+	--this.index;
+	this.update();
+};
+
+Gallery.prototype.next = function () {
+	++this.index;
+	if (this.index >= this.data.length) {
+		this.index = 0;
+	}
+	this.update();
+};
 
 window.onload = function () {
 	loadLabels();
-	galleryController.load();
+	new Gallery().load();
 };
