@@ -1,13 +1,8 @@
-const DATE_FORMAT = new Intl.DateTimeFormat(
-	"de-DE",
-	{
-		"year": "numeric",
-		"month": "2-digit",
-		"day": "2-digit"
-	}
-);
+function Labels(modifiers) {
+	this.modifiers = modifiers;
+}
 
-function linkModifier(name, title, href) {
+Labels.linkModifier = function (name, title, href) {
 	return function (element) {
 		const a = document.createElement("a");
 		a.innerText = name;
@@ -19,67 +14,76 @@ function linkModifier(name, title, href) {
 		
 		element.appendChild(a);
 	};
-}
+};
 
-function releaseDateModifier(element) {
+Labels.releaseDateModifier = function (element) {
 	const date = new Date(
 		element.getAttribute("data-year"),
 		element.getAttribute("data-month") - 1,
 		element.getAttribute("data-day")
 	);
-	linkModifier(
-		DATE_FORMAT.format(date),
+	Labels.linkModifier(
+		Labels.DATE_FORMAT.format(date),
 		"Veröffentlichungsdatum"
 	)(element);
-}
+};
 
-const LABEL_MODIFIERS = {
-	"release-date": releaseDateModifier,
-	"c-language": linkModifier(
+Labels.DATE_FORMAT = new Intl.DateTimeFormat(
+	"de-DE",
+	{
+		"year": "numeric",
+		"month": "2-digit",
+		"day": "2-digit"
+	}
+);
+
+Labels.MODIFIERS = {
+	"release-date": Labels.releaseDateModifier,
+	"c-language": Labels.linkModifier(
 		"C",
 		"Geschrieben in der Programmiersprache C"
 	),
-	"extension": linkModifier(
+	"extension": Labels.linkModifier(
 		"Extension",
 		"Stellt erweiterte Funktionalität zur Verfügung"
 	),
-	"game-maker": linkModifier(
+	"game-maker": Labels.linkModifier(
 		"Game Maker",
 		"Entwickelt mit dem Game Maker von YoYo Games",
 		"https://www.yoyogames.com/gamemaker"
 	),
-	"javascript": linkModifier(
+	"javascript": Labels.linkModifier(
 		"JavaScript",
 		"Geschrieben in JavaScript"
 	),
-	"sdl": linkModifier(
+	"sdl": Labels.linkModifier(
 		"SDL",
 		"Entwickelt mit der Simple DirectMedia Layer Bibliothek",
 		"https://www.libsdl.org/"
 	),
-	"bricklink-studio": linkModifier(
+	"bricklink-studio": Labels.linkModifier(
 		"BrickLink Studio",
 		"Entworfen mit der LEGO Design Software BrickLink Studio",
 		"https://www.bricklink.com/v3/studio/download.page"
 	)
 };
 
-function loadLabels() {
+Labels.prototype.load = function () {
 	Array.prototype.forEach.call(
 		document.getElementsByClassName("project-label"),
 		function (element) {
 			element.className.split(' ').forEach(
 				function (name) {
-					const modifier = LABEL_MODIFIERS[name];
+					const modifier = this.modifiers[name];
 					if (modifier) {
 						modifier(element);
 					}
-				}
+				}.bind(this)
 			);
 			element.style.display = "inline-block";
-		}
+		}.bind(this)
 	);
-}
+};
 
 function Gallery() {
 	this.data;
@@ -182,6 +186,6 @@ Gallery.prototype.next = function () {
 };
 
 window.onload = function () {
-	loadLabels();
+	new Labels(Labels.MODIFIERS).load();
 	new Gallery().load();
 };
