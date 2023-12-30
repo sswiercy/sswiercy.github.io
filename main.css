@@ -173,8 +173,13 @@ a:hover, a:active {
 	padding: 0.25em 0.5em;
 	vertical-align: middle;
 }
+
 .project-label > a {
 	color: #eee;
+}
+
+.project-label.release-date {
+	background-color: #000;
 }
 
 .project-label.c-language {

@@ -1,57 +1,82 @@
-function loadLabels() {
-	
-	const labelData = {
-		"c-language": {
-			name: "C",
-			title: "Geschrieben in der Programmiersprache C"
-		},
-		"extension": {
-			name: "Extension",
-			title: "Stellt erweiterte Funktionalität zur Verfügung"
-		},
-		"game-maker": {
-			name: "Game Maker",
-			href: "https://www.yoyogames.com/gamemaker",
-			title: "Entwickelt mit dem Game Maker von YoYo Games"
-		},
-		"javascript": {
-			name: "JavaScript",
-			title: "Geschrieben in JavaScript"
-		},
-		"sdl": {
-			name: "SDL",
-			href: "https://www.libsdl.org/",
-			title: "Entwickelt mit der Simple DirectMedia Layer Bibliothek"
-		},
-		"bricklink-studio": {
-			name: "BrickLink Studio",
-			href: "https://www.bricklink.com/v3/studio/download.page",
-			title: "Entworfen mit der LEGO Design Software BrickLink Studio"
+const DATE_FORMAT = new Intl.DateTimeFormat(
+	"de-DE",
+	{
+		"year": "numeric",
+		"month": "2-digit",
+		"day": "2-digit"
+	}
+);
+
+function linkModifier(name, title, href) {
+	return function (element) {
+		const a = document.createElement("a");
+		a.innerText = name;
+		a.title = title;
+		
+		if (href) {
+			a.href = href;
 		}
+		
+		element.appendChild(a);
 	};
-	
+}
+
+function releaseDateModifier(element) {
+	const date = new Date(
+		element.getAttribute("data-year"),
+		element.getAttribute("data-month") - 1,
+		element.getAttribute("data-day")
+	);
+	linkModifier(
+		DATE_FORMAT.format(date),
+		"Veröffentlichungsdatum"
+	)(element);
+}
+
+const LABEL_MODIFIERS = {
+	"release-date": releaseDateModifier,
+	"c-language": linkModifier(
+		"C",
+		"Geschrieben in der Programmiersprache C"
+	),
+	"extension": linkModifier(
+		"Extension",
+		"Stellt erweiterte Funktionalität zur Verfügung"
+	),
+	"game-maker": linkModifier(
+		"Game Maker",
+		"Entwickelt mit dem Game Maker von YoYo Games",
+		"https://www.yoyogames.com/gamemaker"
+	),
+	"javascript": linkModifier(
+		"JavaScript",
+		"Geschrieben in JavaScript"
+	),
+	"sdl": linkModifier(
+		"SDL",
+		"Entwickelt mit der Simple DirectMedia Layer Bibliothek",
+		"https://www.libsdl.org/"
+	),
+	"bricklink-studio": linkModifier(
+		"BrickLink Studio",
+		"Entworfen mit der LEGO Design Software BrickLink Studio",
+		"https://www.bricklink.com/v3/studio/download.page"
+	)
+};
+
+function loadLabels() {
 	Array.prototype.forEach.call(
 		document.getElementsByClassName("project-label"),
 		function (element) {
 			element.className.split(' ').forEach(
 				function (name) {
-					const data = labelData[name];
-					
-					if (data) {
-						const link = document.createElement("a");
-						link.innerText = data.name;
-						
-						if (data.href) {
-							link.href = data.href;
-						}
-						
-						link.title = data.title;
-						
-						element.appendChild(link);
-						element.style.display = "inline-block";
+					const modifier = LABEL_MODIFIERS[name];
+					if (modifier) {
+						modifier(element);
 					}
 				}
 			);
+			element.style.display = "inline-block";
 		}
 	);
 }
@@ -151,4 +176,4 @@ const galleryController = (function () {
 window.onload = function () {
 	loadLabels();
 	galleryController.load();
-}
+};
