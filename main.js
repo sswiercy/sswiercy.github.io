@@ -65,6 +65,11 @@ Labels.MODIFIERS = {
 		"BrickLink Studio",
 		"Entworfen mit der LEGO Design Software BrickLink Studio",
 		"https://www.bricklink.com/v3/studio/download.page"
+	),
+	"android": Labels.linkModifier(
+		"Android",
+		"Als Android App im Google Play Store verfügbar",
+		"https://play.google.com/"
 	)
 };
 
