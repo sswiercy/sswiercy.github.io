@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Multi Golf</title>
+		<link rel="stylesheet" href="game.css">
+		<script src="game-min.js"></script>
+		<script src="course-min.js"></script>
+		<script type="x-shader/x-vertex" id="basic-vertex-shader">
+			#define LIGHT_VECTOR vec3(0.5, 1.0, 1.5)
+			#define LIGHT_CENTER 0.6
+			#define LIGHT_SCALE 0.25
+			
+			attribute vec4 aPosition;
+			attribute vec3 aNormal;
+			attribute vec3 aColor;
+			attribute float aChecker;
+
+			uniform mat4 uMatrix;
+
+			varying vec2 vPosition;
+			varying vec2 vNormal;
+			varying vec3 vColor;
+			varying float vChecker;
+
+			void main() {
+				vPosition = aPosition.xy;
+				vNormal = vec2(length(aNormal.xy), aNormal.z);
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vChecker = aChecker;
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="basic-fragment-shader">
+			#define CHECKER_SIZE 2.0
+			#define CHECKER_MULTIPLIER 0.9
+			#define CHECKER_SLOPE_MIN 0.5
+			#define CHECKER_SLOPE_MAX 1.0
+
+			precision mediump float;
+
+			varying vec2 vPosition;
+			varying vec2 vNormal;
+			varying vec3 vColor;
+			varying float vChecker;
+
+			float checkerMultiplier() {
+				float checkerX = floor(vPosition.x / CHECKER_SIZE);
+				float checkerY = floor(vPosition.y / CHECKER_SIZE);
+				float isChecker = float(mod(checkerX + checkerY, 2.0) < 0.5);
+				float flatness = clamp(
+					(CHECKER_SLOPE_MAX - vNormal.x / vNormal.y) / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 0.0, 1.0
+				);
+				return mix(1.0, CHECKER_MULTIPLIER, vChecker * isChecker * flatness);
+			}
+			
+			void main() {
+				gl_FragColor = vec4(vColor * checkerMultiplier(), 1);
+			}
+		</script>
+		<script type="x-shader/x-vertex" id="arrow-vertex-shader">
+			attribute vec4 aPosition;
+			attribute vec2 aMapping;
+
+			uniform mat4 uMatrix;
+
+			varying vec2 vMapping;
+
+			void main() {
+				vMapping = aMapping;
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="arrow-fragment-shader">
+			precision mediump float;
+
+			uniform vec2 uExtents;
+			uniform vec3 uColor;
+
+			varying vec2 vMapping;
+
+			bool inArrow(float length) {
+				return abs(vMapping.y) <= HALF_WIDTH * uExtents.y
+					&& vMapping.x >= 0.0
+					&& vMapping.x + abs(vMapping.y) * TIP_RATIO <= uExtents.x;
+			}
+
+			bool inSection() {
+				float section = (vMapping.x - uExtents.y * INNER_RADIUS) / (uExtents.y * SECTION_LENGTH);
+				return vMapping.x + TIP_RATIO * HALF_WIDTH >= uExtents.x
+					|| abs(section - floor(section + 0.5)) >= SECTION_GAP;
+			}
+
+			void main() {
+				float length = length(vMapping);
+				if (length >= INNER_RADIUS * uExtents.y &&
+						(length <= uExtents.y || (inArrow(length) && inSection()))) {
+					gl_FragColor = vec4(uColor, 1);
+				} else {
+					discard;
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas></canvas>
+		<span id="strokes"></span>
+	</body>
+</html>
