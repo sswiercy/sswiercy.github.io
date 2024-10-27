@@ -1,42 +1,240 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Multi Golf</title><link rel="stylesheet" href="game-min.css"><script src="game-min.js"></script><script src="course-min.js"></script><script src="client-min.js"></script><script type="x-shader/x-vertex" id="basic-vertex-shader">attribute vec4 aPosition;
-attribute vec3 aNormal;
-attribute vec3 aColor;
-attribute float aChecker; uniform mat4 uMatrix; varying vec2 vPosition;
-varying vec2 vNormal;
-varying vec3 vColor;
-varying float vChecker; void main(){
-vPosition=aPosition.xy;
-vNormal=vec2(length(aNormal.xy), aNormal.z);
-vColor=aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
-vChecker=aChecker;
-gl_Position=uMatrix * aPosition;}
-</script><script type="x-shader/x-fragment" id="basic-fragment-shader">precision mediump float; varying vec2 vPosition;
-varying vec2 vNormal;
-varying vec3 vColor;
-varying float vChecker; float checkerMultiplier(){
-float checkerX=floor(vPosition.x / CHECKER_SIZE);
-float checkerY=floor(vPosition.y / CHECKER_SIZE);
-float isChecker=float(mod(checkerX + checkerY, 2.0) < 0.5);
-float flatness=clamp(
-(CHECKER_SLOPE_MAX - vNormal.x / vNormal.y) / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 0.0, 1.0
-);
-return mix(1.0, CHECKER_MULTIPLIER, vChecker * isChecker * flatness);} void main(){
-gl_FragColor=vec4(vColor * checkerMultiplier(), 1);}
-</script><script type="x-shader/x-vertex" id="arrow-vertex-shader">attribute vec4 aPosition;
-attribute vec2 aMapping; uniform mat4 uMatrix; varying vec2 vMapping; void main(){
-vMapping=aMapping;
-gl_Position=uMatrix * aPosition;}
-</script><script type="x-shader/x-fragment" id="arrow-fragment-shader">precision mediump float; uniform vec2 uExtents;
-uniform vec4 uColor; varying vec2 vMapping; bool inArrow(float length){
-return abs(vMapping.y) <=HALF_WIDTH * uExtents.y
-&& vMapping.x >=0.0
-&& vMapping.x + abs(vMapping.y) * TIP_RATIO <=uExtents.x;} bool inSection(){
-float section=(vMapping.x - uExtents.y * INNER_RADIUS) / (uExtents.y * SECTION_LENGTH);
-return vMapping.x + TIP_RATIO * HALF_WIDTH >=uExtents.x
-|| abs(section - floor(section + 0.5)) >=SECTION_GAP;} void main(){
-float length=length(vMapping);
-if (length >=INNER_RADIUS * uExtents.y &&
-(length <=uExtents.y || (inArrow(length) && inSection()))){
-gl_FragColor=uColor;} else{
-discard;}}
-</script></head><body><div id="game"><canvas></canvas><table><thead><tr><th>#</th><th>Name <span>(ID)</span></th><th>Strokes</th><th></th></tr></thead><tbody></tbody></table><div id="timer"></div><button id="game-exit" class="secondary">&#10006;</button><div id="game-start" class="overlay"><div class="medium">game starts in</div><div class="large"></div></div><div id="player-end" class="overlay"><div class="medium"><div>course completed!</div><div>no strokes left!</div><div>time is up!</div></div><div class="small">waiting for other players &hellip;</div></div><div id="game-end" class="overlay"><div class="medium">game ends in</div><div class="large"></div></div></div><div id="menu"><div class="background"></div><div id="session" class="panel"><div class="left-two-thirds"><span id="session-key" class="box"><span class="key">Key:</span><span class="value"></span></span></div><div class="right-one-third"><button id="session-copy" class="secondary">Copy Key</button></div><div class="clear"></div><hr><table><thead><tr><th>#</th><th>Name</th><th>ID</th></tr></thead><tbody></tbody></table><hr><div class="left-half"><button id="session-leave" class="secondary">Leave</button></div><div class="right-half"><button id="session-start" class="primary">Start</button></div></div><div id="session-join" class="panel"><div><label for="session-join-input" class="header">Session Key</label><label for="session-join-input" class="validation"></label><input id="session-join-input" type="text" maxlength="8"></div><button class="primary">Join</button><button class="secondary">Cancel</button></div><div id="name-change" class="panel"><div><label for="name-change-input" class="header">Player Name</label><label for="name-change-input" class="validation"></label><input id="name-change-input" type="text" maxlength="16"></div><button class="primary">Change</button><button class="secondary">Cancel</button></div><div id="lobby" class="panel"><div class="left-two-thirds"><span id="lobby-name" class="box"><span class="key">Name:</span><span class="value"></span></span></div><div class="right-one-third"><button id="lobby-change-name" class="secondary">Change Name</button></div><div class="left-two-thirds"><span id="lobby-key" class="box"><span class="key">Key:</span><span class="value"></span></span></div><div class="right-one-third"><button id="lobby-toggle-key"></button></div><span id="lobby-id" class="box"><span class="key">ID:</span><span class="value"></span></span><span class="box"><span class="key">Rating:</span><span class="value">1000</span></span><hr><div class="left-half"><button id="lobby-create-session" class="primary">Create Session</button></div><div class="right-half"><button id="lobby-join-session" class="primary">Join Session</button></div><div class="clear"></div><hr><button id="lobby-log-out" class="secondary">Log out</button></div><div id="login" class="panel"><div><label for="login-key-input" class="header">Player Key</label><label for="login-key-input" class="validation"></label><input id="login-key-input" type="text" maxlength="16"></div><button class="primary">Log in</button><hr><button class="secondary">Register as new player</button></div><div id="registration" class="panel"><div><label for="registration-name-input" class="header">Player Name</label><label for="registration-name-input" class="validation"></label><input id="registration-name-input" type="text" maxlength="16"></div><button class="primary">Register</button><hr><button class="secondary">Log in as existing player</button></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Multi Golf</title>
+		<link rel="stylesheet" href="game-min.css">
+		<script src="game-min.js"></script>
+		<script src="course-min.js"></script>
+		<script src="client-min.js"></script>
+		<script type="x-shader/x-vertex" id="basic-vertex-shader">
+			attribute vec4 aPosition;
+			attribute vec3 aNormal;
+			attribute vec3 aColor;
+			attribute float aChecker;
+
+			uniform mat4 uMatrix;
+
+			varying vec2 vPosition;
+			varying vec2 vNormal;
+			varying vec3 vColor;
+			varying float vChecker;
+
+			void main() {
+				vPosition = aPosition.xy;
+				vNormal = vec2(length(aNormal.xy), aNormal.z);
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vChecker = aChecker;
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="basic-fragment-shader">
+			precision mediump float;
+
+			varying vec2 vPosition;
+			varying vec2 vNormal;
+			varying vec3 vColor;
+			varying float vChecker;
+
+			float checkerMultiplier() {
+				float checkerX = floor(vPosition.x / CHECKER_SIZE);
+				float checkerY = floor(vPosition.y / CHECKER_SIZE);
+				float isChecker = float(mod(checkerX + checkerY, 2.0) < 0.5);
+				float flatness = clamp(
+					(CHECKER_SLOPE_MAX - vNormal.x / vNormal.y) / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 0.0, 1.0
+				);
+				return mix(1.0, CHECKER_MULTIPLIER, vChecker * isChecker * flatness);
+			}
+			
+			void main() {
+				gl_FragColor = vec4(vColor * checkerMultiplier(), 1);
+			}
+		</script>
+		<script type="x-shader/x-vertex" id="arrow-vertex-shader">
+			attribute vec4 aPosition;
+			attribute vec2 aMapping;
+
+			uniform mat4 uMatrix;
+
+			varying vec2 vMapping;
+
+			void main() {
+				vMapping = aMapping;
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="arrow-fragment-shader">
+			precision mediump float;
+
+			uniform vec2 uExtents;
+			uniform vec4 uColor;
+
+			varying vec2 vMapping;
+
+			bool inArrow(float length) {
+				return abs(vMapping.y) <= HALF_WIDTH * uExtents.y
+					&& vMapping.x >= 0.0
+					&& vMapping.x + abs(vMapping.y) * TIP_RATIO <= uExtents.x;
+			}
+
+			bool inSection() {
+				float section = (vMapping.x - uExtents.y * INNER_RADIUS) / (uExtents.y * SECTION_LENGTH);
+				return vMapping.x + TIP_RATIO * HALF_WIDTH >= uExtents.x
+					|| abs(section - floor(section + 0.5)) >= SECTION_GAP;
+			}
+
+			void main() {
+				float length = length(vMapping);
+				if (length >= INNER_RADIUS * uExtents.y &&
+						(length <= uExtents.y || (inArrow(length) && inSection()))) {
+					gl_FragColor = uColor;
+				} else {
+					discard;
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="game">
+			<canvas></canvas>
+			<table>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name <span>(ID)</span></th>
+						<th>Strokes</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			<div id="timer"></div>
+			<button id="game-exit" class="secondary">&#10006;</button>
+			<div id="game-start" class="overlay">
+				<div class="medium">game starts in</div>
+				<div class="large"></div>
+			</div>
+			<div id="player-end" class="overlay">
+				<div class="medium">
+					<div>course completed!</div>
+					<div>no strokes left!</div>
+					<div>time is up!</div>
+				</div>
+				<div class="small">waiting for other players &hellip;</div>
+			</div>
+			<div id="game-end" class="overlay">
+				<div class="medium">game ends in</div>
+				<div class="large"></div>
+			</div>
+		</div>
+		<div id="menu">
+			<div class="background"></div>
+			<div id="session" class="panel">
+				<div class="left-two-thirds">
+					<span id="session-key" class="box">
+						<span class="key">Key:</span>
+						<span class="value"></span>
+					</span>
+				</div>
+				<div class="right-one-third">
+					<button id="session-copy" class="secondary">Copy Key</button>
+				</div>
+				<div class="clear"></div>
+				<hr>
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>ID</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<hr>
+				<div class="left-half">
+					<button id="session-leave" class="secondary">Leave</button>
+				</div>
+				<div class="right-half">
+					<button id="session-start" class="primary">Start</button>
+				</div>
+			</div>
+			<div id="session-join" class="panel">
+				<div>
+					<label for="session-join-input" class="header">Session Key</label>
+					<label for="session-join-input" class="validation"></label>
+					<input id="session-join-input" type="text" maxlength="8">
+				</div>
+				<button class="primary">Join</button>
+				<button class="secondary">Cancel</button>
+			</div>
+			<div id="name-change" class="panel">
+				<div>
+					<label for="name-change-input" class="header">Player Name</label>
+					<label for="name-change-input" class="validation"></label>
+					<input id="name-change-input" type="text" maxlength="16">
+				</div>
+				<button class="primary">Change</button>
+				<button class="secondary">Cancel</button>
+			</div>
+			<div id="lobby" class="panel">
+				<div class="left-two-thirds">
+					<span id="lobby-name" class="box">
+						<span class="key">Name:</span>
+						<span class="value"></span>
+					</span>
+				</div>
+				<div class="right-one-third">
+					<button id="lobby-change-name" class="secondary">Change Name</button>
+				</div>
+				<div class="left-two-thirds">
+					<span id="lobby-key" class="box">
+						<span class="key">Key:</span>
+						<span class="value"></span>
+					</span>
+				</div>
+				<div class="right-one-third">
+					<button id="lobby-toggle-key"></button>
+				</div>
+				<span id="lobby-id" class="box">
+					<span class="key">ID:</span>
+					<span class="value"></span>
+				</span>
+				<span class="box">
+					<span class="key">Rating:</span>
+					<span class="value">1000</span>
+				</span>
+				<hr>
+				<div class="left-half">
+					<button id="lobby-create-session" class="primary">Create Session</button>
+				</div>
+				<div class="right-half">
+					<button id="lobby-join-session" class="primary">Join Session</button>
+				</div>
+				<div class="clear"></div>
+				<hr>
+				<button id="lobby-log-out" class="secondary">Log out</button>
+			</div>
+			<div id="login" class="panel">
+				<div>
+					<label for="login-key-input" class="header">Player Key</label>
+					<label for="login-key-input" class="validation"></label>
+					<input id="login-key-input" type="text" maxlength="16">
+				</div>
+				<button class="primary">Log in</button>
+				<hr>
+				<button class="secondary">Register as new player</button>
+			</div>
+			<div id="registration" class="panel">
+				<div>
+					<label for="registration-name-input" class="header">Player Name</label>
+					<label for="registration-name-input" class="validation"></label>
+					<input id="registration-name-input" type="text" maxlength="16">
+				</div>
+				<button class="primary">Register</button>
+				<hr>
+				<button class="secondary">Log in as existing player</button>
+			</div>
+		</div>
+	</body>
+</html>
