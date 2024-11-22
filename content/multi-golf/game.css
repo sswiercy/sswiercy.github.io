@@ -82,6 +82,14 @@ label.header {
     color: black;
 }
 
+span.rating.positive {
+    color: lightgreen;
+}
+
+span.rating.negative {
+    color: lightcoral;
+}
+
 body,
 input,
 button {
@@ -103,10 +111,6 @@ div.overlay div.small {
 span.box,
 span.box span.key {
     display: inline-block;
-}
-
-span.box span.key {
-    width: 7.5vmin;
 }
 
 canvas,
@@ -167,13 +171,14 @@ div.version,
 label.validation,
 label.header,
 span.box span.key,
-#game td:nth-child(2) span {
+span.id {
     font-size: 2vmin;
 }
 
 div.overlay,
 label.validation,
 label.header,
+span.rating,
 #game td:last-child,
 #timer {
     font-weight: bold;
@@ -217,7 +222,7 @@ button.secondary:hover:not(:disabled) {
 
 input:disabled,
 button.primary:disabled,
-#game td:nth-child(2) span {
+span.id {
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -225,7 +230,8 @@ button.secondary:disabled {
     color: rgba(0, 0, 0, 0.5);
 }
 
-hr {
+hr,
+span.left {
     opacity: 50%;
 }
 
@@ -332,7 +338,6 @@ div.panel,
     transform: translate(-50%, -50%);
 }
 
-#game td:last-child span,
 #menu div.panel {
     opacity: 0;
     visibility: hidden;
@@ -355,20 +360,18 @@ span.box.off {
 #login,
 #name-change,
 #session-join {
-    width: 50vmin;
+    width: 60vmin;
 }
 
 #lobby,
-#session {
-    width: 75vmin;
+#session,
+#session-ranking {
+    width: 90vmin;
 }
 
-#session th:first-child {
+#session th:first-child,
+#session-ranking th:first-child {
     width: 10%;
-}
-
-#session th:last-child {
-    width: 25%;
 }
 
 #game th:nth-child(2),
@@ -382,8 +385,8 @@ td {
 }
 
 div.overlay,
-#session td:first-child,
-#session td:last-child,
+#session td:not(:nth-child(2)),
+#session-ranking td:not(:nth-child(2)),
 #game td:first-child,
 #game td:nth-child(3),
 #game td:last-child {
@@ -391,12 +394,19 @@ div.overlay,
 }
 
 #session th:nth-child(2),
+#session-ranking th:nth-child(2),
 #game th:nth-child(2) {
     text-align: left;
 }
 
+label[title],
+span.box span.key {
+    cursor: help;
+}
+
 span.box span.key {
     text-align: right;
+    width: 10vmin;
 }
 
 div.left-half,

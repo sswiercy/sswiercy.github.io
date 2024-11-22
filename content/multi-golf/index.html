@@ -101,7 +101,7 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Name <span>(ID)</span></th>
+						<th>Name <span class="id">(ID)</span></th>
 						<th>Strokes</th>
 						<th></th>
 					</tr>
@@ -129,7 +129,22 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Tue, 12 Nov 2024 20:00:49 GMT</div>
+			<div class="version">Last Update: Fri, 22 Nov 2024 19:11:24 GMT</div>
+			<div id="session-ranking" class="panel">
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name <span class="id">(ID)</span></th>
+							<th>Strokes</th>
+							<th>Rating</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<hr>
+				<button id="session-ranking-continue" class="primary">Continue</button>
+			</div>
 			<div id="session" class="panel">
 				<div class="left-two-thirds">
 					<span id="session-key" class="box">
@@ -146,8 +161,8 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Name</th>
-							<th>ID</th>
+							<th>Name <span class="id">(ID)</span></th>
+							<th>Rating</th>
 						</tr>
 					</thead>
 					<tbody></tbody>
@@ -181,7 +196,7 @@
 			<div id="lobby" class="panel">
 				<div class="left-two-thirds">
 					<span id="lobby-name" class="box">
-						<span class="key">Name:</span>
+						<span class="key" title="Your name as it is shown to other players. Is is not required to be unique, so other players also see your player ID.">Name:</span>
 						<span class="value"></span>
 					</span>
 				</div>
@@ -190,7 +205,7 @@
 				</div>
 				<div class="left-two-thirds">
 					<span id="lobby-key" class="box">
-						<span class="key">Key:</span>
+						<span class="key" title="This random code allows you to login to this account, so keep it secret. It is stored in your browser for convenience, but you might want to keep a copy of it somewhere else, to not lose your progress.">Key:</span>
 						<span class="value"></span>
 					</span>
 				</div>
@@ -198,12 +213,12 @@
 					<button id="lobby-toggle-key"></button>
 				</div>
 				<span id="lobby-id" class="box">
-					<span class="key">ID:</span>
+					<span class="key" title="Identifies your account and is shown to other players to help them distinguish different players with the same name.">ID:</span>
 					<span class="value"></span>
 				</span>
-				<span class="box">
-					<span class="key">Rating:</span>
-					<span class="value">1000</span>
+				<span id="lobby-rating" class="box">
+					<span class="key" title="This number expresses your skill level compared to other players. After each game, your rating is adjusted according to your placement and the ratings of your opponents. As a new player, you get a rating of 1000. This is also the average rating across all registered players.">Rating:</span>
+					<span class="value"></span>
 				</span>
 				<hr>
 				<div class="left-half">
@@ -218,7 +233,7 @@
 			</div>
 			<div id="login" class="panel">
 				<div>
-					<label for="login-key-input" class="header">Player Key</label>
+					<label for="login-key-input" class="header" title="Enter the random code you obtained after registration to log in again.">Player Key</label>
 					<label for="login-key-input" class="validation"></label>
 					<input id="login-key-input" type="text" maxlength="16">
 				</div>
@@ -228,7 +243,7 @@
 			</div>
 			<div id="registration" class="panel">
 				<div>
-					<label for="registration-name-input" class="header">Player Name</label>
+					<label for="registration-name-input" class="header" title="Choose a name that is shown to other players. You can change it later.">Player Name</label>
 					<label for="registration-name-input" class="validation"></label>
 					<input id="registration-name-input" type="text" maxlength="16">
 				</div>
