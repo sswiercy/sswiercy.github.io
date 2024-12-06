@@ -93,6 +93,27 @@
 				}
 			}
 		</script>
+		<!-- TODO: Use class="confetti" for both shaders and distinguish by type -->
+		<script type="x-shader/x-vertex" id="confetti-vertex-shader">
+			attribute vec2 aPosition;
+			attribute vec3 aColor;
+
+			varying vec3 vColor;
+
+			void main() {
+				vColor = aColor;
+				gl_Position = vec4(aPosition, 0, 1);
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="confetti-fragment-shader">
+			precision mediump float;
+
+			varying vec3 vColor;
+			
+			void main() {
+				gl_FragColor = vec4(vColor, 1);
+			}
+		</script>
 	</head>
 	<body>
 		<div id="game">
@@ -109,7 +130,7 @@
 				<tbody></tbody>
 			</table>
 			<div id="timer"></div>
-			<button id="game-exit" class="secondary">&#10006;</button>
+			<button id="game-reset" class="secondary">Reset Ball</button>
 			<div id="game-start" class="overlay">
 				<div class="medium">game starts in</div>
 				<div class="large"></div>
@@ -129,8 +150,9 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Fri, 22 Nov 2024 19:11:24 GMT</div>
+			<div class="version">Last Update: Fri, 06 Dec 2024 20:02:13 GMT</div>
 			<div id="session-ranking" class="panel">
+				<div id="session-ranking-place"></div>
 				<table>
 					<thead>
 						<tr>
@@ -144,6 +166,7 @@
 				</table>
 				<hr>
 				<button id="session-ranking-continue" class="primary">Continue</button>
+				<canvas></canvas>
 			</div>
 			<div id="session" class="panel">
 				<div class="left-two-thirds">

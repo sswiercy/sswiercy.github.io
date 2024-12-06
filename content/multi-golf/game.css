@@ -1,11 +1,15 @@
 html,
 body,
-canvas,
 #game,
+#game canvas,
 #menu,
 #menu div.background,
 #menu div.background::after {
     height: 100%;
+}
+
+#menu canvas {
+    pointer-events: none;
 }
 
 body {
@@ -62,6 +66,33 @@ div.version {
     text-shadow: 0 0 1vmin rgba(0, 0, 0, 0.5);
 }
 
+#session-ranking-place {
+    animation: 1s infinite alternate ease-in-out session-ranking-place;
+}
+
+@keyframes session-ranking-place {
+    from {
+        text-shadow: 0 0 2vmin black;
+        letter-spacing: 0;
+    }
+    to {
+        text-shadow: 0 0 4vmin black;
+        letter-spacing: 0.04em;
+    }
+}
+
+#session-ranking-place.first {
+    color: gold;
+}
+
+#session-ranking-place.second {
+    color: silver;
+}
+
+#session-ranking-place.third {
+    color: saddlebrown;
+}
+
 button:not(:active):not(:disabled) {
     box-shadow: 0 0 2vmin rgba(0, 0, 0, 0.5);
 }
@@ -72,13 +103,15 @@ button:active:not(:disabled) {
 
 body,
 input,
-button.primary {
+button.primary,
+span.rating.zero {
     color: white;
 }
 
 div.version,
 button.secondary,
-label.header {
+label.header,
+#session-ranking-place.last {
     color: black;
 }
 
@@ -90,10 +123,18 @@ span.rating.negative {
     color: lightcoral;
 }
 
+span.self {
+    color: lightskyblue;
+}
+
 body,
 input,
 button {
     font-family: sans-serif;
+}
+
+#session-ranking-place {
+    font-family: math;
 }
 
 input,
@@ -113,16 +154,21 @@ span.box span.key {
     display: inline-block;
 }
 
-canvas,
 input,
 span.box,
 #game,
+#game canvas,
 #menu,
 #menu div.background,
 #menu div.background::after,
 #menu button,
 #menu table {
     width: 100%;
+}
+
+#session-ranking canvas {
+    width: 100vw;
+    height: 100vh;
 }
 
 div.overlay {
@@ -180,7 +226,8 @@ label.validation,
 label.header,
 span.rating,
 #game td:last-child,
-#timer {
+#timer,
+#session-ranking-place {
     font-weight: bold;
 }
 
@@ -265,12 +312,13 @@ hr {
     margin: 2.5vmin 5vmin;
 }
 
+canvas,
 div.panel,
 div.overlay,
 div.version,
 #game,
 #game table,
-#game-exit,
+#game-reset,
 #timer,
 #menu,
 #menu div.background,
@@ -284,6 +332,7 @@ div.overlay div.medium {
 }
 
 #timer,
+#session-ranking-place,
 div.overlay div.large {
     font-size: 10vmin;
 }
@@ -300,13 +349,13 @@ div.overlay,
     left: 2.5vmin;
 }
 
-#game-exit,
+#game-reset,
 #timer {
     right: 2.5vmin;
 }
 
 #game table,
-#game-exit {
+#game-reset {
     top: 2.5vmin;
 }
 
@@ -328,11 +377,13 @@ div.version,
 
 div.panel,
 div.overlay,
-div.version {
+div.version,
+#session-ranking canvas {
     left: 50%;
 }
 
 div.panel,
+#session-ranking canvas,
 #game-end {
     top: 50%;
     transform: translate(-50%, -50%);
@@ -384,9 +435,14 @@ td {
     padding: 0 0.5vmin;
 }
 
+#session-ranking-place {
+    padding: 5vmin;
+}
+
 div.overlay,
 #session td:not(:nth-child(2)),
 #session-ranking td:not(:nth-child(2)),
+#session-ranking-place,
 #game td:first-child,
 #game td:nth-child(3),
 #game td:last-child {
