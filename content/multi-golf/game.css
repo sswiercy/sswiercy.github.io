@@ -123,7 +123,8 @@ span.rating.negative {
     color: lightcoral;
 }
 
-span.self {
+span.self,
+#game-menu em {
     color: lightskyblue;
 }
 
@@ -139,9 +140,10 @@ button {
 
 input,
 button,
-table,
+table.box,
 span.box,
-div.overlay div.small {
+div.overlay div.small,
+#game-menu div {
     font-size: 2.5vmin;
 }
 
@@ -177,9 +179,10 @@ div.overlay {
 
 input,
 button,
-table,
+table.box,
 span.box,
 div.overlay,
+#game-menu div,
 #timer {
     padding: 1.5vmin 2.5vmin;
 }
@@ -189,6 +192,15 @@ input,
 #menu table,
 span.box {
     margin: 0.5vmin 0;
+}
+
+h2,
+#game-menu div {
+    margin: 2.5vmin 0;
+}
+
+#game button {
+    margin-left: 1vmin;
 }
 
 input,
@@ -225,7 +237,7 @@ div.overlay,
 label.validation,
 label.header,
 span.rating,
-#game td:last-child,
+#game-ranking td:last-child,
 #timer,
 #session-ranking-place {
     font-weight: bold;
@@ -238,6 +250,10 @@ label.header {
 
 label.validation {
     color: darkred;
+}
+
+#game-menu em {
+    font-style: normal;
 }
 
 div.version,
@@ -288,18 +304,20 @@ span.box span.key {
 }
 
 input,
-table,
+table.box,
 span.box,
 div.overlay,
+#game-menu div,
 #timer {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
 input,
 button,
-table,
+table.box,
 span.box,
 div.overlay,
+#game-menu div,
 #timer {
     border: none;
     border-radius: 2.5vmin;
@@ -317,8 +335,8 @@ div.panel,
 div.overlay,
 div.version,
 #game,
-#game table,
-#game-reset,
+#game-ranking,
+#game-menu,
 #timer,
 #menu,
 #menu div.background,
@@ -327,6 +345,7 @@ div.version,
     position: absolute;
 }
 
+h2,
 div.overlay div.medium {
     font-size: 5vmin;
 }
@@ -345,17 +364,18 @@ div.overlay,
     display: none;
 }
 
-#game table {
+#game-ranking {
     left: 2.5vmin;
 }
 
-#game-reset,
-#timer {
+#timer,
+#game-menu {
     right: 2.5vmin;
 }
 
-#game table,
-#game-reset {
+#game-ranking,
+#game-menu,
+#game-start {
     top: 2.5vmin;
 }
 
@@ -369,10 +389,6 @@ div.version,
 #game-start,
 #player-end {
     transform: translate(-50%, 0);
-}
-
-#game-start {
-    top: 2.5vmin;
 }
 
 div.panel,
@@ -389,13 +405,15 @@ div.panel,
     transform: translate(-50%, -50%);
 }
 
-#menu div.panel {
+#menu div.panel,
+#game-menu div {
     opacity: 0;
     visibility: hidden;
 }
 
 #menu,
-#menu div.panel {
+#menu div.panel,
+#game-menu div {
     transition: opacity 0.25s;
 }
 
@@ -425,34 +443,44 @@ span.box.off {
     width: 10%;
 }
 
-#game th:nth-child(2),
-#game td:nth-child(2) {
+#game-ranking th:nth-child(2),
+#game-ranking td:nth-child(2) {
     padding: 0 5vmin 0 2.5vmin;
 }
 
-th,
+th {
+    padding: 0.5vmin 1vmin;
+}
+
 td {
-    padding: 0 0.5vmin;
+    padding: 0 1vmin;
 }
 
 #session-ranking-place {
     padding: 5vmin;
 }
 
+h2,
 div.overlay,
 #session td:not(:nth-child(2)),
 #session-ranking td:not(:nth-child(2)),
 #session-ranking-place,
-#game td:first-child,
-#game td:nth-child(3),
-#game td:last-child {
+#game-ranking td:first-child,
+#game-ranking td:nth-child(3),
+#game-ranking td:last-child {
     text-align: center;
 }
 
 #session th:nth-child(2),
 #session-ranking th:nth-child(2),
-#game th:nth-child(2) {
+#game-ranking th:nth-child(2),
+#game-menu div {
     text-align: left;
+}
+
+span.box span.key,
+#game-menu {
+    text-align: right;
 }
 
 label[title],
@@ -461,7 +489,6 @@ span.box span.key {
 }
 
 span.box span.key {
-    text-align: right;
     width: 10vmin;
 }
 

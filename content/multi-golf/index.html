@@ -118,7 +118,7 @@
 	<body>
 		<div id="game">
 			<canvas></canvas>
-			<table>
+			<table id="game-ranking" class="box">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -130,7 +130,81 @@
 				<tbody></tbody>
 			</table>
 			<div id="timer"></div>
-			<button id="game-reset" class="secondary">Reset Ball</button>
+			<div id="game-menu">
+				<button class="secondary">Reset Ball</button><button class="secondary">?</button>
+				<div>
+					<h2>Controls</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Mode</th>
+								<th>Mouse</th>
+								<th>Keyboard</th>
+								<th>Type</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Mouse pointer free</td>
+								<td><em>LMB</em></td>
+								<td></td>
+								<td>press</td>
+								<td>Lock mouse pointer</td>
+							</tr>
+							<tr>
+								<td>Mouse pointer locked</td>
+								<td><em>RMB</em></td>
+								<td></td>
+								<td>press</td>
+								<td>Unlock mouse pointer</td>
+							</tr>
+							<tr>
+								<td>Camera</td>
+								<td><em>Move</em></td>
+								<td><em>WASD</em> or <em>Arrows</em></td>
+								<td></td>
+								<td>Adjust camera angle</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><em>Wheel</em></td>
+								<td><em>,</em> / <em>.</em> or <em>-</em> / <em>+</em> (Numpad)</td>
+								<td></td>
+								<td>Adjust camera distance</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><em>LMB</em></td>
+								<td><em>Space</em> or <em>Shift</em></td>
+								<td>hold</td>
+								<td>Start aiming</td>
+							</tr>
+							<tr>
+								<td>Aiming</td>
+								<td><em>Move</em></td>
+								<td><em>WASD</em> or <em>Arrows</em></td>
+								<td></td>
+								<td>Adjust hitting angle and strength</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><em>LMB</em></td>
+								<td><em>Space</em> or <em>Shift</em></td>
+								<td>release</td>
+								<td>Hit ball</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><em>RMB</em></td>
+								<td><em>Escape</em> or <em>Backspace</em></td>
+								<td>press</td>
+								<td>End aiming without hitting the ball</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<div id="game-start" class="overlay">
 				<div class="medium">game starts in</div>
 				<div class="large"></div>
@@ -150,10 +224,10 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Fri, 06 Dec 2024 20:02:13 GMT</div>
+			<div class="version">Last Update: Fri, 20 Dec 2024 20:36:06 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
-				<table>
+				<table class="box">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -176,11 +250,11 @@
 					</span>
 				</div>
 				<div class="right-one-third">
-					<button id="session-copy" class="secondary">Copy Key</button>
+					<button id="session-copy" class="secondary">Copy Link</button>
 				</div>
 				<div class="clear"></div>
 				<hr>
-				<table>
+				<table class="box">
 					<thead>
 						<tr>
 							<th>#</th>
