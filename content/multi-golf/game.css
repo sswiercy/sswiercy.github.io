@@ -102,7 +102,7 @@ button:active:not(:disabled) {
 }
 
 body,
-input,
+input[type=text],
 button.primary,
 span.rating.zero {
     color: white;
@@ -129,7 +129,7 @@ span.self,
 }
 
 body,
-input,
+input[type=text],
 button {
     font-family: sans-serif;
 }
@@ -138,12 +138,12 @@ button {
     font-family: math;
 }
 
-input,
+input[type=text],
 button,
 table.box,
 span.box,
 div.overlay div.small,
-#game-menu div {
+#game-menu > div {
     font-size: 2.5vmin;
 }
 
@@ -156,7 +156,7 @@ span.box span.key {
     display: inline-block;
 }
 
-input,
+input[type=text],
 span.box,
 #game,
 #game canvas,
@@ -177,25 +177,37 @@ div.overlay {
     white-space: nowrap;
 }
 
-input,
+input[type=text],
 button,
 table.box,
 span.box,
 div.overlay,
-#game-menu div,
+#game-menu > div,
 #timer {
     padding: 1.5vmin 2.5vmin;
 }
 
-input,
+input[type=text],
 #menu button,
 #menu table,
 span.box {
     margin: 0.5vmin 0;
 }
 
-h2,
-#game-menu div {
+div.version,
+#timer,
+#game-ranking,
+#game-menu,
+#game-start,
+#player-end {
+    margin: 2.5vmin;
+}
+
+#game-menu > div {
+    margin-top: 2.5vmin;
+}
+
+h2 {
     margin: 2.5vmin 0;
 }
 
@@ -203,7 +215,12 @@ h2,
     margin-left: 1vmin;
 }
 
-input,
+table.sensitivity {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type=text],
 span.box,
 div.panel,
 div.left-half,
@@ -213,15 +230,15 @@ div.right-one-third {
     box-sizing: border-box;
 }
 
-input {
+input[type=text] {
     outline: 0;
 }
 
-input:focus-visible {
+input[type=text]:focus-visible {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
-input.invalid {
+input[type=text].invalid {
     background-color: rgba(139, 0, 0, 0.5);
 }
 
@@ -283,7 +300,7 @@ button.secondary:hover:not(:disabled) {
     background-color: white;
 }
 
-input:disabled,
+input[type=text]:disabled,
 button.primary:disabled,
 span.id {
     color: rgba(255, 255, 255, 0.5);
@@ -303,21 +320,21 @@ span.box span.key {
     opacity: 75%;
 }
 
-input,
+input[type=text],
 table.box,
 span.box,
 div.overlay,
-#game-menu div,
+#game-menu > div,
 #timer {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-input,
+input[type=text],
 button,
 table.box,
 span.box,
 div.overlay,
-#game-menu div,
+#game-menu > div,
 #timer {
     border: none;
     border-radius: 2.5vmin;
@@ -360,29 +377,30 @@ label.validation,
 div.overlay,
 #player-end > div:first-child > div,
 #player-end > div:last-child,
-#game {
+#game,
+#game-menu > div {
     display: none;
 }
 
 #game-ranking {
-    left: 2.5vmin;
+    left: 0;
 }
 
 #timer,
 #game-menu {
-    right: 2.5vmin;
+    right: 0;
 }
 
 #game-ranking,
 #game-menu,
 #game-start {
-    top: 2.5vmin;
+    top: 0;
 }
 
 div.version,
 #timer,
 #player-end {
-    bottom: 2.5vmin;
+    bottom: 0;
 }
 
 div.version,
@@ -406,14 +424,14 @@ div.panel,
 }
 
 #menu div.panel,
-#game-menu div {
+#game-menu > div {
     opacity: 0;
     visibility: hidden;
 }
 
 #menu,
 #menu div.panel,
-#game-menu div {
+#game-menu > div {
     transition: opacity 0.25s;
 }
 
@@ -460,25 +478,30 @@ td {
     padding: 5vmin;
 }
 
-h2,
 div.overlay,
 #session td:not(:nth-child(2)),
 #session-ranking td:not(:nth-child(2)),
 #session-ranking-place,
 #game-ranking td:first-child,
 #game-ranking td:nth-child(3),
-#game-ranking td:last-child {
+#game-ranking td:last-child,
+#game-menu > div {
     text-align: center;
 }
 
 #session th:nth-child(2),
 #session-ranking th:nth-child(2),
 #game-ranking th:nth-child(2),
-#game-menu div {
+table.sensitivity td:last-child,
+table.controls th:first-child,
+table.controls td:first-child,
+table.controls th:last-child,
+table.controls td:last-child {
     text-align: left;
 }
 
 span.box span.key,
+table.sensitivity td:first-child,
 #game-menu {
     text-align: right;
 }
@@ -488,8 +511,15 @@ span.box span.key {
     cursor: help;
 }
 
-span.box span.key {
+span.box span.key,
+table.sensitivity td:last-child {
     width: 10vmin;
+}
+
+input[type=range] {
+    accent-color: lightskyblue;
+    vertical-align: middle;
+    width: 50vmin;
 }
 
 div.left-half,

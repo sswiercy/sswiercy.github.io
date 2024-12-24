@@ -133,8 +133,28 @@
 			<div id="game-menu">
 				<button class="secondary">Reset Ball</button><button class="secondary">?</button>
 				<div>
+					<h2>Mouse Sensitivity</h2>
+					<table class="sensitivity">
+						<tbody>
+							<tr>
+								<td><label for="angle-sensitivity">Camera angle</label></td>
+								<td><input id="angle-sensitivity" type="range"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><label for="distance-sensitivity">Camera distance</label></td>
+								<td><input id="distance-sensitivity" type="range"></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><label for="strength-sensitivity">Hitting strength</label></td>
+								<td><input id="strength-sensitivity" type="range"></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
 					<h2>Controls</h2>
-					<table>
+					<table class="controls">
 						<thead>
 							<tr>
 								<th>Mode</th>
@@ -146,14 +166,14 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>Mouse pointer free</td>
+								<td>Unlocked mouse pointer</td>
 								<td><em>LMB</em></td>
 								<td></td>
-								<td>press</td>
+								<td>press on canvas</td>
 								<td>Lock mouse pointer</td>
 							</tr>
 							<tr>
-								<td>Mouse pointer locked</td>
+								<td>Locked mouse pointer</td>
 								<td><em>RMB</em></td>
 								<td></td>
 								<td>press</td>
@@ -224,7 +244,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Fri, 20 Dec 2024 20:36:06 GMT</div>
+			<div class="version">Last Update: Tue, 24 Dec 2024 11:40:25 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
