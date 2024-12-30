@@ -7,7 +7,7 @@
 		<script src="game.min.js"></script>
 		<script src="course.min.js"></script>
 		<script src="client.min.js"></script>
-		<script type="x-shader/x-vertex" id="basic-vertex-shader">
+		<script type="x-shader/x-vertex" class="basic">
 			attribute vec4 aPosition;
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
@@ -28,7 +28,7 @@
 				gl_Position = uMatrix * aPosition;
 			}
 		</script>
-		<script type="x-shader/x-fragment" id="basic-fragment-shader">
+		<script type="x-shader/x-fragment" class="basic">
 			precision mediump float;
 
 			varying vec2 vPosition;
@@ -50,7 +50,7 @@
 				gl_FragColor = vec4(vColor * checkerMultiplier(), 1);
 			}
 		</script>
-		<script type="x-shader/x-vertex" id="arrow-vertex-shader">
+		<script type="x-shader/x-vertex" class="arrow">
 			attribute vec4 aPosition;
 			attribute vec2 aMapping;
 
@@ -63,7 +63,7 @@
 				gl_Position = uMatrix * aPosition;
 			}
 		</script>
-		<script type="x-shader/x-fragment" id="arrow-fragment-shader">
+		<script type="x-shader/x-fragment" class="arrow">
 			precision mediump float;
 
 			uniform vec2 uExtents;
@@ -93,8 +93,7 @@
 				}
 			}
 		</script>
-		<!-- TODO: Use class="confetti" for both shaders and distinguish by type -->
-		<script type="x-shader/x-vertex" id="confetti-vertex-shader">
+		<script type="x-shader/x-vertex" class="confetti">
 			attribute vec2 aPosition;
 			attribute vec3 aColor;
 
@@ -105,7 +104,7 @@
 				gl_Position = vec4(aPosition, 0, 1);
 			}
 		</script>
-		<script type="x-shader/x-fragment" id="confetti-fragment-shader">
+		<script type="x-shader/x-fragment" class="confetti">
 			precision mediump float;
 
 			varying vec3 vColor;
@@ -244,7 +243,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Tue, 24 Dec 2024 11:40:25 GMT</div>
+			<div class="version">Last Update: Mon, 30 Dec 2024 14:33:29 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
