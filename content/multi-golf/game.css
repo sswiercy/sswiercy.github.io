@@ -511,9 +511,13 @@ span.box span.key {
     cursor: help;
 }
 
-span.box span.key,
 table.sensitivity td:last-child {
     width: 10vmin;
+}
+
+span.box span.key {
+    width: 15vmin;
+    padding-right: 1vmin;
 }
 
 input[type=range] {
