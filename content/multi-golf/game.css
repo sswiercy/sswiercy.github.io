@@ -197,9 +197,7 @@ span.box {
 div.version,
 #timer,
 #game-ranking,
-#game-menu,
-#game-start,
-#player-end {
+#game-menu {
     margin: 2.5vmin;
 }
 
@@ -207,7 +205,9 @@ div.version,
     margin-top: 2.5vmin;
 }
 
-h2 {
+h2,
+#game-start,
+#player-end {
     margin: 2.5vmin 0;
 }
 
