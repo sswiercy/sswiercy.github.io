@@ -194,7 +194,6 @@ span.box {
     margin: 0.5vmin 0;
 }
 
-div.version,
 #timer,
 #game-ranking,
 #game-menu {
@@ -206,6 +205,7 @@ div.version,
 }
 
 h2,
+div.version,
 #game-start,
 #player-end {
     margin: 2.5vmin 0;

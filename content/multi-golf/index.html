@@ -3,51 +3,116 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.css?1739037769">
-		<script src="game.min.js?1739037769"></script>
-		<script src="courses.min.js?1739037769"></script>
-		<script src="client.min.js?1739037769"></script>
-		<script type="x-shader/x-vertex" class="basic">
+		<link rel="stylesheet" href="game.css?1740228973">
+		<script src="game.min.js?1740228973"></script>
+		<script src="courses.min.js?1740228973"></script>
+		<script src="client.min.js?1740228973"></script>
+		<script type="x-shader/x-vertex" class="simple">
 			attribute vec4 aPosition;
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
-			attribute float aChecker;
+
+			uniform mat4 uMatrix;
+
+			varying vec3 vColor;
+
+			void main() {
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" class="simple">
+			precision mediump float;
+
+			varying vec3 vColor;
+
+			void main() {
+				gl_FragColor = vec4(vColor, 1);
+			}
+		</script>
+		<script type="x-shader/x-vertex" class="checker">
+			attribute vec4 aPosition;
+			attribute vec3 aNormal;
+			attribute vec3 aColor;
 
 			uniform mat4 uMatrix;
 
 			varying vec2 vPosition;
 			varying vec2 vNormal;
 			varying vec3 vColor;
-			varying float vChecker;
 
 			void main() {
 				vPosition = aPosition.xy;
 				vNormal = vec2(length(aNormal.xy), aNormal.z);
 				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
-				vChecker = aChecker;
 				gl_Position = uMatrix * aPosition;
 			}
 		</script>
-		<script type="x-shader/x-fragment" class="basic">
+		<script type="x-shader/x-fragment" class="checker">
 			precision mediump float;
 
 			varying vec2 vPosition;
 			varying vec2 vNormal;
 			varying vec3 vColor;
-			varying float vChecker;
 
-			float checkerMultiplier() {
+			void main() {
 				float checkerX = floor(vPosition.x / CHECKER_SIZE);
 				float checkerY = floor(vPosition.y / CHECKER_SIZE);
-				float isChecker = float(mod(checkerX + checkerY, 2.0) < 0.5);
-				float flatness = clamp(
-					(CHECKER_SLOPE_MAX - vNormal.x / vNormal.y) / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 0.0, 1.0
+				float even = float(mod(checkerX + checkerY, 2.0) < 0.5);
+				float slope = clamp(
+					(CHECKER_SLOPE_MAX - vNormal.x / vNormal.y)
+						/ (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 0.0, 1.0
 				);
-				return mix(1.0, CHECKER_MULTIPLIER, vChecker * isChecker * flatness);
+				float multiplier = mix(1.0, CHECKER_MULTIPLIER, even * slope);
+				gl_FragColor = vec4(vColor * multiplier, 1);
 			}
-			
+		</script>
+		<script type="x-shader/x-vertex" class="curve">
+			attribute vec4 aPosition;
+			attribute vec3 aNormal;
+			attribute vec3 aColor;
+
+			uniform mat4 uMatrix;
+			uniform vec3 uViewpoint;
+
+			varying vec2 vPosition;
+			varying vec3 vColor;
+			varying vec3 vViewpoint;
+
+			vec3 transform(vec3 dViewpoint) {
+				return vec3(dViewpoint.xy, dViewpoint.z + dot(dViewpoint.xy, aNormal.xy / aNormal.z));
+			}
+
 			void main() {
-				gl_FragColor = vec4(vColor * checkerMultiplier(), 1);
+				vPosition = aPosition.xy;
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vViewpoint = transform(uViewpoint - aPosition.xyz);
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" class="curve">
+			precision mediump float;
+
+			varying vec2 vPosition;
+			varying vec3 vColor;
+			varying vec3 vViewpoint;
+
+			float curve(vec2 xy) {
+				return CURVE_FUNCTION;
+			}
+
+			vec2 refraction(float z) {
+				float cameraL = length(vViewpoint.xy);
+				float index = CURVE_REFRAC_INDEX * cameraL / length(vViewpoint);
+				float refracL = z / sqrt(1.0 - index * index) * index;
+				return refracL * vViewpoint.xy / cameraL;
+			}
+
+			void main() {
+				float z = curve(vPosition);
+				float refracZ = curve(vPosition + refraction(z - CURVE_REFRAC_Z));
+				float multiplier = CURVE_OFFSET + CURVE_SCALE * refracZ;
+				gl_FragColor = vec4(vColor * multiplier, 1);
 			}
 		</script>
 		<script type="x-shader/x-vertex" class="arrow">
@@ -243,7 +308,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sat, 08 Feb 2025 18:02:49 GMT</div>
+			<div class="version">Last Update: Sat, 22 Feb 2025 12:56:13 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
