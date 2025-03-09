@@ -2,6 +2,8 @@ html,
 body,
 #game,
 #game canvas,
+#indicator div.bar,
+#indicator div.marker,
 #menu,
 #menu div.background,
 #menu div.background::after {
@@ -124,7 +126,7 @@ span.rating.negative {
 }
 
 span.self,
-#game-menu em {
+#game-menu > div em {
     color: lightskyblue;
 }
 
@@ -157,10 +159,10 @@ span.box span.key {
 }
 
 input[type=text],
-span.box,
 #game,
 #game canvas,
 #menu,
+#menu span.box,
 #menu div.background,
 #menu div.background::after,
 #menu button,
@@ -190,10 +192,11 @@ div.overlay,
 input[type=text],
 #menu button,
 #menu table,
-span.box {
+#menu span.box {
     margin: 0.5vmin 0;
 }
 
+#indicator,
 #timer,
 #game-ranking,
 #game-menu {
@@ -221,12 +224,13 @@ table.sensitivity {
 }
 
 input[type=text],
-span.box,
 div.panel,
 div.left-half,
 div.right-half,
 div.left-two-thirds,
-div.right-one-third {
+div.right-one-third,
+#indicator div.marker,
+#menu span.box {
     box-sizing: border-box;
 }
 
@@ -255,6 +259,7 @@ label.validation,
 label.header,
 span.rating,
 #game-ranking td:last-child,
+#course em,
 #timer,
 #session-ranking-place {
     font-weight: bold;
@@ -329,6 +334,52 @@ div.overlay,
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+#indicator div.marker,
+#indicator div.pointer {
+    border-style: solid;
+}
+
+#indicator div.bar,
+#indicator div.pointer {
+    width: 0;
+}
+
+#indicator {
+    background-color: rgba(105, 105, 105, 0.5);
+    border: 1vmin solid rgba(0, 0, 0, 0.75);
+    border-radius: 2vmin;
+    height: 5vmin;
+    width: 50vmin;
+}
+
+#indicator div.bar {
+    border-radius: 1vmin;
+}
+
+#indicator div.marker {
+    border-width: 1.5vmin 0.5vmin;
+    border-color: rgba(0, 0, 0, 0.75) transparent;
+    width: 1vmin;
+}
+
+#indicator div.marker:nth-child(2) {
+    left: 25%;
+}
+
+#indicator div.marker:nth-child(3) {
+    left: 50%;
+}
+
+#indicator div.marker:nth-child(4) {
+    left: 75%;
+}
+
+#indicator div.pointer {
+    border-width: 2vmin 1.5vmin 0;
+    border-color: transparent;
+    top: -3.5vmin;
+}
+
 input[type=text],
 button,
 table.box,
@@ -354,6 +405,9 @@ div.version,
 #game,
 #game-ranking,
 #game-menu,
+#indicator,
+#indicator div.marker,
+#indicator div.pointer,
 #timer,
 #menu,
 #menu div.background,
@@ -382,7 +436,8 @@ div.overlay,
     display: none;
 }
 
-#game-ranking {
+#game-ranking,
+#indicator {
     left: 0;
 }
 
@@ -393,11 +448,13 @@ div.overlay,
 
 #game-ranking,
 #game-menu,
-#game-start {
+#game-start,
+#indicator div.marker {
     top: 0;
 }
 
 div.version,
+#indicator,
 #timer,
 #player-end {
     bottom: 0;
@@ -405,7 +462,9 @@ div.version,
 
 div.version,
 #game-start,
-#player-end {
+#player-end,
+#indicator div.marker,
+#indicator div.pointer {
     transform: translate(-50%, 0);
 }
 
@@ -470,7 +529,8 @@ th {
     padding: 0.5vmin 1vmin;
 }
 
-td {
+td,
+#course span {
     padding: 0 1vmin;
 }
 

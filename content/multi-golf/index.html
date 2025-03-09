@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.css?1741012394">
-		<script src="game.min.js?1741012394"></script>
-		<script src="courses.min.js?1741012394"></script>
-		<script src="client.min.js?1741012394"></script>
+		<link rel="stylesheet" href="game.css?1741546112">
+		<script src="game.min.js?1741546112"></script>
+		<script src="courses.min.js?1741546112"></script>
+		<script src="client.min.js?1741546112"></script>
 		<script type="x-shader/x-vertex" class="simple">
 			attribute vec4 aPosition;
 			attribute vec3 aNormal;
@@ -150,9 +150,8 @@
 			}
 
 			bool inSection() {
-				float section = (vMapping.x - uExtents.y * INNER_RADIUS) / (uExtents.y * SECTION_LENGTH);
 				return vMapping.x + TIP_RATIO * HALF_WIDTH >= uExtents.x
-					|| abs(section - floor(section + 0.5)) >= SECTION_GAP;
+					|| mod(vMapping.x - uExtents.y, uExtents.y * SECTION_LENGTH) >= SECTION_GAP;
 			}
 
 			void main() {
@@ -200,9 +199,16 @@
 				</thead>
 				<tbody></tbody>
 			</table>
+			<div id="indicator">
+				<div class="bar"></div>
+				<div class="marker"></div>
+				<div class="marker"></div>
+				<div class="marker"></div>
+				<div class="pointer"></div>
+			</div>
 			<div id="timer"></div>
 			<div id="game-menu">
-				<button class="secondary">Reset Ball</button><button class="secondary">?</button>
+				<span id="course" class="box"><em>Course</em> <span></span>/<span></span></span><button class="secondary"><u>R</u>eset Ball</button><button class="secondary">?</button>
 				<div>
 					<h2>Mouse Sensitivity</h2>
 					<table class="sensitivity">
@@ -315,7 +321,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Mon, 03 Mar 2025 14:33:14 GMT</div>
+			<div class="version">Last Update: Sun, 09 Mar 2025 18:48:32 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
@@ -409,7 +415,7 @@
 					<span class="value"></span>
 				</span>
 				<span id="lobby-registration" class="box">
-					<span class="key" title="Date of registration for this account.">Registration:</span>
+					<span class="key" title="Date of registration of this account in your browser's local time.">Registration:</span>
 					<span class="value"></span>
 				</span>
 				<hr>
