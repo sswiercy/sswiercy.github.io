@@ -3,11 +3,27 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.css?1741546112">
-		<script src="game.min.js?1741546112"></script>
-		<script src="courses.min.js?1741546112"></script>
-		<script src="client.min.js?1741546112"></script>
-		<script type="x-shader/x-vertex" class="simple">
+		<link rel="stylesheet" href="game.css?1744140905">
+		<script src="game.min.js?1744140905"></script>
+		<script src="courses.min.js?1744140905"></script>
+		<script src="client.min.js?1744140905"></script>
+		<script type="x-shader/x-vertex" class="uniform">
+			attribute vec4 aPosition;
+
+			uniform mat4 uMatrix;
+
+			void main() {
+				gl_Position = uMatrix * aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" class="uniform">
+			precision mediump float;
+
+			void main() {
+				gl_FragColor = vec4(COLOR, 1);
+			}
+		</script>
+		<script type="x-shader/x-vertex" class="light">
 			attribute vec4 aPosition;
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
@@ -21,7 +37,7 @@
 				gl_Position = uMatrix * aPosition;
 			}
 		</script>
-		<script type="x-shader/x-fragment" class="simple">
+		<script type="x-shader/x-fragment" class="light">
 			precision mediump float;
 
 			varying vec3 vColor;
@@ -321,7 +337,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sun, 09 Mar 2025 18:48:32 GMT</div>
+			<div class="version">Last Update: Tue, 08 Apr 2025 19:35:05 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
@@ -342,7 +358,7 @@
 			<div id="session" class="panel">
 				<div class="left-two-thirds">
 					<span id="session-key" class="box">
-						<span class="key">Key:</span>
+						<span class="key" title="Identifies the current session. Pass it to other players, so they can join this session. Alternatively, send them the link you can copy to the clipboard using the button to the right.">Session Key:</span>
 						<span class="value"></span>
 					</span>
 				</div>
