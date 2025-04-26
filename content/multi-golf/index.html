@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1744577961">
-		<script src="game.min.js?1744577961"></script>
-		<script src="courses.min.js?1744577961"></script>
-		<script src="client.min.js?1744577961"></script>
+		<link rel="stylesheet" href="game.min.css?1745699803">
+		<script src="game.min.js?1745699803"></script>
+		<script src="courses.min.js?1745699803"></script>
+		<script src="client.min.js?1745699803"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -115,10 +115,14 @@
 		<script type="x-shader/x-fragment" class="curve">
 			precision mediump float;
 
+			uniform float uTime;
+
 			varying vec2 vPosition;
 			varying vec3 vColor;
 			varying vec3 vViewpoint;
 			varying float vFade;
+
+			CURVE_GLOBAL
 
 			float curve(vec2 xy) {
 				return CURVE_FUNCTION;
@@ -178,6 +182,36 @@
 				} else {
 					discard;
 				}
+			}
+		</script>
+		<script type="x-shader/x-vertex" class="polar">
+			attribute vec4 aPosition;
+			attribute vec4 aDirection;
+
+			uniform mat4 uMatrix;
+
+			varying vec4 vPosition;
+
+			void main() {
+				vPosition = uMatrix * aDirection;
+				gl_Position = aPosition;
+			}
+		</script>
+		<script type="x-shader/x-fragment" class="polar">
+			precision mediump float;
+
+			varying vec4 vPosition;
+
+			POLAR_GLOBAL
+
+			vec3 polar(vec2 uv) {
+				return POLAR_FUNCTION;
+			}
+
+			void main() {
+				float u = atan(vPosition.y, vPosition.x);
+				float v = atan(vPosition.z, length(vPosition.xy));
+				gl_FragColor = vec4(polar(vec2(u, v)), 1);
 			}
 		</script>
 		<script type="x-shader/x-vertex" class="confetti">
@@ -338,7 +372,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sun, 13 Apr 2025 20:59:21 GMT</div>
+			<div class="version">Last Update: Sat, 26 Apr 2025 20:36:43 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
