@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1746307050">
-		<script src="game.min.js?1746307050"></script>
-		<script src="courses.min.js?1746307050"></script>
-		<script src="client.min.js?1746307050"></script>
+		<link rel="stylesheet" href="game.min.css?1748783990">
+		<script src="game.min.js?1748783990"></script>
+		<script src="courses.min.js?1748783990"></script>
+		<script src="client.min.js?1748783990"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -29,11 +29,12 @@
 			attribute vec3 aColor;
 
 			uniform mat4 uMatrix;
+			uniform vec3 uLight;
 
 			varying vec3 vColor;
 
 			void main() {
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
 				gl_Position = uMatrix * aPosition;
 			}
 		</script>
@@ -52,6 +53,7 @@
 			attribute vec3 aColor;
 
 			uniform mat4 uMatrix;
+			uniform vec3 uLight;
 
 			varying vec2 vPosition;
 			varying vec3 vColor;
@@ -63,7 +65,7 @@
 				float slope = CHECKER_SLOPE_MAX * absZ > xyL ? CHECKER_SLOPE_MAX - xyL / absZ : 0.0;
 
 				vPosition = aPosition.xy;
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
 				vFade = min(slope / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 1.0);
 
 				gl_Position = uMatrix * aPosition;
@@ -89,6 +91,7 @@
 			attribute vec3 aColor;
 
 			uniform mat4 uMatrix;
+			uniform vec3 uLight;
 			uniform vec3 uViewpoint;
 
 			varying vec2 vPosition;
@@ -105,7 +108,7 @@
 				vec3 view = uViewpoint - aPosition.xyz;
 
 				vPosition = aPosition.xy;
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, LIGHT_VECTOR));
+				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
 				vViewpoint = vec3(view.xy, view.z + dot(view.xy, gradient.xy));
 				vFade = min(gradient.z / (CURVE_SLOPE_MAX - CURVE_SLOPE_MIN), 1.0);
 
@@ -374,7 +377,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sat, 03 May 2025 21:17:30 GMT</div>
+			<div class="version">Last Update: Sun, 01 Jun 2025 13:19:50 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
