@@ -7,25 +7,48 @@ body {
 
 #gallery {
 	background-color: rgba(0, 0, 0, 0.75);
-	display: none;
 	height: 100%;
-	width: 100%;
 	position: fixed;
 	text-align: center;
 	top: 0em;
 }
 
-#gallery .navbar {
-	background-color: #000;
-	box-sizing: border-box;
-	color: #ddd;
-	height: 3em;
+#gallery,
+span.project-label {
+	display: none;
+}
+
+#gallery-nav,
+#gallery-close,
+#gallery-counter,
+span.project-details {
+	display: inline-block;
+}
+
+#gallery,
+#gallery div.navbar,
+#gallery-content {
 	width: 100%;
 }
 
-#gallery-nav, #gallery-close {
+#gallery div.navbar,
+#gallery button {
+	color: #ddd;
+}
+
+#gallery .navbar {
+	box-sizing: border-box;
+	height: 3em;
+}
+
+#gallery div.navbar,
+#gallery-nav,
+#gallery-close,
+span.project-label.release-date {
 	background-color: #000;
-	display: inline-block;
+}
+
+#gallery-nav, #gallery-close {
 	padding: 0.375em;
 }
 
@@ -33,31 +56,44 @@ body {
 	position: relative;
 }
 
-#gallery-close {
+#gallery-close,
+#gallery-title,
+#gallery-content,
+#gallery img {
 	position: absolute;
+}
+
+#gallery-close {
 	right: 1em;
 }
 
-#gallery-title {
+#gallery-title,
+#gallery-counter,
+#gallery button,
+div.author-left {
 	font-weight: bold;
-	position: absolute;
+}
+
+#gallery-title {
 	left: 1.5em;
 	top: 0.9em;
 	white-space: nowrap;
 }
 
-#gallery-counter {
-	display: inline-block;
-	font-weight: bold;
-	margin: 0em 1em;
+#gallery-counter,
+#gallery button,
+div.project-images img,
+div.project-text-line:first-child > * {
 	vertical-align: middle;
+}
+
+#gallery-counter {
+	margin: 0em 1em;
 }
 
 #gallery-content {
 	bottom: 0em;
 	top: 3em;
-	position: absolute;
-	width: 100%;
 }
 
 #gallery img {
@@ -68,21 +104,29 @@ body {
 	margin: auto;
 	max-height: 100%;
 	max-width: 100%;
-	position: absolute;
 }
 
-button {
+#gallery button,
+span.project-label {
+	border-radius: 0.5em;
+}
+
+#gallery button,
+div.project-images img {
+	cursor: pointer;
+}
+
+h1,
+#gallery button {
+	font-size: 1.5em;
+}
+
+#gallery button {
 	background-color: transparent;
 	border: none;
-	border-radius: 0.5em;
-	color: #ddd;
-	cursor: pointer;
-	font-size: 1.5em;
-	font-weight: bold;
 	height: 1.5em;
 	width: 1.5em;
 	margin: 0em;
-	vertical-align: middle;
 }
 
 #gallery-nav button {
@@ -93,23 +137,27 @@ button {
 	padding-top: 0.1em;
 }
 
-button:hover {
+#gallery button:hover,
+div.author,
+div.project-text {
 	background-color: #ddd;
+}
+
+#gallery button:hover {
 	color: #000;
 }
 
 h1 {
-	font-size: 1.5em;
 	margin: 1.5rem 1rem;
 }
 
-.project-images img {
-	cursor: pointer;
+div.project-images img {
 	margin: 0.5em 0.5em 0em 0em;
-	vertical-align: middle;
 }
 
-a:link, a:hover, a:active {
+a:link,
+a:hover,
+a:active {
 	color: #00c;
 }
 
@@ -117,16 +165,18 @@ a:visited {
 	color: #339;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
 	text-decoration: none;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
 	text-decoration: underline;
 }
 
-.author, .project-text {
-	background-color: #ddd;
+div.author,
+div.project-text {
 	border-color: #444;
 	border-style: solid;
 	border-width: 0.15em 0em;
@@ -134,82 +184,76 @@ a:hover, a:active {
 	padding-bottom: 0.25em;
 }
 
-.author, .project-text, .project-images {
+div.author,
+div.project-text,
+div.project-images {
 	padding-left: 2em;
 }
 
-.author-left {
+div.author-left {
 	float: left;
-	font-weight: bold;
 	margin-right: 1.5em;
 }
 
-.author-element, .project-text-line {
+div.author-element,
+div.project-text-line {
 	padding: 0.1em 0em;
 }
 
-.project-text-line:first-child {
+div.project-text-line:first-child {
 	font-size: 1.2em;
 	margin-bottom: 0.25em;
 }
 
-.project-text-line:first-child > * {
-	vertical-align: middle;
-}
-
-.project-text {
+div.project-text {
 	margin-top: 1.5em;
 	padding-right: 0.5em;
 }
 
-.project-details {
-	color: #666;
-	display: inline-block;
+span.project-details,
+span.project-label {
 	font-style: italic;
 }
 
-.project-label {
-	border-radius: 0.5em;
+span.project-details {
+	color: #666;
+}
+
+span.project-label,
+span.project-label > a {
 	color: #eee;
-	display: none;
+}
+
+span.project-label {
 	font-size: 0.8em;
-	font-style: italic;
 	margin: 0.125em 0.25em;
 	padding: 0.25em 0.5em;
 }
 
-.project-label > a {
-	color: #eee;
-}
-
-.project-label.release-date {
-	background-color: #000;
-}
-
-.project-label.c-language {
+span.project-label.c-language {
 	background-color: #a00;
 }
 
-.project-label.extension {
+span.project-label.extension {
 	background-color: #0aa;
 }
 
-.project-label.game-maker {
+span.project-label.game-maker {
 	background-color: #0a0;
 }
 
-.project-label.javascript {
+span.project-label.javascript {
 	background-color: #a0a;
 }
 
-.project-label.sdl {
+span.project-label.sdl {
 	background-color: #00a;
 }
 
-.project-label.bricklink-studio {
+span.project-label.bricklink-studio {
 	background-color: #aa0;
 }
 
-.project-label.android {
+span.project-label.android {
 	background-color: #066;
 }
