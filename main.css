@@ -267,7 +267,7 @@ span.project-label {
 
 	div.author,
 	div.project-text {
-		border-color: #444;
+		border-color: #666;
 	}
 }
 
@@ -316,6 +316,6 @@ span.project-label {
 
 	div.author,
 	div.project-text {
-		border-color: #bbb;
+		border-color: #999;
 	}
 }
