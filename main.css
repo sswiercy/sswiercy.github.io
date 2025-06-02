@@ -230,7 +230,7 @@ span.project-label {
 	}
 
 	#gallery {
-		background-color: rgba(0, 0, 0, 0.75);
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 
 	#gallery button:hover {
@@ -238,6 +238,8 @@ span.project-label {
 	}
 
 	#gallery div.navbar,
+	#gallery-nav,
+	#gallery-close,
 	div.author,
 	div.project-text {
 		background-color: #ddd;
@@ -279,7 +281,7 @@ span.project-label {
 	}
 
 	#gallery {
-		background-color: rgba(255, 255, 255, 0.75);
+		background-color: rgba(0, 0, 0, 0.75);
 	}
 
 	#gallery button:hover {
@@ -287,6 +289,8 @@ span.project-label {
 	}
 
 	#gallery div.navbar,
+	#gallery-nav,
+	#gallery-close,
 	div.author,
 	div.project-text {
 		background-color: #222;
