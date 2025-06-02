@@ -1,12 +1,9 @@
 body {
-	background-color: #eee;
-	color: #444;
 	font-family: sans-serif;
 	margin: 1.5em 0em;
 }
 
 #gallery {
-	background-color: rgba(0, 0, 0, 0.75);
 	height: 100%;
 	position: fixed;
 	text-align: center;
@@ -35,16 +32,6 @@ span.project-label.release-date {
 	background-color: #000;
 }
 
-#gallery button:hover {
-	background-color: #444;
-}
-
-#gallery div.navbar,
-div.author,
-div.project-text {
-	background-color: #ddd;
-}
-
 span.project-label.c-language {
 	background-color: #a00;
 }
@@ -71,24 +58,6 @@ span.project-label.bricklink-studio {
 
 span.project-label.android {
 	background-color: #066;
-}
-
-#gallery button:hover {
-	color: #ddd;
-}
-
-a:link,
-a:hover,
-a:active {
-	color: #00c;
-}
-
-a:visited {
-	color: #339;
-}
-
-span.project-details {
-	color: #666;
 }
 
 span.project-label,
@@ -221,9 +190,8 @@ a:active {
 
 div.author,
 div.project-text {
-	border-color: #444;
 	border-style: solid;
-	border-width: 0.15em 0em;
+	border-width: 0.1em 0em;
 	padding-top: 0.25em;
 	padding-bottom: 0.25em;
 }
@@ -252,4 +220,102 @@ span.project-label {
 	font-size: 0.8em;
 	margin: 0.125em 0.25em;
 	padding: 0.25em 0.5em;
+}
+
+@media (prefers-color-scheme: light) {
+
+	body {
+		background-color: #eee;
+		color: #444;
+	}
+
+	#gallery {
+		background-color: rgba(0, 0, 0, 0.75);
+	}
+
+	#gallery button:hover {
+		background-color: #444;
+	}
+
+	#gallery div.navbar,
+	div.author,
+	div.project-text {
+		background-color: #ddd;
+	}
+
+	#gallery button:hover {
+		color: #bbb;
+	}
+
+	#gallery button {
+		color: #444;
+	}
+
+	a:link,
+	a:hover,
+	a:active {
+		color: #00c;
+	}
+
+	a:visited {
+		color: #339;
+	}
+
+	span.project-details {
+		color: #666;
+	}
+
+	div.author,
+	div.project-text {
+		border-color: #444;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+
+	body {
+		background-color: #111;
+		color: #bbb;
+	}
+
+	#gallery {
+		background-color: rgba(255, 255, 255, 0.75);
+	}
+
+	#gallery button:hover {
+		background-color: #bbb;
+	}
+
+	#gallery div.navbar,
+	div.author,
+	div.project-text {
+		background-color: #222;
+	}
+
+	#gallery button:hover {
+		color: #444;
+	}
+
+	#gallery button {
+		color: #bbb;
+	}
+
+	a:link,
+	a:hover,
+	a:active {
+		color: #77f;
+	}
+
+	a:visited {
+		color: #99d;
+	}
+
+	span.project-details {
+		color: #999;
+	}
+
+	div.author,
+	div.project-text {
+		border-color: #bbb;
+	}
 }
