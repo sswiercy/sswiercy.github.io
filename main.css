@@ -31,14 +31,15 @@ span.project-details {
 	width: 100%;
 }
 
-#gallery div.navbar,
-#gallery-nav,
-#gallery-close,
 span.project-label.release-date {
 	background-color: #000;
 }
 
-#gallery button:hover,
+#gallery button:hover {
+	background-color: #444;
+}
+
+#gallery div.navbar,
 div.author,
 div.project-text {
 	background-color: #ddd;
@@ -73,11 +74,6 @@ span.project-label.android {
 }
 
 #gallery button:hover {
-	color: #000;
-}
-
-#gallery div.navbar,
-#gallery button {
 	color: #ddd;
 }
 
