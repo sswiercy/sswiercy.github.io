@@ -128,6 +128,10 @@ div.project-text-line:first-child > * {
 	vertical-align: middle;
 }
 
+iframe {
+	vertical-align: bottom;
+}
+
 #gallery-counter {
 	margin: 0em 1em;
 }
@@ -136,6 +140,7 @@ h1 {
 	margin: 1.5rem 1rem;
 }
 
+iframe,
 div.project-images img {
 	margin: 0.5em 0.5em 0em 0em;
 }
