@@ -12,7 +12,6 @@
 body {
     background-color: black;
     margin: 0;
-    image-rendering: pixelated;
 }
 
 span.font {
