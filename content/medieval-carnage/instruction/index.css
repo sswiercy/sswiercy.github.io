@@ -1,0 +1,55 @@
+body {
+    text-align: center;
+    font-family: Georgia, serif;
+}
+
+h1, h2, h3 {
+    color: #420;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+table {
+    margin: 0 auto;
+    background-color: #eee;
+    border-spacing: 0;
+}
+
+td {
+    border-top: 0.25em solid white;
+    border-bottom: 0.1em solid #420;
+    padding: 0.5em 1em;
+}
+
+ul {
+    display: inline-block;
+    text-align: left;
+}
+
+img {
+    vertical-align: middle;
+}
+
+img.castle {
+    position: fixed;
+    bottom: 0;
+    z-index: -1;
+}
+
+img.castle.blue {
+    left: 0;
+}
+
+img.castle.red {
+    right: 0;
+}

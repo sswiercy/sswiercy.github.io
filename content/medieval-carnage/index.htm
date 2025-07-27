@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Medieval Carnage</title>
+		<link rel="stylesheet" href="index.css">
+		<script src="index-min.js"></script>
+	</head>
+	<body>
+		<div class="content">
+            <div class="clouds">
+                <div class="cloud-1"></div>
+                <div class="cloud-2"></div>
+                <div class="cloud-3"></div>
+                <div class="cloud-4"></div>
+                <div class="cloud-5"></div>
+            </div>
+            <div class="container" id="castle-units"></div>
+            <div id="castle-blue"></div>
+            <div id="castle-red"></div>
+            <div class="container" id="trees"></div>
+            <div class="container" id="units"></div>
+            <div class="container" id="projectiles"></div>
+            <div class="container" id="particles"></div>
+            <div class="land"></div>
+            <div id="game-menu">
+                <div class="status">
+                    <div class="blue">
+                        <div class="health"><div id="health-blue"></div></div><div class="coins"><span class="icon"></span><span id="coins-blue"></span></div>
+                    </div>
+                    <div class="red">
+                        <div class="coins"><span id="coins-red"></span><span class="icon"></span></div><div class="health"><div id="health-red"></div></div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="blue">
+                        <div>
+                            <button class="build-lumberjack"><div class="icon"></div><div class="cost"></div></button><button class="build-pikeman"><div class="icon"></div><div class="cost"></div></button><button class="build-swordsman"><div class="icon"></div><div class="cost"></div></button><button class="build-knight"><div class="icon"></div><div class="cost"></div></button><button class="build-archer"><div class="icon"></div><div class="cost"></div></button><button class="build-catapult"><div class="icon"></div><div class="cost"></div></button><button class="build-cannon"><div class="icon"></div><div class="cost"></div></button>
+                        </div>
+                        <div>
+                            <button class="upgrade-repair"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-income"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-speed"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-attack"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-range"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-damage"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-cooldown"><div class="icon"></div><div class="cost"></div></button>
+                        </div>
+                    </div>
+                    <div class="red">
+                        <div>
+                            <button class="build-cannon"><div class="icon"></div><div class="cost"></div></button><button class="build-catapult"><div class="icon"></div><div class="cost"></div></button><button class="build-archer"><div class="icon"></div><div class="cost"></div></button><button class="build-knight"><div class="icon"></div><div class="cost"></div></button><button class="build-swordsman"><div class="icon"></div><div class="cost"></div></button><button class="build-pikeman"><div class="icon"></div><div class="cost"></div></button><button class="build-lumberjack"><div class="icon"></div><div class="cost"></div></button>
+                        </div>
+                        <div>
+                            <button class="upgrade-cooldown"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-damage"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-range"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-attack"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-speed"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-income"><div class="icon"></div><div class="cost"></div></button><button class="upgrade-repair"><div class="icon"></div><div class="cost"></div></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="main-menu">
+                <div class="victory">
+                    <div class="blue"></div>
+                    <div class="red"></div>
+                    <button class="neutral continue"><div></div></button>
+                </div>
+                <div class="setup">
+                    <div class="title"></div>
+                    <div><button class="neutral start"><div></div></button></div>
+                    <div><button class="neutral instruction"><div></div></button></div>
+                    <div class="controls header"></div>
+                    <div class="controls label">
+                        <span class="blue"></span><span class="red"></span>
+                    </div>
+                    <div class="controls button">
+                        <button class="blue"><div></div></button><button class="red"><div></div></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <audio id="ambient" autoplay loop>
+            <source src="sounds/ambient.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="click-sound">
+            <source src="sounds/click.wav" type="audio/wav">
+        </audio>
+        <audio id="tree-sound">
+            <source src="sounds/tree.wav" type="audio/wav">
+        </audio>
+        <audio id="coins-sound">
+            <source src="sounds/coins.wav" type="audio/wav">
+        </audio>
+        <audio id="repair-sound">
+            <source src="sounds/repair.wav" type="audio/wav">
+        </audio>
+        <audio id="upgrade-sound">
+            <source src="sounds/upgrade.wav" type="audio/wav">
+        </audio>
+        <audio id="collapse-sound">
+            <source src="sounds/collapse.wav" type="audio/wav">
+        </audio>
+        <audio id="victory-sound">
+            <source src="sounds/victory.wav" type="audio/wav">
+        </audio>
+        <audio id="kill-human-heavy-sound">
+            <source src="sounds/kill/human/heavy.wav" type="audio/wav">
+        </audio>
+        <audio id="kill-human-medium-sound">
+            <source src="sounds/kill/human/medium.wav" type="audio/wav">
+        </audio>
+        <audio id="kill-human-weak-sound">
+            <source src="sounds/kill/human/weak.wav" type="audio/wav">
+        </audio>
+        <audio id="kill-catapult-sound">
+            <source src="sounds/kill/catapult.wav" type="audio/wav">
+        </audio>
+        <audio id="shoot-archer-sound">
+            <source src="sounds/shoot/archer.wav" type="audio/wav">
+        </audio>
+        <audio id="shoot-catapult-sound">
+            <source src="sounds/shoot/catapult.wav" type="audio/wav">
+        </audio>
+        <audio id="shoot-cannon-sound">
+            <source src="sounds/shoot/cannon.wav" type="audio/wav">
+        </audio>
+        <audio id="hit-arrow-sound">
+            <source src="sounds/hit/arrow.wav" type="audio/wav">
+        </audio>
+        <audio id="hit-rock-sound">
+            <source src="sounds/hit/rock.wav" type="audio/wav">
+        </audio>
+        <audio id="hit-cannonball-sound">
+            <source src="sounds/hit/cannonball.wav" type="audio/wav">
+        </audio>
+        <audio id="damage-melee-sound">
+            <source src="sounds/damage/melee.wav" type="audio/wav">
+        </audio>
+        <audio id="damage-heavy-sound">
+            <source src="sounds/damage/heavy.wav" type="audio/wav">
+        </audio>
+	</body>
+</html>

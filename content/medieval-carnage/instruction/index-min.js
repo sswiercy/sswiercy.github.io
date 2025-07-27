@@ -1,0 +1,1 @@
+function onLoad(){Array.from(document.getElementsByTagName("img")).forEach((function(t){const n=t.width,o=t.height;t.width=2*n,t.height=2*o}))}addEventListener("load",onLoad);

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Medieval Carnage - Instruction</title>
+        <link rel="stylesheet" href="index.css">
+        <script src="index-min.js"></script>
+	</head>
+	<body>
+        <img src="../images/world/castles/blue.png" class="castle blue">
+        <img src="../images/world/castles/red.png" class="castle red">
+		<h1><img src="../images/menu/main/title.png"></h1>
+        <h2>Instruction</h2>
+        <p>
+            <em>Medieval Carnage</em> is a two-player strategy game in which each player controls a castle.<br>
+            The aim is to destroy the opponent's castle while protecting your own.<br>
+            The first player to do so wins the game.<br>
+        </p>
+        <p>
+            Players can only take the actions represented by the shown buttons.<br>
+            Once a unit has been purchased, it moves and acts automatically.
+        </p>
+        <h3>Controls</h3>
+        <p>On the start screen, there is a blue and a red button for selecting the respective player controls.</p>
+        <table>
+            <tr>
+                <td><img src="../images/menu/main/labels/blue.png"></td>
+                <td><img src="../images/menu/main/labels/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/hover/blue.png"></td>
+                <td><img src="../images/menu/main/buttons/hover/red.png"></td>
+            </tr>
+        </table>
+        <p>The following options can be selected by clicking on these buttons.</p>
+        <table>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/mouse.png"></td>
+                <td>Click the action buttons with the left mouse button to apply them.</td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/keys/arrows.png"></td>
+                <td>Use the <em>Arrow</em> keys to select the desired action button.<br>Press <em>Enter</em> to apply the selected action.</td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/keys/wasd.png"></td>
+                <td>Use the <em>WASD</em> keys to select the desired action button.<br>Press <em>Space</em> to apply the selected action.</td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/bots/easy.png"></td>
+                <td>Let a computer bot control the player's actions.<br>This bot is beginner-friendly.</td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/bots/medium.png"></td>
+                <td>Let a computer bot control the player's actions.<br>This bot is advanced, but still rather beatable.</td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/main/buttons/text/bots/hard.png"></td>
+                <td>Let a computer bot control the player's actions.<br>This bot is very challenging.</td>
+            </tr>
+        </table>
+        <p>
+            All of these options can be selected independently for both players.<br>
+            This means that both local multiplayer and matches between bots are possible.
+        </p>
+        <h3>Coins</h3>
+        <p>
+            Players must earn coins in order to perform actions.<br>
+            The number of coins required for each action is displayed on the corresponding button.<br>
+            Both players' coin count automatically increases over time.
+        </p>
+        <table>
+            <tr>
+                <td><img src="../images/units/lumberjacks/axe/blue.png"></td>
+                <td><em>Lumberjack</em></td>
+                <td><img src="../images/units/lumberjacks/axe/red.png"></td>
+            </tr>
+        </table>
+        <p><em>Lumberjacks</em> can collect trees that grow randomly on the battlefield to earn coins more quickly.</p>
+        <table>
+            <tr>
+                <td><em>Small Tree</em></td>
+                <td><img src="../images/world/trees/1.png"></td>
+            </tr>
+            <tr>
+                <td><em>Medium Tree</em></td>
+                <td><img src="../images/world/trees/2.png"></td>
+            </tr>
+            <tr>
+                <td><em>Large Tree</em></td>
+                <td><img src="../images/world/trees/3.png"></td>
+            </tr>
+        </table>
+        <p>Larger trees earn you more coins when collected and returned to the castle.</p>
+        <h3>Melee Units</h3>
+        <p>There are three types of melee units.</p>
+        <table>
+            <tr>
+                <td><img src="../images/units/pikemen/blue.png"></td>
+                <td><em>Pikeman</em></td>
+                <td><img src="../images/units/pikemen/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/units/swordsmen/blue.png"></td>
+                <td><em>Swordsman</em></td>
+                <td><img src="../images/units/swordsmen/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/units/knights/blue.png"></td>
+                <td><em>Knight</em></td>
+                <td><img src="../images/units/knights/red.png"></td>
+            </tr>
+        </table>
+        <p>
+            When two melee units clash on the battlefield, one of them is killed by the other, or they both kill each other.<br>
+            Which unit is killed is determined by rolling a die, with the chances depending on the unit types.<br>
+            It's basically a case of rock-paper-scissors.
+        </p>
+        <ul>
+            <li><em>Pikemen</em> are strong against <em>Knights</em></li>
+            <li><em>Knights</em> are strong against <em>Swordsmen</em></li>
+            <li><em>Swordsmen</em> are strong against <em>Pikemen</em></li>
+        </ul>
+        <p>
+            The stronger unit is more likely to kill the weaker unit than vice versa.<br>
+            However, it is still possible for the weaker unit to kill the stronger one.
+        </p>
+        <p>Any other type of unit (<em>Lumberjack</em>, <em>Archer</em>, <em>Catapult</em>) that clashes with a melee unit will always lose.</p>
+        <h3>Ranged Units</h3>
+        <p>There are three types of ranged units.</p>
+        <table>
+            <tr>
+                <td><img src="../images/units/archers/blue.png"></td>
+                <td><em>Archer</em></td>
+                <td><img src="../images/units/archers/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/units/catapults/blue.png"></td>
+                <td><em>Catapult</em></td>
+                <td><img src="../images/units/catapults/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/units/cannons/blue.png"></td>
+                <td><em>Cannon</em></td>
+                <td><img src="../images/units/cannons/red.png"></td>
+            </tr>
+        </table>
+        <p>
+            While <em>Archers</em> are strong against other units,<br>
+            <em>Catapults</em> and <em>Cannons</em> can inflict significant damage to the opponent's castle.
+        </p>
+        <p><em>Cannons</em> are stationary units placed on the castle tower that shoot at the opponent's castle.</p>
+        <p>Each ranged unit has a limited number of shots and is removed after the last shot if not killed before.</p>
+        <h3>Restore Castle</h3>
+        <table>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/repair/blue.png"></td>
+                <td>Repairs some of the castle's damage.</td>
+                <td><img src="../images/menu/game/upgrades/repair/red.png"></td>
+            </tr>
+        </table>
+        <h3>Upgrades</h3>
+        <p>There are six types of upgrades.</p>
+        <table>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/income/blue.png"></td>
+                <td>Increases the rate at which the number of coins increase,<br>as well as earnings for each collected tree.</td>
+                <td><img src="../images/menu/game/upgrades/income/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/speed/blue.png"></td>
+                <td>Increases the movement speed of all mobile units.</td>
+                <td><img src="../images/menu/game/upgrades/speed/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/attack/blue.png"></td>
+                <td>It increases the chances of all melee units killing opponent units.<br>It also reduces the likelihood of a unit being killed by ranged units.</td>
+                <td><img src="../images/menu/game/upgrades/attack/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/range/blue.png"></td>
+                <td>Increases the shooting range, rate of fire, accuracy and number of shots of all ranged units.</td>
+                <td><img src="../images/menu/game/upgrades/range/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/damage/blue.png"></td>
+                <td>Increases the damage that each unit, both melee and ranged, inflicts on the opponent's castle.</td>
+                <td><img src="../images/menu/game/upgrades/damage/red.png"></td>
+            </tr>
+            <tr>
+                <td><img src="../images/menu/game/upgrades/cooldown/blue.png"></td>
+                <td>Reduces the time until an action can be performed again.</td>
+                <td><img src="../images/menu/game/upgrades/cooldown/red.png"></td>
+            </tr>
+        </table>
+        <p>
+            Each of these upgrades can be applied at most three times for maximum improvement.<br>
+            The upgrade buttons show 0 to 3 lines as an indication of how many times the upgrade has already been applied.<br>
+            Applying upgrades only affects units purchased afterwards and not those already on the battlefield.
+        </p>
+        <h3>Credits</h3>
+        <p>
+            A game by <em>Sascha Swiercy</em>, published in 2025,<br>
+            inspired by the game <em>Medieval Clash</em> by <em>Karel Pool</em>, published in 2003.
+        </p>
+	</body>
+</html>

@@ -1,0 +1,674 @@
+:root {
+    --game-width: 640;
+    --game-height: 360;
+    --game-ratio-width: 16;
+    --game-ratio-height: 9;
+    --game-ratio: calc(var(--game-ratio-width) / var(--game-ratio-height));
+    --game-scale-width: min(100vw, 100vh * var(--game-ratio));
+    --game-scale-height: calc(var(--game-scale-width) / var(--game-ratio));
+    --game-scale: calc(var(--game-scale-width) / var(--game-width));
+}
+
+body {
+    background-color: black;
+    margin: 0;
+    image-rendering: pixelated;
+}
+
+span.font {
+    background-image: url(images/menu/game/font.png);
+    background-repeat: no-repeat;
+    background-size: calc(64 * var(--game-scale)) calc(5 * var(--game-scale));
+    margin-right: calc(1 * var(--game-scale));
+    width: calc(4 * var(--game-scale));
+    height: calc(5 * var(--game-scale));
+}
+
+div.content,
+div.clouds,
+div.clouds div,
+div.container,
+div.container div,
+#castle-blue,
+#castle-red,
+div.land,
+#game-menu,
+div.health div.diff,
+#main-menu,
+button div.cooldown {
+    position: absolute;
+}
+
+div.content,
+div.clouds div,
+div.container div,
+#castle-blue,
+#castle-red,
+div.land,
+div.health,
+div.health div,
+div.coins span.icon,
+button,
+button div.icon,
+#main-menu div,
+#main-menu span {
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+div.clouds,
+div.container,
+div.land,
+#game-menu,
+#main-menu,
+button div.cooldown {
+    width: 100%;
+}
+
+div.clouds,
+div.container,
+div.land,
+#game-menu,
+#main-menu,
+div.health div,
+button div.cooldown {
+    height: 100%;
+}
+
+div.content {
+    background-image: url(images/world/sky.png);
+    overflow: hidden;
+    margin-left: calc((100vw - var(--game-scale-width)) / 2);
+    margin-top: calc((100vh - var(--game-scale-height)) / 2);
+    width: var(--game-scale-width);
+    height: var(--game-scale-height);
+}
+
+div.clouds div,
+#particles div {
+    transform: translate(-50%, -50%);
+}
+
+div.cloud-1 {
+    background-image: url(images/world/clouds/1.png);
+    width: calc(100% * 145 / var(--game-width));
+    height: calc(100% * 95 / var(--game-height));
+    animation: 31s linear -1s infinite cloud;
+    top: 16%;
+}
+
+div.cloud-2 {
+    background-image: url(images/world/clouds/2.png);
+    width: calc(100% * 135 / var(--game-width));
+    height: calc(100% * 89 / var(--game-height));
+    animation: 37s linear -31s infinite cloud;
+    top: 24%;
+}
+
+div.cloud-3 {
+    background-image: url(images/world/clouds/3.png);
+    width: calc(100% * 95 / var(--game-width));
+    height: calc(100% * 76 / var(--game-height));
+    animation: 41s linear -19s infinite cloud;
+    top: 32%;
+}
+
+div.cloud-4 {
+    background-image: url(images/world/clouds/4.png);
+    width: calc(100% * 205 / var(--game-width));
+    height: calc(100% * 116 / var(--game-height));
+    animation: 47s linear -7s infinite cloud;
+    top: 40%;
+}
+
+div.cloud-5 {
+    background-image: url(images/world/clouds/5.png);
+    width: calc(100% * 156 / var(--game-width));
+    height: calc(100% * 96 / var(--game-height));
+    animation: 53s linear -37s infinite cloud;
+    top: 48%;
+}
+
+#castle-blue,
+#castle-red {
+    bottom: calc(100% * 100 / var(--game-height));
+    transition: transform 15s linear;
+}
+
+#castle-blue {
+    background-image: url(images/world/castles/blue.png);
+    width: calc(100% * 65 / var(--game-width));
+    height: calc(100% * 146 / var(--game-height));
+}
+
+#castle-red {
+    right: 0;
+    background-image: url(images/world/castles/red.png);
+    width: calc(100% * 65 / var(--game-width));
+    height: calc(100% * 146 / var(--game-height));
+}
+
+#trees div {
+    transform: translate(-50%, calc(-100% + 4px));
+    transition: transform 1s ease-in;
+}
+
+#castle-units div {
+    transform: translate(-50%, -100%);
+    transition: top 2s linear;
+}
+
+#units div,
+#projectiles div {
+    transform-origin: 0 0;
+}
+
+#units div.killed {
+    transition: top 0.5s ease-in;
+}
+
+div.land {
+    background-image: url(images/world/land.png);
+}
+
+div.health,
+div.health div,
+div.coins,
+div.coins span.icon,
+span.font,
+#main-menu div.controls.label span {
+    display: inline-block;
+}
+
+#game-menu {
+    box-sizing: border-box;
+    padding: calc(4 * var(--game-scale));
+}
+
+div.status {
+    margin: 0 calc(1 * var(--game-scale)) calc(2 * var(--game-scale));
+    overflow: hidden;
+}
+
+div.status > div.blue,
+div.actions > div.blue {
+    float: left;
+}
+
+div.status > div.red,
+div.actions > div.red {
+    float: right;
+}
+
+div.health {
+    width: calc(160 * var(--game-scale));
+    height: calc(10 * var(--game-scale));
+}
+
+div.health div {
+    background-size: calc(160 * var(--game-scale)) 100%;
+}
+
+div.blue div.health {
+    background-image: url(images/menu/game/health/empty/blue.png);
+}
+
+#health-blue {
+    background-image: url(images/menu/game/health/full/blue.png);
+}
+
+div.blue div.health div.diff {
+    background-image: url(images/menu/game/health/diff/blue.png);
+}
+
+div.red div.health {
+    background-image: url(images/menu/game/health/empty/red.png);
+}
+
+#health-red {
+    background-image: url(images/menu/game/health/full/red.png);
+}
+
+div.red div.health div.diff {
+    background-image: url(images/menu/game/health/diff/red.png);
+}
+
+div.health div.diff {
+    transition: opacity 2s ease-in;
+}
+
+#game-menu button,
+div.health {
+    position: relative;
+}
+
+div.health,
+div.coins span {
+    vertical-align: middle;
+}
+
+div.coins {
+    margin: 0 calc(4 * var(--game-scale));
+}
+
+div.coins span.icon {
+    background-image: url(images/menu/game/coins.png);
+    margin: 0 calc(4 * var(--game-scale));
+    width: calc(16 * var(--game-scale));
+    height: calc(14 * var(--game-scale));
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+#game-menu button {
+    --pixels: 32;
+    --size: calc(var(--pixels) * var(--game-scale));
+    margin: calc(1 * var(--game-scale));
+    padding: 0;
+    width: var(--size);
+    height: var(--size);
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+#game-menu button:not(:disabled),
+#game-menu button.normal {
+    background-image: url(images/menu/game/buttons/normal.png);
+}
+
+#game-menu button:hover:not(:active):not(:disabled),
+#game-menu button.hover {
+    background-image: url(images/menu/game/buttons/hover.png);
+}
+
+#game-menu button:active:not(:disabled) {
+    background-image: url(images/menu/game/buttons/active.png);
+}
+
+#game-menu button:disabled:not(.normal):not(.hover) {
+    background-image: url(images/menu/game/buttons/disabled.png);
+}
+
+button div.cooldown {
+    background-image: url(images/menu/game/buttons/cooldown.png);
+    background-position: bottom;
+    background-size: var(--size) var(--size);
+    left: 0;
+    bottom: 0;
+}
+
+button div.icon,
+#main-menu div div {
+    margin: auto;
+}
+
+button div.cost {
+    margin-top: calc(2 * var(--game-scale));
+}
+
+body,
+button div.cost {
+    line-height: 0;
+}
+
+button.build-lumberjack div.icon {
+    margin-top: calc(4 * var(--game-scale));
+    width: calc(11 * var(--game-scale));
+    height: calc(15 * var(--game-scale));
+}
+
+button.build-pikeman div.icon {
+    margin-top: calc(4 * var(--game-scale));
+    width: calc(23 * var(--game-scale));
+    height: calc(15 * var(--game-scale));
+}
+
+button.build-swordsman div.icon {
+    margin-top: calc(4 * var(--game-scale));
+    width: calc(12 * var(--game-scale));
+    height: calc(15 * var(--game-scale));
+}
+
+button.build-knight div.icon {
+    width: calc(18 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+}
+
+button.build-archer div.icon {
+    margin-top: calc(4 * var(--game-scale));
+    width: calc(13 * var(--game-scale));
+    height: calc(15 * var(--game-scale));
+}
+
+button.build-catapult div.icon {
+    margin-top: calc(5 * var(--game-scale));
+    width: calc(23 * var(--game-scale));
+    height: calc(14 * var(--game-scale));
+}
+
+button.build-cannon div.icon {
+    margin-top: calc(6 * var(--game-scale));
+    width: calc(19 * var(--game-scale));
+    height: calc(13 * var(--game-scale));
+}
+
+div.blue button.build-lumberjack div.icon {
+    background-image: url(images/units/lumberjacks/axe/blue.png);
+}
+
+div.blue button.build-pikeman div.icon {
+    background-image: url(images/units/pikemen/blue.png);
+}
+
+div.blue button.build-swordsman div.icon {
+    background-image: url(images/units/swordsmen/blue.png);
+}
+
+div.blue button.build-knight div.icon {
+    background-image: url(images/units/knights/blue.png);
+}
+
+div.blue button.build-archer div.icon {
+    background-image: url(images/units/archers/blue.png);
+}
+
+div.blue button.build-catapult div.icon {
+    background-image: url(images/units/catapults/blue.png);
+}
+
+div.blue button.build-cannon div.icon {
+    background-image: url(images/units/cannons/blue.png);
+}
+
+div.red button.build-lumberjack div.icon {
+    background-image: url(images/units/lumberjacks/axe/red.png);
+}
+
+div.red button.build-pikeman div.icon {
+    background-image: url(images/units/pikemen/red.png);
+}
+
+div.red button.build-swordsman div.icon {
+    background-image: url(images/units/swordsmen/red.png);
+}
+
+div.red button.build-knight div.icon {
+    background-image: url(images/units/knights/red.png);
+}
+
+div.red button.build-archer div.icon {
+    background-image: url(images/units/archers/red.png);
+}
+
+div.red button.build-catapult div.icon {
+    background-image: url(images/units/catapults/red.png);
+}
+
+div.red button.build-cannon div.icon {
+    background-image: url(images/units/cannons/red.png);
+}
+
+button.upgrade-repair div.icon {
+    width: calc(19 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+}
+
+button.upgrade-income div.icon {
+    width: calc(19 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+}
+
+button.upgrade-speed div.icon {
+    width: calc(19 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+}
+
+button.upgrade-attack div.icon {
+    margin-top: calc(3 * var(--game-scale));
+    width: calc(19 * var(--game-scale));
+    height: calc(16 * var(--game-scale));
+}
+
+button.upgrade-range div.icon {
+    margin-top: calc(4 * var(--game-scale));
+    width: calc(19 * var(--game-scale));
+    height: calc(15 * var(--game-scale));
+}
+
+button.upgrade-damage div.icon {
+    width: calc(19 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+}
+
+button.upgrade-cooldown div.icon {
+    margin-top: calc(1 * var(--game-scale));
+    width: calc(17 * var(--game-scale));
+    height: calc(18 * var(--game-scale));
+}
+
+div.blue button.upgrade-repair div.icon {
+    background-image: url(images/menu/game/upgrades/repair/blue.png);
+}
+
+div.blue button.upgrade-income div.icon {
+    background-image: url(images/menu/game/upgrades/income/blue.png);
+}
+
+div.blue button.upgrade-speed div.icon {
+    background-image: url(images/menu/game/upgrades/speed/blue.png);
+}
+
+div.blue button.upgrade-attack div.icon {
+    background-image: url(images/menu/game/upgrades/attack/blue.png);
+}
+
+div.blue button.upgrade-range div.icon {
+    background-image: url(images/menu/game/upgrades/range/blue.png);
+}
+
+div.blue button.upgrade-damage div.icon {
+    background-image: url(images/menu/game/upgrades/damage/blue.png);
+}
+
+div.blue button.upgrade-cooldown div.icon {
+    background-image: url(images/menu/game/upgrades/cooldown/blue.png);
+}
+
+div.red button.upgrade-repair div.icon {
+    background-image: url(images/menu/game/upgrades/repair/red.png);
+}
+
+div.red button.upgrade-income div.icon {
+    background-image: url(images/menu/game/upgrades/income/red.png);
+}
+
+div.red button.upgrade-speed div.icon {
+    background-image: url(images/menu/game/upgrades/speed/red.png);
+}
+
+div.red button.upgrade-attack div.icon {
+    background-image: url(images/menu/game/upgrades/attack/red.png);
+}
+
+div.red button.upgrade-range div.icon {
+    background-image: url(images/menu/game/upgrades/range/red.png);
+}
+
+div.red button.upgrade-damage div.icon {
+    background-image: url(images/menu/game/upgrades/damage/red.png);
+}
+
+div.red button.upgrade-cooldown div.icon {
+    background-image: url(images/menu/game/upgrades/cooldown/red.png);
+}
+
+#main-menu {
+    text-align: center;
+}
+
+#game-menu,
+#main-menu div.victory {
+    display: none;
+}
+
+#main-menu div.title {
+    margin-top: 4%;
+}
+
+#main-menu div.title,
+#main-menu div.victory > div {
+    margin-bottom: 4%;
+}
+
+#main-menu div.victory > div {
+    margin-top: 20%;
+}
+
+#main-menu div.victory div.blue {
+    background-image: url(images/menu/main/victory/blue.png);
+    width: calc(100% * 235 / var(--game-width));
+    height: calc(100% * 31 / var(--game-height));
+}
+
+#main-menu div.victory div.red {
+    background-image: url(images/menu/main/victory/red.png);
+    width: calc(100% * 223 / var(--game-width));
+    height: calc(100% * 31 / var(--game-height));
+}
+
+#main-menu div.title {
+    background-image: url(images/menu/main/title.png);
+    width: calc(436 * var(--game-scale));
+    height: calc(53 * var(--game-scale));
+}
+
+#main-menu div.controls.header {
+    background-image: url(images/menu/main/controls.png);
+    width: calc(75 * var(--game-scale));
+    height: calc(16 * var(--game-scale));
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+
+#main-menu div.controls.label span {
+    width: calc(33 * var(--game-scale));
+    height: calc(14 * var(--game-scale));
+    margin: 1% calc((2 + (150 - 33) / 2) * var(--game-scale));
+}
+
+#main-menu div.controls.label span.blue {
+    background-image: url(images/menu/main/labels/blue.png);
+}
+
+#main-menu div.controls.label span.red {
+    background-image: url(images/menu/main/labels/red.png);
+}
+
+#main-menu div.controls.button button {
+    margin: 0 calc(2 * var(--game-scale));
+}
+
+#main-menu button {
+    width: calc(150 * var(--game-scale));
+    height: calc(19 * var(--game-scale));
+    margin: calc(2 * var(--game-scale));
+}
+
+#main-menu button div {
+    height: calc(14 * var(--game-scale));
+}
+
+button.neutral {
+    background-image: url(images/menu/main/buttons/normal/neutral.png);
+}
+
+button.neutral:hover {
+    background-image: url(images/menu/main/buttons/hover/neutral.png);
+}
+
+button.neutral:active {
+    background-image: url(images/menu/main/buttons/active/neutral.png);
+}
+
+button.blue {
+    background-image: url(images/menu/main/buttons/normal/blue.png);
+}
+
+button.blue:hover {
+    background-image: url(images/menu/main/buttons/hover/blue.png);
+}
+
+button.blue:active {
+    background-image: url(images/menu/main/buttons/active/blue.png);
+}
+
+button.red {
+    background-image: url(images/menu/main/buttons/normal/red.png);
+}
+
+button.red:hover {
+    background-image: url(images/menu/main/buttons/hover/red.png);
+}
+
+button.red:active {
+    background-image: url(images/menu/main/buttons/active/red.png);
+}
+
+button.continue div {
+    background-image: url(images/menu/main/buttons/text/continue.png);
+    width: calc(44 * var(--game-scale));
+}
+
+button.start div {
+    background-image: url(images/menu/main/buttons/text/start.png);
+    width: calc(26 * var(--game-scale));
+}
+
+button.instruction div {
+    background-image: url(images/menu/main/buttons/text/instruction.png);
+    width: calc(55 * var(--game-scale));
+}
+
+button.mouse div {
+    background-image: url(images/menu/main/buttons/text/mouse.png);
+    width: calc(33 * var(--game-scale));
+}
+
+button.arrow-keys div {
+    background-image: url(images/menu/main/buttons/text/keys/arrows.png);
+    width: calc(91 * var(--game-scale));
+}
+
+button.wasd-keys div {
+    background-image: url(images/menu/main/buttons/text/keys/wasd.png);
+    width: calc(97 * var(--game-scale));
+}
+
+button.easy-bot div {
+    background-image: url(images/menu/main/buttons/text/bots/easy.png);
+    width: calc(45 * var(--game-scale));
+}
+
+button.medium-bot div {
+    background-image: url(images/menu/main/buttons/text/bots/medium.png);
+    width: calc(61 * var(--game-scale));
+}
+
+button.hard-bot div {
+    background-image: url(images/menu/main/buttons/text/bots/hard.png);
+    width: calc(46 * var(--game-scale));
+}
+
+@keyframes cloud {
+    from {
+        left: -25%;
+    }
+    to {
+        left: 125%;
+    }
+}
