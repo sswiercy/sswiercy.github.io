@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1753821717">
-		<script src="game.min.js?1753821717"></script>
-		<script src="courses.min.js?1753821717"></script>
-		<script src="client.min.js?1753821717"></script>
+		<link rel="stylesheet" href="game.min.css?1754217176">
+		<script src="game.min.js?1754217176"></script>
+		<script src="courses.min.js?1754217176"></script>
+		<script src="client.min.js?1754217176"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -264,7 +264,7 @@
 			</div>
 			<div id="timer"></div>
 			<div id="game-menu">
-				<span id="course" class="box"><em>Course</em> <span></span>/<span></span></span><button class="secondary"><u>R</u>eset Ball</button><button class="secondary">?</button>
+				<span id="hole" class="box"><em>Hole</em> <span></span>/<span></span></span><button class="secondary"><u>R</u>eset Ball</button><button class="secondary">?</button>
 				<div>
 					<h2>Mouse Sensitivity</h2>
 					<table class="sensitivity">
@@ -359,25 +359,25 @@
 				</div>
 			</div>
 			<div id="game-start" class="overlay">
-				<div class="medium">game starts in</div>
+				<div class="medium">Game starts in</div>
 				<div class="large"></div>
 			</div>
 			<div id="player-end" class="overlay">
 				<div class="medium">
-					<div>course completed!</div>
-					<div>no strokes left!</div>
-					<div>time is up!</div>
+					<div>Hole completed!</div>
+					<div>No strokes left!</div>
+					<div>Time is up!</div>
 				</div>
-				<div class="small">waiting for other players &hellip;</div>
+				<div class="small">Waiting for other players &hellip;</div>
 			</div>
 			<div id="game-end" class="overlay">
-				<div class="medium">game ends in</div>
+				<div class="medium">Game ends in</div>
 				<div class="large"></div>
 			</div>
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Tue, 29 Jul 2025 20:41:57 GMT</div>
+			<div class="version">Last Update: Sun, 03 Aug 2025 10:32:56 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
@@ -405,6 +405,12 @@
 				<div class="right-one-third">
 					<button id="session-copy" class="secondary">Copy Link</button>
 				</div>
+				<span class="box">
+					<span class="key" title="Select the number of random holes to play.">Course:</span>
+					<span class="value">
+						<select id="session-number-of-holes"></select>
+					</span>
+				</span>
 				<div class="clear"></div>
 				<hr>
 				<table class="box">
