@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1754217176">
-		<script src="game.min.js?1754217176"></script>
-		<script src="courses.min.js?1754217176"></script>
-		<script src="client.min.js?1754217176"></script>
+		<link rel="stylesheet" href="game.min.css?1754768649">
+		<script src="game.min.js?1754768649"></script>
+		<script src="courses.min.js?1754768649"></script>
+		<script src="client.min.js?1754768649"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -174,7 +174,7 @@
 
 			bool inSection() {
 				return vMapping.x + TIP_RATIO * HALF_WIDTH >= uExtents.x
-					|| mod(vMapping.x - uExtents.y, uExtents.y * SECTION_LENGTH) >= SECTION_GAP;
+					|| mod(vMapping.x - uExtents.y + 0.5 * SECTION_GAP, uExtents.y * SECTION_LENGTH) >= SECTION_GAP;
 			}
 
 			void main() {
@@ -377,7 +377,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sun, 03 Aug 2025 10:32:56 GMT</div>
+			<div class="version">Last Update: Sat, 09 Aug 2025 19:44:09 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
