@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1755437616">
-		<script src="game.min.js?1755437616"></script>
-		<script src="courses.min.js?1755437616"></script>
-		<script src="client.min.js?1755437616"></script>
+		<link rel="stylesheet" href="game.min.css?1757628405">
+		<script src="game.min.js?1757628405"></script>
+		<script src="courses.min.js?1757628405"></script>
+		<script src="client.min.js?1757628405"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -28,23 +28,39 @@
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
 
-			uniform mat4 uMatrix;
-			uniform vec3 uLight;
+			uniform mat4 uView;
+			uniform mat4 uTransform;
 
+			varying vec3 vPosition;
 			varying vec3 vColor;
+			varying vec2 vDepth;
+			varying float vShadow;
 
 			void main() {
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
-				gl_Position = uMatrix * aPosition;
+				vColor = aColor;
+				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
+
+				gl_Position = uTransform * aPosition;
+				vPosition = gl_Position.xyz;
+				gl_Position = uView * gl_Position;
+				vDepth = gl_Position.zw;
 			}
 		</script>
 		<script type="x-shader/x-fragment" class="light">
 			precision mediump float;
 
+			uniform mat4 uShadow;
+			uniform sampler2D uSampler;
+
+			varying vec3 vPosition;
 			varying vec3 vColor;
+			varying vec2 vDepth;
+			varying float vShadow;
+
+			SHADOW_FUNCTIONS
 
 			void main() {
-				gl_FragColor = vec4(vColor, 1);
+				gl_FragColor = vec4(vColor * shadow(), 1);
 			}
 		</script>
 		<script type="x-shader/x-vertex" class="checker">
@@ -52,11 +68,14 @@
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
 
-			uniform mat4 uMatrix;
-			uniform vec3 uLight;
+			uniform mat4 uView;
+			uniform mat4 uTransform;
 
-			varying vec2 vPosition;
+			varying vec3 vPosition;
 			varying vec3 vColor;
+			varying vec2 vChecker;
+			varying vec2 vDepth;
+			varying float vShadow;
 			varying float vFade;
 
 			void main() {
@@ -64,25 +83,37 @@
 				float absZ = abs(aNormal.z);
 				float slope = CHECKER_SLOPE_MAX * absZ > xyL ? CHECKER_SLOPE_MAX - xyL / absZ : 0.0;
 
-				vPosition = aPosition.xy;
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
+				vColor = aColor;
+				vChecker = aPosition.xy;
+				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
 				vFade = min(slope / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 1.0);
 
-				gl_Position = uMatrix * aPosition;
+				gl_Position = uTransform * aPosition;
+				vPosition = gl_Position.xyz;
+				gl_Position = uView * gl_Position;
+				vDepth = gl_Position.zw;
 			}
 		</script>
 		<script type="x-shader/x-fragment" class="checker">
 			precision mediump float;
 
-			varying vec2 vPosition;
+			uniform mat4 uShadow;
+			uniform sampler2D uSampler;
+
+			varying vec3 vPosition;
 			varying vec3 vColor;
+			varying vec2 vChecker;
+			varying vec2 vDepth;
+			varying float vShadow;
 			varying float vFade;
 
+			SHADOW_FUNCTIONS
+
 			void main() {
-				vec2 checker = floor(vPosition / CHECKER_SIZE);
+				vec2 checker = floor(vChecker.xy / CHECKER_SIZE);
 				float even = float(mod(checker.x + checker.y, 2.0) < 0.5);
 				float multiplier = mix(1.0, CHECKER_MULTIPLIER, even * vFade);
-				gl_FragColor = vec4(vColor * multiplier, 1);
+				gl_FragColor = vec4(vColor * multiplier * shadow(), 1);
 			}
 		</script>
 		<script type="x-shader/x-vertex" class="curve">
@@ -90,13 +121,15 @@
 			attribute vec3 aNormal;
 			attribute vec3 aColor;
 
-			uniform mat4 uMatrix;
-			uniform vec3 uLight;
+			uniform mat4 uView;
+			uniform mat4 uTransform;
 			uniform vec3 uViewpoint;
 
-			varying vec2 vPosition;
+			varying vec3 vPosition;
 			varying vec3 vColor;
 			varying vec3 vViewpoint;
+			varying vec2 vDepth;
+			varying float vShadow;
 			varying float vFade;
 
 			void main() {
@@ -107,23 +140,32 @@
 					: vec3(0);
 				vec3 view = uViewpoint - aPosition.xyz;
 
-				vPosition = aPosition.xy;
-				vColor = aColor * (LIGHT_CENTER + LIGHT_SCALE * dot(aNormal, uLight));
+				vColor = aColor;
 				vViewpoint = vec3(view.xy, view.z + dot(view.xy, gradient.xy));
+				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
 				vFade = min(gradient.z / (CURVE_SLOPE_MAX - CURVE_SLOPE_MIN), 1.0);
 
-				gl_Position = uMatrix * aPosition;
+				gl_Position = uTransform * aPosition;
+				vPosition = gl_Position.xyz;
+				gl_Position = uView * gl_Position;
+				vDepth = gl_Position.zw;
 			}
 		</script>
 		<script type="x-shader/x-fragment" class="curve">
 			precision mediump float;
 
+			uniform mat4 uShadow;
+			uniform sampler2D uSampler;
 			uniform float uTime;
 
-			varying vec2 vPosition;
+			varying vec3 vPosition;
 			varying vec3 vColor;
 			varying vec3 vViewpoint;
+			varying vec2 vDepth;
+			varying float vShadow;
 			varying float vFade;
+
+			SHADOW_FUNCTIONS
 
 			CURVE_GLOBAL
 
@@ -139,10 +181,12 @@
 			}
 
 			void main() {
-				float z = curve(vPosition);
-				float refracZ = curve(vPosition + refraction(z - CURVE_REFRAC_Z));
-				float multiplier = CURVE_OFFSET + CURVE_SCALE * refracZ * vFade;
-				gl_FragColor = vec4(vColor * multiplier, 1);
+				float z = curve(vPosition.xy);
+				vec2 refrac = refraction(z - CURVE_REFRAC_Z);
+				float refracZ = curve(vPosition.xy + refrac);
+				float refracting = CURVE_OFFSET + CURVE_SCALE * refracZ * vFade;
+				float shadowing = shadowPosition(vPosition + vec3(refrac, refracZ) * CURVE_SHADOW_SCALE);
+				gl_FragColor = vec4(vColor * refracting * shadowing, 1);
 			}
 		</script>
 		<script type="x-shader/x-vertex" class="arrow">
@@ -377,7 +421,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sun, 17 Aug 2025 13:33:36 GMT</div>
+			<div class="version">Last Update: Thu, 11 Sep 2025 22:06:45 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
