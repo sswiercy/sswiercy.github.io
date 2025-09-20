@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1757628405">
-		<script src="game.min.js?1757628405"></script>
-		<script src="courses.min.js?1757628405"></script>
-		<script src="client.min.js?1757628405"></script>
+		<link rel="stylesheet" href="game.min.css?1758373205">
+		<script src="game.min.js?1758373205"></script>
+		<script src="courses.min.js?1758373205"></script>
+		<script src="client.min.js?1758373205"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -40,9 +40,8 @@
 				vColor = aColor;
 				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
 
-				gl_Position = uTransform * aPosition;
-				vPosition = gl_Position.xyz;
-				gl_Position = uView * gl_Position;
+				vPosition = (uTransform * aPosition).xyz;
+				gl_Position = uView * aPosition;
 				vDepth = gl_Position.zw;
 			}
 		</script>
@@ -88,9 +87,8 @@
 				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
 				vFade = min(slope / (CHECKER_SLOPE_MAX - CHECKER_SLOPE_MIN), 1.0);
 
-				gl_Position = uTransform * aPosition;
-				vPosition = gl_Position.xyz;
-				gl_Position = uView * gl_Position;
+				vPosition = (uTransform * aPosition).xyz;
+				gl_Position = uView * aPosition;
 				vDepth = gl_Position.zw;
 			}
 		</script>
@@ -145,9 +143,8 @@
 				vShadow = dot(mat3(uTransform) * aNormal, LIGHT_VECTOR);
 				vFade = min(gradient.z / (CURVE_SLOPE_MAX - CURVE_SLOPE_MIN), 1.0);
 
-				gl_Position = uTransform * aPosition;
-				vPosition = gl_Position.xyz;
-				gl_Position = uView * gl_Position;
+				vPosition = (uTransform * aPosition).xyz;
+				gl_Position = uView * aPosition;
 				vDepth = gl_Position.zw;
 			}
 		</script>
@@ -421,7 +418,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Thu, 11 Sep 2025 22:06:45 GMT</div>
+			<div class="version">Last Update: Sat, 20 Sep 2025 13:00:05 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
