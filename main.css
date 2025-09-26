@@ -60,6 +60,10 @@ span.project-label.android {
 	background-color: #066;
 }
 
+span.project-label.piano {
+	background-color: #606;
+}
+
 span.project-label,
 span.project-label > a {
 	color: #eee;

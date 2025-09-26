@@ -70,6 +70,10 @@ Labels.MODIFIERS = {
 		"Android",
 		"Als Android App im Google Play Store verfügbar",
 		"https://play.google.com/"
+	),
+	"piano": Labels.linkModifier(
+		"Piano Cover",
+		"Aufnahme eines Stücks auf dem Piano mit Animation"
 	)
 };
 
