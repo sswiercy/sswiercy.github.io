@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Multi Golf</title>
-		<link rel="stylesheet" href="game.min.css?1760883228">
-		<script src="game.min.js?1760883228"></script>
-		<script src="courses.min.js?1760883228"></script>
-		<script src="client.min.js?1760883228"></script>
+		<link rel="stylesheet" href="game.min.css?1761601106">
+		<script src="game.min.js?1761601106"></script>
+		<script src="courses.min.js?1761601106"></script>
+		<script src="client.min.js?1761601106"></script>
 		<script type="x-shader/x-vertex" class="uniform">
 			attribute vec4 aPosition;
 
@@ -313,6 +313,12 @@
 			<div id="game-menu">
 				<span id="hole" class="box"><em>Hole</em> <span></span>/<span></span></span><button class="secondary"><u>R</u>eset Ball</button><button class="secondary">?</button>
 				<div>
+					<h2>Graphics</h2>
+					<table class="sensitivity">
+					<p>
+						<input id="graphics-shadows" type="checkbox">
+						<label for="graphics-shadows">Enable real-time drop shadows</label>
+					</p>
 					<h2>Mouse Sensitivity</h2>
 					<table class="sensitivity">
 						<tbody>
@@ -403,7 +409,7 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</table></div>
 			</div>
 			<div id="game-start" class="overlay">
 				<div class="medium">Game starts in</div>
@@ -424,7 +430,7 @@
 		</div>
 		<div id="menu">
 			<div class="background"></div>
-			<div class="version">Last Update: Sun, 19 Oct 2025 14:13:48 GMT</div>
+			<div class="version">Last Update: Mon, 27 Oct 2025 21:38:26 GMT</div>
 			<div id="session-ranking" class="panel">
 				<div id="session-ranking-place"></div>
 				<table class="box">
