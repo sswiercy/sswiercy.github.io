@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Settlement</title>
+		<link rel="stylesheet" href="index.css">
+		<script src="index.js"></script>
+		<script src="levels.js"></script>
+		<script src="lang.js"></script>
+	</head>
+	<body style="display: none;">
+		<div class="game hidden">
+			<div class="bar">
+				<div class="left">
+					<div class="box level">
+						<span class="prefix">#</span>
+						<span class="number"></span>
+					</div>
+					<div class="box">
+						<span class="pictogram">
+							<span class="icon house"></span>
+						</span>
+						<span class="count">
+							<span class="actual"></span>
+							<span class="separator">/</span>
+							<span class="total"></span>
+						</span>
+					</div>
+					<div class="box">
+						<span class="pictogram">
+							<span class="icon path"></span>
+							<span class="separator">+</span>
+							<span class="icon bridge"></span>
+						</span>
+						<span class="count">
+							<span class="actual"></span>
+							<span class="separator">/</span>
+							<span class="total"></span>
+						</span>
+					</div>
+				</div>
+				<div class="right">
+					<button class="restart"></button>
+					<button class="menu"></button>
+				</div>
+			</div>
+			<div class="content">
+				<table class="grid"></table>
+			</div>
+			<div class="messages">
+				<div class="info">
+					<div>
+						<p><span class="lang short-tap"></span> <span class="icon grass"></span> &harr; <span class="icon path"></span> / <span class="icon water"></span> &harr; <span class="icon bridge"></span> / <span class="icon house"></span> &rarr; <span class="icon grass"></span></p>
+						<p><span class="lang long-tap"></span> <span class="icon grass"></span> &rarr; <span class="icon house"></span> / <span class="icon path"></span> &harr; <span class="icon house"></span></p>
+					</div>
+					<button class="hint"></button>
+				</div>
+				<div class="completed invisible">
+					<button class="lang next-level"></button>
+				</div>
+				<div class="error invisible"></div>
+			</div>
+			<div class="dialog invisible">
+				<div class="window">
+					<span class="lang restart-message"></span>
+					<button class="lang no"></button><button class="lang yes"></button>
+				</div>
+			</div>
+		</div>
+		<div class="level-select hidden">
+			<div class="bar">
+				<div class="left">
+					<button class="previous"></button>
+					<button class="next"></button>
+					<div class="box">
+						<span class="lang page"></span>
+						<span class="count">
+							<span class="actual"></span>
+							<span class="separator">/</span>
+							<span class="total"></span>
+						</span>
+					</div>
+				</div>
+				<div class="right">
+					<button class="close"></button>
+				</div>
+			</div>
+			<div class="content">
+				<table></table>
+			</div>
+		</div>
+		<div class="how-to-play hidden">
+			<div class="bar">
+				<div class="left">
+					<div class="box">
+						<span class="lang htp-title title"></span>
+					</div>
+				</div>
+				<div class="right">
+					<button class="close"></button>
+				</div>
+			</div>
+			<div class="content">
+				<div class="container outer">
+					<div class="container inner">
+						<p class="lang htp-intro"></p>
+						<p class="icon">
+							<span class="grass"></span>
+							<span class="water"></span>
+							<span class="tree"></span>
+						</p>
+						<p class="lang htp-village"></p>
+						<p class="icon">
+							<span class="house"></span>
+							<span class="path"></span>
+							<span class="bridge"></span>
+						</p>
+						<p class="lang htp-goal"></p>
+						<p>
+							<span class="lang htp-rules"></span>
+							<ul>
+								<li class="lang htp-rule-connected"></li>
+								<li class="lang htp-rule-isolation"></li>
+								<li class="lang htp-rule-bridge"></li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="main-menu">
+			<div class="background">
+				<table></table>
+			</div>
+			<div class="content">
+				<div class="title">
+					<span class="main">Settlement</span>
+					<span class="sub">&copy; 2026 Sascha Swiercy</span>
+				</div>
+				<button class="lang start"></button>
+				<button class="lang continue hidden"></button>
+				<button class="lang level-select"></button>
+				<button class="lang how-to-play"></button>
+				<div class="box check">
+					<span class="count">
+						<span class="actual"></span>
+						<span class="separator">/</span>
+						<span class="total"></span>
+					</span>
+				</div>
+			</div>
+			<div class="additional">
+				<button class="language"></button>
+				<button class="theme"></button>
+			</div>
+		</div>
+	</body>
+</html>
