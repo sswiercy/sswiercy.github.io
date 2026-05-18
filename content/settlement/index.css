@@ -68,30 +68,40 @@ body.dark {
 
 body {
     --gap: 1.5vmin;
+    --gap: 1.5dvmin;
     --half-gap: calc(var(--gap) / 2);
     --double-gap: calc(var(--gap) * 2);
     --corner-radius: 1.5vmin;
+    --corner-radius: 1.5dvmin;
     --bar-height: 12vmin;
+    --bar-height: 12dvmin;
     --bar-button-width: 10vmin;
+    --bar-button-width: 10dvmin;
     --button-height-up: 1vmin;
+    --button-height-up: 1dvmin;
     --button-height-down: 0.25vmin;
+    --button-height-down: 0.25dvmin;
     --button-height: calc(var(--bar-height) - var(--double-gap) - var(--button-height-up));
     --fade-duration: 500ms;
     --fade-gradient-length: 50vmin;
+    --fade-gradient-length: 50dvmin;
     color: var(--text-color);
     font: 5vmin 'FiraSans-SemiBold', sans-serif;
+    font: 5dvmin 'FiraSans-SemiBold', sans-serif;
     margin: 0;
     overflow: hidden;
 }
 
 div.title {
     margin: 6vmin;
+    margin: 6dvmin;
     text-align: center;
 }
 
 div.title span.main {
     display: block;
     font-size: 12vmin;
+    font-size: 12dvmin;
     margin: var(--gap);
     text-shadow: 0 var(--button-height-up) var(--button-shadow-color);
     animation: 4s ease-in-out alternate infinite title;
@@ -109,15 +119,18 @@ div.title span.main {
 div.title span.sub {
     display: block;
     font-size: 3vmin;
+    font-size: 3dvmin;
     text-shadow: 0 calc(var(--button-height-up) / 4) var(--button-shadow-color);
 }
 
 div.game {
     --messages-height: 16vmin;
+    --messages-height: 16dvmin;
     display: flex;
     flex-direction: column;
     background-color: var(--bg-color);
     height: 100vh;
+    height: 100dvh;
 }
 
 div.bar {
@@ -127,6 +140,7 @@ div.bar {
 
 div.game div.content {
     --content-height: calc(100vh - var(--bar-height) - var(--messages-height));
+    --content-height: calc(100dvh - var(--bar-height) - var(--messages-height));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -136,6 +150,7 @@ div.game div.content {
 div.messages {
     --messages-inner-height: calc(var(--messages-height) - var(--double-gap));
     font-size: 3vmin;
+    font-size: 3dvmin;
     flex: 0 0 var(--messages-inner-height);
     margin: var(--gap);
 }
@@ -176,8 +191,10 @@ div.messages div.completed {
 
 div.messages div.completed button {
     font-size: 4vmin;
+    font-size: 4dvmin;
     margin-bottom: var(--button-height-up);
     width: 50vmin;
+    width: 50dvmin;
     height: calc(var(--messages-inner-height) - var(--button-height-up));
 }
 
@@ -205,7 +222,9 @@ div.messages span.icon {
     filter: contrast(0.75) var(--image-filter);
     margin: var(--half-gap) 0;
     width: 5vmin;
+    width: 5dvmin;
     height: 5vmin;
+    height: 5dvmin;
 }
 
 div.dialog {
@@ -226,14 +245,17 @@ div.dialog div.window {
 
 div.dialog button {
     font-size: 4vmin;
+    font-size: 4dvmin;
     margin: var(--gap) var(--gap) calc(var(--gap) + var(--button-height-up));
     padding: var(--double-gap);
     width: 40vmin;
+    width: 40dvmin;
 }
 
 div.dialog span {
     display: block;
     font-size: 4vmin;
+    font-size: 4dvmin;
     padding: var(--double-gap);
     text-align: center;
 }
@@ -255,8 +277,9 @@ div.box {
     background-color: var(--box-color);
     border-radius: var(--corner-radius);
     font-size: 4vmin;
+    font-size: 4dvmin;
     margin: var(--half-gap);
-    padding: var(--half-gap) 0vmin;
+    padding: var(--half-gap) 0;
 }
 
 div.box.conflict {
@@ -349,6 +372,7 @@ button.hint {
     background-color: var(--button-hint-color);
     background-image: var(--image-hint);
     background-size: 7vmin;
+    background-size: 7dvmin;
     box-shadow: 0 var(--button-height-up) var(--button-hint-shadow-color);
 }
 
@@ -363,26 +387,31 @@ button.hint:active:not(:disabled) {
 button.restart {
     background-image: var(--image-restart);
     background-size: 5vmin;
+    background-size: 5dvmin;
 }
 
 button.menu {
     background-image: var(--image-menu);
     background-size: 4vmin;
+    background-size: 4dvmin;
 }
 
 button.previous {
     background-image: var(--image-previous);
     background-size: 2.5vmin;
+    background-size: 2.5dvmin;
 }
 
 button.next {
     background-image: var(--image-next);
     background-size: 2.5vmin;
+    background-size: 2.5dvmin;
 }
 
 button.close {
     background-image: var(--image-close);
     background-size: 4vmin;
+    background-size: 4dvmin;
 }
 
 div.additional {
@@ -394,18 +423,24 @@ div.additional {
 
 button.language {
     background-size: 8vmin;
+    background-size: 8dvmin;
     background-blend-mode: overlay;
     margin: var(--half-gap);
     width: 12vmin;
+    width: 12dvmin;
     height: 12vmin;
+    height: 12dvmin;
 }
 
 button.theme {
     background-image: var(--image-theme);
     background-size: 8vmin;
+    background-size: 8dvmin;
     margin: var(--half-gap);
     width: 12vmin;
+    width: 12dvmin;
     height: 12vmin;
+    height: 12dvmin;
 }
 
 div.bar button {
@@ -419,6 +454,7 @@ table.grid {
     --nor: var(--number-of-rows);
     --cell-gap-amount: 0.125;
     --max-cell-width: 100vw / (var(--cell-gap-amount) + var(--cell-gap-amount) * var(--noc) + var(--noc));
+    --max-cell-width: 100dvw / (var(--cell-gap-amount) + var(--cell-gap-amount) * var(--noc) + var(--noc));
     --max-cell-height: var(--content-height) / (var(--cell-gap-amount) + var(--cell-gap-amount) * var(--nor) + var(--nor));
     --cell-size: min(var(--max-cell-width), var(--max-cell-height));
     --cell-gap: calc(var(--cell-size) * var(--cell-gap-amount));
@@ -430,6 +466,7 @@ table.grid {
     border-spacing: var(--cell-gap);
     table-layout: fixed;
     width: min(100vw, var(--max-height));
+    width: min(100dvw, var(--max-height));
     height: min(var(--content-height), var(--max-width));
 }
 
@@ -617,6 +654,7 @@ div.level-select {
 
 div.level-select div.content {
     --content-height: calc(100vh - var(--bar-height));
+    --content-height: calc(100dvh - var(--bar-height));
     flex: 1;
 }
 
@@ -676,7 +714,9 @@ div.level-select td button:after {
 div.level-select td span.number {
     display: block;
     border-bottom: 0.5vmin solid var(--button-shadow-color);
+    border-bottom: 0.5dvmin solid var(--button-shadow-color);
     font-size: 4vmin;
+    font-size: 4dvmin;
     margin: 0 var(--half-gap);
     width: calc(100% - var(--gap));
 }
@@ -696,6 +736,7 @@ div.level-select td button.active span.number {
 
 div.level-select td span.size {
     font-size: 2.5vmin;
+    font-size: 2.5dvmin;
     opacity: 0.75;
     padding: var(--half-gap) 0;
     white-space: nowrap;
@@ -713,7 +754,9 @@ div.level-select td span.icon {
     border-radius: var(--corner-radius);
     filter: var(--image-filter);
     width: 4vmin;
+    width: 4dvmin;
     height: 4vmin;
+    height: 4dvmin;
     margin-left: var(--half-gap);
     vertical-align: middle;
 }
@@ -745,10 +788,12 @@ div.level-select td button.active span.icon:after {
 div.level-select td span.path-bridge {
     background-image: url(images/bridge.png), url(images/path.png);
     background-position: 2vmin 0, 0 0;
+    background-position: 2dvmin 0, 0 0;
 }
 
 div.level-select td span.count {
     font-size: 2.5vmin;
+    font-size: 2.5dvmin;
     opacity: 0.75;
     margin: 0 var(--half-gap);
     vertical-align: middle;
@@ -781,8 +826,11 @@ div.how-to-play div.container.outer {
     align-items: center;
     box-sizing: border-box;
     font-size: 3vmin;
+    font-size: 3dvmin;
     width: 100vmin;
+    width: 100dvmin;
     height: calc(100vmin * (1 - var(--bar-height) / 100vh));
+    height: calc(100dvmin * (1 - var(--bar-height) / 100dvh));
     padding: var(--gap);
     outline: var(--gap) dotted var(--box-color);
 }
@@ -811,7 +859,9 @@ div.how-to-play p.icon span {
     filter: var(--image-filter);
     margin: 0 var(--double-gap);
     width: 12vmin;
+    width: 12dvmin;
     height: 12vmin;
+    height: 12dvmin;
     vertical-align: top;
 }
 
@@ -845,11 +895,15 @@ div.main-menu div.background {
 
 div.main-menu table {
     --gap: 1vmax;
+    --gap: 1dvmax;
     --corner-radius: 1vmax;
+    --corner-radius: 1dvmax;
     border-spacing: var(--gap);
     position: absolute;
     width: calc(100vmax * var(--total-columns) / var(--window-columns) + var(--gap));
+    width: calc(100dvmax * var(--total-columns) / var(--window-columns) + var(--gap));
     height: calc(100vmax * var(--total-rows) / var(--window-rows) + var(--gap));
+    height: calc(100dvmax * var(--total-rows) / var(--window-rows) + var(--gap));
     animation: 32s linear infinite main-menu-grid;
 }
 
@@ -859,23 +913,33 @@ div.main-menu table {
             calc(-100vmax * var(--from-column) / var(--window-columns)),
             calc(-100vmax * var(--from-row) / var(--window-rows))
         );
+        transform: translate(
+            calc(-100dvmax * var(--from-column) / var(--window-columns)),
+            calc(-100dvmax * var(--from-row) / var(--window-rows))
+        );
     }
     to {
         transform: translate(
             calc(-100vmax * var(--to-column) / var(--window-columns)),
             calc(-100vmax * var(--to-row) / var(--window-rows))
         );
+        transform: translate(
+            calc(-100dvmax * var(--to-column) / var(--window-columns)),
+            calc(-100dvmax * var(--to-row) / var(--window-rows))
+        );
     }
 }
 
 div.main-menu tr {
     height: calc(100vmax / var(--window-rows) - var(--gap));
+    height: calc(100dvmax / var(--window-rows) - var(--gap));
 }
 
 div.main-menu td {
     background-color: var(--main-menu-cell-color);
     border-radius: var(--corner-radius);
     width: calc(100vmax / var(--window-columns) - var(--gap));
+    width: calc(100dvmax / var(--window-columns) - var(--gap));
 }
 
 div.main-menu td span {
@@ -911,9 +975,11 @@ div.main-menu div.content {
 
 div.main-menu div.content button {
     font-size: 4vmin;
+    font-size: 4dvmin;
     margin: var(--gap);
     padding: var(--double-gap);
     width: 50vmin;
+    width: 50dvmin;
 }
 
 div.main-menu div.box.check {
@@ -929,6 +995,7 @@ div.main-menu div.box.check {
     margin: var(--double-gap);
     padding: var(--double-gap) 0;
     width: 50vmin;
+    width: 50dvmin;
     justify-content: center;
 }
 
